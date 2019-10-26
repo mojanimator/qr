@@ -1,0 +1,134 @@
+
+.m-panel {
+
+  .user-panel {
+    @keyframes slideUp {
+      0% {
+        transform: translateY(-10%) scale(.9);
+      }
+      100% {
+        transform: translateY(0) scale(1);
+      }
+    }
+    padding-right: 0;
+    padding-left: 0;
+    //min-height: 50vh;
+
+    cursor: pointer;
+    overflow: hidden;
+    @include pb_box-shadow(1px, 0px, 10px, 1px, rgba($black, .4));
+    border-radius: $border-radius;
+
+    animation-name: slideUp;
+    animation-duration: .3s;
+    @include transition(0.3s);
+
+    .user-panel-header {
+      position: relative;
+      z-index: -1;
+      min-height: 40%;
+
+    }
+    .user-panel-body {
+      margin-top: 6rem;
+      //margin-top: 12rem;
+
+    }
+    .user-panel-text {
+      @include media-breakpoint-down(sm) {
+        font-size: .5rem !important;
+      }
+      @include media-breakpoint-down(md) {
+        font-size: 1rem !important;
+      }
+    }
+    //.m-card-body {
+    //  flex: 1 1 auto;
+    //}
+
+    &:hover {
+      transform: scale(1.01);
+      @include pb_box-shadow(0px, 0px, 5px, 1px, rgba($black, .5));
+    }
+
+    .user-image-container {
+      border-radius: 50%;
+      //position: absolute;
+      //border: 1px solid #000;
+      top: 40%;
+      left: 50%;
+      -webkit-transform: translate(0rem, 6rem);
+      //-webkit-transform: translate(-4rem, 0rem);
+
+      .user-image {
+        position: inherit;
+        height: 12rem;
+        width: 12rem;
+      }
+    }
+
+  }
+
+  .panel-part {
+    position: relative;
+    padding: 0;
+    min-height: 20vh;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    @include pb_box-shadow(1px, 0px, 10px, 1px, rgba($black, .4));
+    border-radius: $border-radius;
+    overflow: hidden;
+    animation-name: slideUp;
+    animation-duration: .3s;
+    @include transition(0.3s);
+
+    .colored-half {
+      position: absolute;
+      height: 100%;
+      width: 50%;
+      overflow: hidden;
+      padding: 1rem;
+      z-index: 0;
+      opacity: 1;
+
+    }
+    .image-container {
+      border-radius: 50%;
+      //position: absolute;
+      //border: 1px solid #000;
+      //top: 50%;
+      //left: 50%;
+      //-webkit-transform: translate(-50%, -3rem);
+      height: 6rem;
+      width: 6rem;
+
+      .image {
+        position: inherit;
+        height: 6rem;
+        width: 6rem;
+      }
+    }
+    &:hover {
+      transform: scale(1.01);
+      @include pb_box-shadow(0px, 0px, 5px, 1px, rgba($black, .5));
+    }
+  }
+  .card-divider {
+    //position: relative;
+    //top: 8rem;
+    z-index: 1;
+    width: 100%;
+    //margin-top: .2rem;
+    margin-bottom: .2rem;
+    height: .1rem;
+    border-radius: $border-radius;
+    //border: 0px;
+    //border-bottom: 1px solid $gray;
+    -webkit-box-shadow: 0 1px 0 0 $gray-300;
+    -moz-box-shadow: 0 1px 0 0 $gray-300;
+    box-shadow: 0 1px 0 0 $gray-300;
+    background: transparent;
+    @include pb_gradient($gray-200, transparent, 0);
+  }
+}

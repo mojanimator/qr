@@ -1,0 +1,37 @@
+<component name="libraryTable">
+  <library name="Generated files" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/dist/public/assets/botdetect-captcha-lib/botdetect/public/bdc-simple-api-script-include.js" />
+        <item url="file://$PROJECT_DIR$/dist/public/assets/botdetect-captcha-lib/botdetect/public/bdc-traditional-api-script-include.js" />
+        <item url="file://$PROJECT_DIR$/dist/public/js/home.js" />
+        <item url="file://$PROJECT_DIR$/dist/resources/js/footer-reveal.min.js" />
+        <item url="file://$PROJECT_DIR$/dist/resources/js/home.js" />
+        <item url="file://$PROJECT_DIR$/dist/resources/js/slider-range.js" />
+        <item url="file://$PROJECT_DIR$/dist/resources/js/my-vue.js" />
+        <item url="file://$PROJECT_DIR$/dist/resources/js/bootstrap.js" />
+        <item url="file://$PROJECT_DIR$/dist/vue.config.js" />
+        <item url="file://$PROJECT_DIR$/dist/webpack.mix.js" />
+        <item url="file://$PROJECT_DIR$/dist/resources/js/app.js" />
+        <item url="file://$PROJECT_DIR$/dist/resources/js/slider.js" />
+        <item url="file://$PROJECT_DIR$/dist/public/js/app.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/dist/public/assets/botdetect-captcha-lib/botdetect/public/bdc-simple-api-script-include.js" />
+      <root url="file://$PROJECT_DIR$/dist/public/assets/botdetect-captcha-lib/botdetect/public/bdc-traditional-api-script-include.js" />
+      <root url="file://$PROJECT_DIR$/dist/public/js/home.js" />
+      <root url="file://$PROJECT_DIR$/dist/resources/js/footer-reveal.min.js" />
+      <root url="file://$PROJECT_DIR$/dist/resources/js/home.js" />
+      <root url="file://$PROJECT_DIR$/dist/resources/js/slider-range.js" />
+      <root url="file://$PROJECT_DIR$/dist/resources/js/my-vue.js" />
+      <root url="file://$PROJECT_DIR$/dist/resources/js/bootstrap.js" />
+      <root url="file://$PROJECT_DIR$/dist/vue.config.js" />
+      <root url="file://$PROJECT_DIR$/dist/webpack.mix.js" />
+      <root url="file://$PROJECT_DIR$/dist/resources/js/app.js" />
+      <root url="file://$PROJECT_DIR$/dist/resources/js/slider.js" />
+      <root url="file://$PROJECT_DIR$/dist/public/js/app.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,79 @@
+// Fonts
+//@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import 'functions';
+// Variables
+@import 'variables';
+//@import '~jquery';
+@import '~jquery-ui/themes/base/all.css';
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+//@import "~rtl-bootstrap/scss/bootstrap";
+
+$bootstrap-sass-asset-helper: false;
+$icon-font-name: 'glyphicons-halflings-regular';
+$icon-font-svg-id: 'glyphicons_halflingsregular';
+$icon-font-path: '../fonts/';
+@import "glyphicons";
+@import "~ol/ol.css";
+@import "~ol-layerswitcher/src/ol-layerswitcher.css";
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import "~lity/dist/lity.css";
+//@import "~@fortawesome/fontawesome-free/css/all";
+//my styles
+@import 'navbar';
+@import 'footer';
+
+@import 'login';
+@import 'home';
+@import 'card';
+@import 'search-box';
+@import 'dropdown';
+@import 'panel';
+@import 'register';
+@import 'sidebar';
+@import 'post';
+@import 'my-sass';
+
+@font-face {
+  //font-family: Tanha;
+  //src: url('../fonts/Farsi-Digits/Tanha-FD.eot');
+  //src: url('../fonts/Farsi-Digits/Tanha-FD.eot?#iefix') format('Tanha-FD-opentype'),
+  //url('../fonts/Farsi-Digits/Tanha-FD.woff') format('woff'),
+  //url('../fonts/Farsi-Digits/Tanha-FD.ttf') format('truetype');
+  //font-weight: normal;
+  //font-style: normal;
+}
+
+//iframe {
+//  width: 100% !important;
+//  height: 5rem;
+//}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding-top: 1.4rem;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif !important;
+}
+
+button {
+  cursor: pointer;
+}
+
+.container-full {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.my-content {
+
+  margin-top: 5rem;
+}

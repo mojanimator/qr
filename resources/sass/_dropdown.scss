@@ -1,0 +1,109 @@
+/* The search field when it gets focus/clicked on */
+
+#list-provinces,
+#list-counties,
+#list-types,
+#list-sizes {
+  max-height: 10rem;
+  overflow-y: scroll;
+  overflow-x: auto;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+
+  position: relative;
+  display: inline-block;
+  //height: 2rem;
+  //overflow: hidden;
+  width: 100%;
+  border-radius: $border-radius !important;
+  border-bottom: 2px solid $primary;
+
+}
+
+/* Links inside the dropdown */
+.dropdown-content li {
+  color: $primary;
+  padding: .2rem .3rem;
+  text-decoration: none;
+  display: block;
+  &:hover {
+    //transition: .1s all ease-out;
+    background-color: $primary;
+    cursor: pointer;
+    color: white;
+  }
+
+  &.active {
+    margin: 0.05rem;
+    background-color: $dark-blue;
+    color: white;
+    &:hover {
+      //transition: .2s all ease-out;
+      background-color: $light-blue;
+      cursor: pointer;
+      color: white;
+    }
+  }
+
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+.clear-btn {
+
+  &:hover {
+    //background-color: $primary;
+    cursor: pointer;
+    color: $light-red !important;
+
+  }
+}
+
+.list-group {
+  //border-radius: $border-radius !important;
+  margin-right: 1rem;
+  position: absolute;
+  max-height: 15rem;
+  z-index: 5;
+  width: 90%;
+  overflow-y: scroll;
+  overflow-x: auto;
+  .list-group-item {
+    background-color: #ffe;
+    padding: .5rem;
+  }
+}
+
+.add-btn {
+  margin-right: -3.5rem;
+  z-index: 5;
+  cursor: pointer;
+  height: 100%;
+  margin-top: .2rem;
+  //font-size: 1.5rem !important;
+  border-radius: 18px 1px 1px 1px !important;
+  @include media-breakpoint-down(lg) {
+    font-size: 1.3rem !important;
+    margin-right: -3.8rem;
+  }
+  @include media-breakpoint-down(md) {
+    margin-right: -3.6rem;
+    margin-top: .1rem;
+  }
+  @include media-breakpoint-down(sm) {
+    margin-right: -3.5rem;
+  }
+}

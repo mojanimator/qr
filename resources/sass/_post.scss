@@ -1,0 +1,36 @@
+.last-posts-container {
+  border: $blue solid .1rem;
+
+}
+
+.post-list-item {
+  border-top: .05rem $light-green solid;
+  border-bottom: .05rem $light-green solid;
+  &:last-child {
+    border-top: .05rem $light-green solid;
+    border-bottom: none;
+  }
+  &:first-child {
+    border-bottom: .05rem $light-green solid;
+    border-top: none;
+  }
+}
+
+.post-header {
+  font-weight: bold;
+  //padding-bottom: 1rem;
+  //margin-bottom: 1rem;
+
+  @include media-breakpoint-down(lg) {
+    font-size: 1.5rem !important;
+  }
+  @include media-breakpoint-down(md) {
+    font-size: 1rem !important;
+  }
+
+}
+
+.post-details {
+  padding-top: .3rem;
+  border-top: .3rem $light-green solid;
+}

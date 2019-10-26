@@ -1,0 +1,316 @@
+.border-all {
+  border-top-right-radius: 24px !important;
+  border-bottom-right-radius: 24px !important;
+
+  border-top-left-radius: 24px !important;
+  border-bottom-left-radius: 5px !important;
+}
+
+.border {
+  border-top-right-radius: 24px !important;
+  border-bottom-right-radius: 24px !important;
+
+  border-top-left-radius: 24px !important;
+  border-bottom-left-radius: 5px !important;
+}
+
+.left-border {
+  border-top-right-radius: 24px !important;
+  border-bottom-right-radius: 24px !important;
+
+  border-top-left-radius: 2px !important;
+  border-bottom-left-radius: 2px !important;
+}
+
+.right-border {
+  border-top-left-radius: 24px !important;
+  border-bottom-left-radius: 2px !important;
+
+  border-top-right-radius: 2px !important;
+  border-bottom-right-radius: 2px !important;
+}
+
+.left-bottom-border {
+  border-top-right-radius: 24px !important;
+  border-bottom-right-radius: 2px !important;
+
+  border-top-left-radius: 2px !important;
+  border-bottom-left-radius: 2px !important;
+}
+
+.right-bottom-border {
+  border-top-left-radius: 2px !important;
+  border-bottom-left-radius: 24px !important;
+
+  border-top-right-radius: 2px !important;
+  border-bottom-right-radius: 2px !important;
+}
+
+.no-radius {
+  border-top-left-radius: 2px !important;
+  border-bottom-left-radius: 2px !important;
+
+  border-top-right-radius: 2px !important;
+  border-bottom-right-radius: 2px !important;
+}
+
+.table td {
+  text-align: center;
+}
+
+.hoverable {
+  transition: .3s all ease;
+  &:hover {
+    color: lighten($primary, 20%);
+    cursor: pointer;
+  }
+}
+
+.hoverable-dark {
+  transition: .1s all ease;
+  color: $dark-blue;
+  &:hover {
+    color: darken($blue, 50%);
+    background: $gray-400;
+    cursor: pointer;
+  }
+}
+
+.selected-item {
+  color: white;
+  background: $purple;
+  padding-left: .5rem;
+  padding-right: .5rem;
+  margin: .1rem;
+  border-radius: $border-radius;
+  display: inline-block;
+}
+
+//****************uploader
+.thumb-container {
+  .img-thumbnail.hide {
+    //@include transition(1s);
+    transition: 1s all ease;
+  }
+}
+
+.uploader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border: dashed $primary;
+  border-radius: $border-radius;
+  min-height: 8rem;
+  &:hover, &.hover {
+    color: lighten($primary, 20%);
+    cursor: pointer;
+  }
+
+  #uploader-message, h6 {
+    font-size: x-small;
+
+  }
+
+}
+
+.close-btn {
+  border-radius: 1.5rem 1.5rem 1.5rem .2rem;
+  //padding: .5rem .8rem;
+  position: absolute;
+  margin: .3rem;
+  left: 1rem;
+  top: 0;
+  &:hover {
+    transition: .3s all ease;
+    background: lighten($danger, 10%) !important;
+    cursor: pointer;
+  }
+}
+
+//****************uploader
+
+#map {
+  max-height: 20rem;
+  //width: 100%;
+  min-height: 20rem;
+  //width: 100%;
+
+  position: relative;
+  //padding: 2rem;
+  margin: 1rem;
+  border-radius: 1rem;
+
+}
+
+#map_card, #map_banner_edit {
+  //min-height: 20rem;
+  //width: 100%;
+}
+
+.map-modal {
+  padding-right: -14px !important;
+  padding-left: -14px !important;
+
+}
+
+.layer-switcher .panel {
+  padding: 0 1em 0 0;
+  margin: 0;
+  font-weight: bold;
+  min-height: 8rem;
+  border: 4px solid #eee;
+  color: $purple;
+  border-radius: 4px;
+  background-color: white;
+  display: none;
+  max-height: 100%;
+  overflow-y: auto;
+
+  li {
+
+  }
+  //input[type=radio] {
+  //  height: 2rem;
+  //}
+}
+
+.loading-page {
+  //content: '';
+  position: fixed;
+  transition: .3s all ease;
+  content: url("/img/loading.gif");
+  //background-image: url("../../../../public/img/loading.gif");
+  top: 50vh;
+  left: 50vw;
+  width: 8rem;
+  height: 8rem;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  z-index: 10;
+
+}
+
+.m-background {
+  opacity: 0.2;
+  position: absolute;
+  z-index: -1;
+  margin: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: url("/img/small-background.jpg") repeat scroll 0 0 transparent;
+
+}
+
+.bg-help {
+  //border: .1rem solid #78251755;
+  border-radius: .1rem .1rem .1rem 1rem;
+  background: rgba($light-blue, .2);
+  width: 90%;
+  font-weight: bold;
+  @include pb_box-shadow(10px, 11px, 40px, -20px, rgba($black, .5));
+}
+
+input[type=text] {
+
+  width: 100%;
+  border-radius: $border-radius;
+  padding-left: 1rem !important;
+  &:focus {
+    //outline: 3px solid $primary;
+    //border-radius: .5rem !important;
+  }
+
+}
+
+input[type=number] {
+  text-align: center;
+  //outline: none;
+  font-size: .8rem;
+
+  border: solid rgba(120, 120, 120, .5) .05rem !important;
+
+  &.left-border {
+    border-radius: 24px 24px 24px 1px !important;
+
+  }
+  &.right-border {
+    border-radius: 24px 24px 1px 24px !important;
+
+  }
+  &:focus {
+
+    @include transition(0.3s);
+    outline: none;
+    border: .1rem solid $primary !important;
+
+  }
+  //padding-left: 1rem !important;
+
+}
+
+.bg-gradient-purple {
+  //cursor: pointer;
+  border: none;
+  color: white;
+  @include pb_gradient($indigo, $purple, 270deg);
+  @include transition(.3s);
+
+  &:hover {
+    //background: darken($indigo, 10%) !important;
+    @include pb_gradient($indigo, $purple, 180deg);
+
+  }
+  &:active {
+    @include pb_gradient($indigo, $dark-blue, 270deg);
+    @include transition(.3s);
+  }
+}
+
+.bg-gradient-blue {
+  //cursor: pointer;
+  color: white;
+  @include pb_gradient(#036ED9, #3fdaf0, 190deg);
+  border: none;
+  &.btn {
+    cursor: pointer;
+    border: none;
+    @include transition(.3s);
+
+    &:hover {
+      //background: darken($indigo, 10%) !important;
+      @include pb_gradient($indigo, $purple, 180deg);
+
+    }
+    &:active {
+      @include pb_gradient($indigo, $dark-blue, 270deg);
+      @include transition(.3s);
+    }
+  }
+}
+
+.pagination {
+  .page-item {
+    &:first-child {
+      .page-link {
+        margin-left: 0;
+        border-top-left-radius: 24px;
+        border-bottom-left-radius: 1px;
+
+      }
+    }
+    &:last-child {
+      .page-link {
+        border-top-right-radius: 24px;
+        border-bottom-right-radius: 24px;
+
+      }
+    }
+  }
+  .page-item {
+    color: $primary;
+    cursor: pointer;
+  }
+}

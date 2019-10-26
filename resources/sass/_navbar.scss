@@ -1,0 +1,66 @@
+//created at tazhan system
+//all rights reserved
+
+#navbar {
+  transition: top 0.3s;
+
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.dropdown-menu {
+  background: $primary;
+  border: 0;
+  margin: .1rem;
+  padding: 0;
+}
+
+.nav-item {
+  &:hover {
+    //transition: .3s all ease;
+    cursor: pointer;
+    @include transition(.3s);
+    background: #9998;
+    border-radius: $border-radius;
+  }
+  &.active {
+    //transition: .3s all ease;
+    background: $info;
+    border-radius: $border-radius;
+  }
+  padding: 0.25rem;
+
+  min-width: 4rem;
+}
+
+.navbar-brand {
+  margin: 0.25rem;
+}
+
+.navbar-toggler {
+  &:hover {
+    background: $secondary;
+    border-radius: $border-radius;
+  }
+}
+
+.inverse-dropdown {
+  margin: 0;
+  padding: 0;
+  background-color: $primary !important;
+  & > li > a {
+    color: #9995;
+    &:hover {
+      color: $secondary;
+    }
+  }
+  & > .divider {
+    background-color: white;
+  }
+}
+
+.sticky-top {
+  transition: .8s all ease;
+}

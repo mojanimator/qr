@@ -1,0 +1,146 @@
+$background: white;
+
+.search-container {
+  background: $background;
+
+  //width: 100%;
+  @include pb_box-shadow(1px, 11px, 68px, -20px, rgba($black, .75));
+  margin: 0rem .1rem .5rem .1rem;
+  border-radius: $border-radius;
+  padding: 0.5rem 0.5rem;
+  //min-height: 18rem;
+  //min-width: 11rem;
+  max-width: 100%;
+  //font-size: .8rem !important;
+  @include media-breakpoint-down(sm) {
+    font-size: .5rem !important;
+  }
+  @include media-breakpoint-down(md) {
+    font-size: .8rem !important;
+  }
+
+  .btn-group {
+    .btn {
+      cursor: pointer;
+    }
+
+    .btn-group-item {
+
+      border-radius: $border-radius;
+      margin-right: .5rem;
+      margin-left: .5rem;
+
+      @include transition(0.2s);
+
+      &:hover {
+        //@include scaleOnHover(1.01);
+      }
+
+      input[type=radio] {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+
+      }
+      @include media-breakpoint-down(sm) {
+        font-size: .5rem !important;
+      }
+      @include media-breakpoint-down(md) {
+        font-size: .8rem !important;
+      }
+    }
+
+  }
+  .filters-container {
+    label {
+      margin-bottom: 0.2rem !important;
+      @include media-breakpoint-down(xs) {
+        font-size: .1rem !important;
+        padding-left: .2rem;
+        padding-right: .2rem;
+      }
+      @include media-breakpoint-down(sm) {
+        font-size: .5rem !important;
+      }
+      @include media-breakpoint-down(md) {
+        font-size: .8rem !important;
+      }
+    }
+  }
+  input[type=text] {
+    @include media-breakpoint-down(sm) {
+      font-size: .5rem !important;
+    }
+    @include media-breakpoint-down(md) {
+      font-size: .8rem !important;
+    }
+  }
+
+  .ui-widget-content {
+    background: transparent;
+  }
+  .ui-widget-content .ui-state-default {
+    background: $purple;
+    border-radius: $border-slider;
+    //content: "\25AE";
+    //font-family: "Font Awesome 5 Free";
+  }
+
+  .ui-slider-range {
+    background: $primary;
+  }
+
+}
+
+//.btn-group-left {
+//  //border-radius: .1rem .1rem .1rem 1.5rem !important;
+//  border-radius: $border-radius !important;
+//}
+//
+//.btn-group-right {
+//  //border-radius: .1rem 1.5rem .1rem .1rem !important;
+//  border-radius: $border-radius !important;
+//}
+
+.divider {
+  position: relative;
+  z-index: 1;
+  margin-top: .2rem;
+  margin-bottom: .3rem;
+  @include media-breakpoint-down(sm) {
+    font-size: .5rem !important;
+  }
+  @include media-breakpoint-down(md) {
+    font-size: .8rem !important;
+  }
+
+  span {
+
+    /* to hide the lines from behind the text, you have to set the background color the same as the container */
+    background: #fff;
+    padding: 0 .2rem;
+    //margin-top: 2rem;
+  }
+
+  &:after {
+    border-bottom: 1px solid $primary;
+    -webkit-box-shadow: 0 1px 0 0 $dark-blue;
+    -moz-box-shadow: 0 1px 0 0 $dark-blue;
+    box-shadow: 0 1px 0 0 $dark-blue;
+    content: "";
+    margin: 0 auto; /* this centers the line to the full width specified */
+    position: absolute;
+    top: 45%;
+    left: 0;
+    right: 0;
+    width: 95%;
+    z-index: -1;
+  }
+}
+
+/*********************************************************
+
+********************************************************** */
+
+/*********************************************************
+
+********************************************************** */

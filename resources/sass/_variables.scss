@@ -1,0 +1,153 @@
+// Body
+$body-bg: #f8fafc;
+//$enable-gradients: true !important;
+// Typography
+$font-family-sans-serif: "Nunito", sans-serif;
+//$font-size-base: 0.9rem;
+$line-height-base: 1.6;
+
+$white: #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black: #000 !default;
+
+$border-radius: 24px 24px 24px 1px;
+$border-slider: 5px 5px 10px 10px;
+
+$grays: () !default;
+$grays: map-merge((
+        "100": $gray-100,
+        "200": $gray-200,
+        "300": $gray-300,
+        "400": $gray-400,
+        "500": $gray-500,
+        "600": $gray-600,
+        "700": $gray-700,
+        "800": $gray-800,
+        "900": $gray-900
+), $grays);
+
+// Colors
+$blue: #3490dc;
+$indigo: #6574cd;
+$purple: #9561e2;
+$pink: #f66D9b;
+$red: #e3342f;
+$orange: #f6993f;
+$yellow: #ffed4a;
+$green: #38c172;
+$teal: #4dc0b5;
+$cyan: #6cb2eb;
+
+$purple: #6751A2 !default;
+$dark: #373737 !default;
+$dark-gray: #4a4a4a !default;
+$gray: #7F928B !default;
+$cream: #C1A26A !default;
+$dark-blue: #015474 !default;
+$light-blue: #028BBF !default;
+$dark-green: #51573C !default;
+$light-green: #60aa2f !default;
+$dark-red: #782517 !default;
+//$red: #B53029 !default;
+$light-red: #db8f3c !default;
+//my colors
+$flame-start: #ff9a9e;
+$flame-end: #fad0c4;
+
+$peach-start: #ffecd2;
+$peach-end: #fcb69f;
+
+$neva-start: #a1c4fd;
+$neva-end: #c2e9fb;
+
+$rain-start: #cfd9df;
+$rain-end: #e2ebf0;
+
+$cloud-start: #fdfbfb;
+$cloud-end: #ebedee;
+
+$SaintPetersberg-start: #f5f7fa;
+$SaintPetersberg-end: #c3cfe2;
+
+$everlasting-start: #fdfcfb;
+$everlasting-end: #e2d1c3;
+
+$salad-start: #B7F8DB;
+$salad-end: #50A7C2;
+
+$primary: $blue !default;
+$secondary: $cream !default;
+$success: $light-green !default;
+$info: $gray !default;
+$dark-gray: $dark-gray !default;
+$warning: $light-red !default;
+$danger: $red !default;
+$light: $gray-100 !default;
+$dark: $dark !default;
+
+$colors: () !default;
+$colors: map-merge((
+        "purple": $purple,
+        "dark": $dark,
+        "gray": $gray,
+        "dark-gray": $dark-gray,
+        "cream": $cream,
+        'flame-start':$flame-start,
+        "dark-blue": $dark-blue,
+        "light-blue": $light-blue,
+        "dark-green": $dark-green,
+        "light-green": $light-green,
+        "dark-red": $dark-red,
+        "red": $red,
+        "light-red": $light-red,
+        "white": $white,
+        "gray-dark": $gray-800,
+        "blue": #3490dc,
+        "indigo": #6574cd,
+        "pink": #f66D9b,
+        "orange": #f6993f,
+        "yellow": #ffed4a,
+        "green": #38c172,
+        "teal": #4dc0b5,
+        "cyan": #6cb2eb,
+), $colors);
+
+$theme-colors: () !default;
+$theme-colors: map-merge((
+        "primary": $primary,
+        "purple": $purple,
+        "secondary": $secondary,
+        "success": $green,
+        "info": $info,
+        "dark-gray": $dark-gray,
+        "warning": $warning,
+        "danger": $danger,
+        "dark-red": $dark-red,
+        "light-red": $light-red,
+        "light": $light,
+        "dark": $dark,
+        "gray": $gray,
+        'flame-start':$flame-start,
+        'cream':$cream,
+        "dark-blue":$dark-blue,
+        "light-blue":$light-blue,
+        "dark-green":$dark-green,
+        "light-green": $success,
+        "blue": #3490dc,
+        "indigo": #6574cd,
+        "pink": #f66D9b,
+        "red": #e3342f,
+        "orange": #f6993f,
+        "yellow": #ffed4a,
+        "green": #38c172,
+        "teal": #4dc0b5,
+        "cyan": #6cb2eb,
+), $theme-colors);
