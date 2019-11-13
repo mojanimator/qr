@@ -3,7 +3,7 @@
 
 #navbar {
   transition: top 0.3s;
-
+  //background: rgba(white, 1);
 }
 
 .navbar-dark .navbar-nav .nav-link {
@@ -11,7 +11,7 @@
 }
 
 .dropdown-menu {
-  background: $primary;
+  background: $dark-blue;
   border: 0;
   margin: .1rem;
   padding: 0;
@@ -36,7 +36,20 @@
 }
 
 .navbar-brand {
-  margin: 0.25rem;
+  margin: 0.1rem;
+
+  background: rgba(white, .9);
+
+  img {
+    @include media-breakpoint-down(sm) {
+      max-height: 2rem;
+      top: 0;
+    }
+    @include media-breakpoint-up(sm) {
+      max-height: 4rem;
+      top: 0;
+    }
+  }
 }
 
 .navbar-toggler {

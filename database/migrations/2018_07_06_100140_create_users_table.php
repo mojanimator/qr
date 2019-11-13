@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('last_name', 50)->nullable();
             $table->string('role', 10)->default('User');
             $table->string('about', 255)->nullable()->default(null);
+            $table->string('img', 255)->nullable()->default(null);
             $table->string('interests', 100)->nullable();
             $table->integer('likes')->unsigned()->default(0);
             $table->integer('dislikes')->unsigned()->default(0);

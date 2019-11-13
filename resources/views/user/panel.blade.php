@@ -6,11 +6,11 @@
 
 @section('content')
 
-    <section class=" container-fluid  mt-4     " id="app">
+    <section class=" container-fluid  mt-4  " id="app">
 
         @if(auth()->user())
 
-            <user-panel :user="{{auth()->user()}}"
+            <user-panel :user="{{auth()->user()}}" home-link="{{route('/')}}"
                         panel-link="{{route('user.panel',['username' =>auth()->user()->username])}}">
 
             </user-panel>

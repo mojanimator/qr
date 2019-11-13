@@ -1,91 +1,57 @@
 <template>
-    <div class="row    m-panel container-fluid position-relative  ">
-
-        <div class=" col-lg-4 col-md-6">
-            <div class="    user-panel mb-1 d-flex flex-column  justify-content-between ">
-
-                <div class="user-panel-header bg-gradient-blue  d-flex flex-column align-items-center ">
-                    <div class="m-background"></div>
-                    <div class="user-image-container">
-                        <img class="user-image" src="/storage/img/blue-user.png" alt="">
-                    </div>
-                </div>
+    <div class="row    m-panel   position-relative  ">
 
 
-                <div class="user-panel-body   px-4  d-flex flex-column align-items-center   ">
+        <div id="sidebar" class=" col-3 col-xl-4 px-0   ">
+            <!-- Sidebar -->
+            <header>
+                <img class="user-img" :src="getImage(user.img)" alt="">
+                <a :href="panelLink">{{user.username}}</a>
+            </header>
+            <ul class="nav text-center">
 
-                    <p class="h3 font-weight-bold text-primary ">
-                        <span v-if="user.username"> {{user.username}}</span>
-                        <span v-else> <i class="fas  fa-question-circle text-danger"></i> </span>
-                    </p>
-                    <div class="card-divider"></div>
-                    <div class="text-primary  ">نام:
-                        <span v-if="user.name"> {{user.name}}</span>
-                        <span v-else> <i class="fas  fa-question-circle text-danger"></i> </span>
-                    </div>
-                    <div class="text-primary ">نام خانوادگی:
-                        <span v-if="user.family"> {{user.family}}</span>
-                        <span v-else> <i class="fas  fa-question-circle text-danger"></i> </span>
-                    </div>
-                    <div class="text-primary ">شماره تلفن:
-                        <span v-if="user.phone_number"> {{user.phone_number}}</span>
-                        <span v-else> <i class="fas  fa-question-circle text-danger"></i> </span>
-                    </div>
-                </div>
+                <li @click=" view='posts'" class=" slider-item nav-item py-2 m-1"
+                    :class="{'active text-dark':view=='posts'}">
+                    <span class="fa fa-book-open "></span>
+                    Posts
+                    <span v-if="unreadedComments>0" class="badge-pill badge-danger">{{unreadedComments}}</span>
+                </li>
+                <li @click="view='comments'" class=" slider-item nav-item py-2 m-1"
+                    :class="{'active text-dark':view=='comments'}">
+                    <span class="fa fa-comment "></span>
+                    Comments
+                </li>
+                <li @click="view='users'" v-if="user.role=='Admin'" class=" slider-item nav-item py-2 m-1"
+                    :class="{'active text-dark':view=='users'}">
+                    <span class="fa fa-users "></span>
+                    Users
+                </li>
+                <li @click="view='tags'" v-if="user.role=='Admin' || user.role=='Writer' "
+                    class=" slider-item nav-item py-2 m-1" :class="{'active text-dark':view=='tags'}">
+                    <span class="fa fa-tag "></span>
+                    Tags
+                </li>
+                <li @click="view='admin'" v-if="user.role=='Admin'" class=" slider-item nav-item py-2 m-1"
+                    :class="{'active text-dark':view=='admin'}">
+                    <span class="fa fa-search "></span>
+                    Reports
+                </li>
+                <li @click="view='profile'" class=" slider-item nav-item py-2 m-1"
+                    :class="{'active text-dark':view=='profile'}"
+                >
+                    <span class="fa fa-user-tie "></span>
+                    Profile
 
-            </div>
+                </li>
+
+            </ul>
         </div>
+        <div class="row content offset-3 offset-xl-3  col-9">
 
-        <div class="row  col-lg-8 col-md-6 ">
-            <div class="   col-lg-6 ">
-                <div class="panel-part  " @click="view('users')">
+            <div v-if="loading" class="loading-page center-block  "></div>
 
-                    <div class=" colored-half p-1  bg-primary   d-flex flex-column align-items-center  justify-content-between">
-                        <div class="m-background"></div>
-                        <div class="image-container   ">
-                            <img class="image  " src="/storage/img/white-user.png" alt="">
-                        </div>
-                        <div class="h5 pt-1 text-white">کاربران</div>
-                    </div>
-
-                </div>
-            </div>
-            <div class=" col-lg-6">
-                <div class="panel-part" @click="view('schools')">
-                    <div class=" colored-half  p-1 bg-purple d-flex flex-column align-items-center  justify-content-between">
-                        <div class="m-background"></div>
-                        <div class="image-container    ">
-                            <img class="image  " src="/storage/img/white-school.png" alt="">
-                        </div>
-                        <div class="h5 pt-1 text-white">مدارس</div>
-                    </div>
-                </div>
-            </div>
-            <div class=" col-lg-6">
-                <div class="panel-part" @click="view('hoozes')">
-                    <div class=" colored-half  p-1 bg-red d-flex flex-column align-items-center  justify-content-between">
-                        <div class="m-background"></div>
-                        <div class="image-container    ">
-                            <img class="image  " src="/storage/img/white-hoozes.png" alt="">
-                        </div>
-                        <div class="h5 pt-1 text-white">حوزه ها</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6  ">
-                <div class="panel-part    " @click="view('reports')">
-                    <div class=" colored-half p-1 bg-secondary d-flex flex-column align-items-center  justify-content-between">
-                        <div class="m-background"></div>
-                        <div class="image-container    ">
-                            <img class="image  " src="/storage/img/white-reports.png" alt="">
-                        </div>
-                        <div class="h5 pt-1 text-white">گزارش </div>
-                    </div>
-                </div>
-            </div>
+            <posts-panel v-if="view=='posts'"></posts-panel>
         </div>
-
-
     </div>
 
 
@@ -94,14 +60,44 @@
 <script>
     const EventBus = new Vue();
 
-    export default {
+    import pagination from './pagination.vue';
+    import postsPanel from './posts-panel.vue';
 
+    export default {
+        components: {
+            pagination,
+            postsPanel,
+        },
 //        extends: bannerCards,
 
-        props: ['user', 'panelLink'],
+        props: ['user', 'panelLink', 'homeLink'],
 
         data() {
-            return {}
+            return {
+                unreadedComments: 0,
+                view: 'posts',
+                pName: '',
+                params: {
+                    post_id: null,
+                    title: null,
+                    tag: null,
+                    group_id: null,
+                    from: 'panel',
+                    page: 1,
+                    pagination: 24,
+                    user_id: null,
+                    sortBy: 'updated_at',
+                    direction: 'DESC',
+
+                },
+                posts: [],
+                tags: [],
+                groups: [],
+                comments: [],
+                link: '',
+                loading: false,
+                paginator: null,
+            }
         },
         created() {
 
@@ -109,12 +105,22 @@
         },
         mounted() {
 
+
         },
         updated() {
 
         },
 
         methods: {
+            shorter(str, len) {
+                return str.substring(0, len) + " ...";
+            },
+            humanTime(time) {
+                return moment(time).locale('en').fromNow();
+            },
+            getGroup(group) {
+                return group.name && group.name.length > 0 ? group.name[group.name.length - 1] : "-";
+            },
             view(v) {
                 let link;
                 if (v === 'schools')
@@ -146,50 +152,84 @@
 ////                    console.log(error.response);
 //                });
             },
-            showDialog(type, data) {
-                // 0  ready for save
-                // 1  success  save
-                // else show errors
-                if (type === 0)
-                    swal.fire({
-                        title: 'توجه',
-                        text: 'تغییرات ذخیره شوند؟',
-                        type: 'warning',
-                        showCancelButton: true,
-                        showCloseButton: true,
-                        cancelButtonText: 'خیر',
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: ' بله',
-                    }).then((result) => {
-                        if (result.value) {
-                            this.saveChanges();
-                        }
-                    });
-                else if (type === 1) {
-                    swal.fire({
-                        title: 'توجه',
-                        text: ' با موفقیت ذخیره شد!',
-                        confirmButtonColor: '#60aa2f',
-                        type: 'success',
-                        confirmButtonText: ' باشه',
-                    }).then((result) => {
-                        if (result.value) {
-                            location.reload();
-                        }
-                    });
+            getImage(img) {
+                if (img)
+                    return '/storage/img/' + img;
+                else
+                    return '/storage/img/user-img.png';
+            },
+            search(what) {
 
-                } else {
-                    swal.fire({
-                        title: 'خطاهای زیر را اصلاح نمایید',
-                        html: ` <p   class="text-danger">` + this.errors + `</p>`,
-//                        text: this.errors,
-                        confirmButtonColor: '#d33',
-                        type: 'error',
-                        confirmButtonText: ' باشه',
-                    });
+                switch (what) {
+                    case 'posts':
+                        this.link = this.homeLink + '/posts';
+                        this.getPosts(this.params);
+                        break;
+
                 }
-            }
+            },
+            getDropdown(what = []) {
+                this.loading = true;
+                this.link = this.homeLink + '/dropdown';
+
+                axios.post(this.link, {
+                    what: what,
+                })
+                    .then((response) => {
+                        this.loading = false;
+//                        console.log(response);
+                        if (response.status === 200) {
+                            this.users = response.data.users;
+
+                            let tmp = [];
+                            for (let idx in response.data.tags)
+                                for (let i in response.data.tags[idx])
+                                    tmp.push(response.data.tags[idx][i])
+                            this.tags = [...new Set(tmp)];
+                            this.groups = response.data.groups;
+
+                        }
+                    }).catch((error) => {
+                    this.loading = false;
+//                    console.log('res error:');
+                    console.log(error);
+//                    this.loading.addClass('hide');
+                })
+            },
+            getPosts(params = {
+                pagination: this.params.pagination,
+
+            }) {
+                this.loading = true;
+
+                axios.post(this.link, params)
+                    .then((response) => {
+                        this.loading = false;
+//                        console.log(response);
+                        if (response.status === 200) {
+                            this.posts = response.data ? response.data.data : [];
+                            this.paginator =
+                                {
+                                    current_page: response.data['current_page'],
+                                    first_page_url: response.data['first_page_url'],
+                                    next_page_url: response.data['next_page_url'],
+                                    prev_page_url: response.data['prev_page_url'],
+                                    last_page_url: response.data['last_page_url'],
+                                    last_page: response.data['last_page'],
+                                    from: response.data['from'],
+                                    to: response.data['to'],
+                                    total: response.data['total'],
+                                };
+//
+                            this.$root.$emit('paginationChange', this.paginator);
+                        }
+                    }).catch((error) => {
+                    this.loading = false;
+//                    console.log('res error:');
+                    console.log(error);
+//                    this.loading.addClass('hide');
+                })
+            },
         }
     }
 

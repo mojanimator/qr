@@ -94,31 +94,45 @@
 /***/ (function(module, exports) {
 
 var a = 0;
-$(window).scroll(function () {
-  var oTop = $('#counter').offset().top - window.innerHeight;
+$('.banner-anchor').click(function () {
+  $('html,body').animate({
+    scrollTop: $("#" + 'uploader').offset().top - 20
+  }, 'slow');
+}); // $(window).scroll(function () {
 
-  if (a === 0 && $(window).scrollTop() > oTop) {
-    $('.counter-value').each(function () {
-      var $this = $(this),
-          countTo = $this.attr('data-count');
-      $({
-        countNum: $this.text()
-      }).animate({
-        countNum: countTo
-      }, {
-        duration: 2000,
-        easing: 'swing',
-        step: function step() {
-          $this.text(Math.floor(this.countNum));
-        },
-        complete: function complete() {
-          $this.text(this.countNum); //alert('finished');
-        }
-      });
+var oTop = $('#counter').offset().top - window.innerHeight;
+
+if (a === 0 && $(window).scrollTop() > oTop) {
+  $('.counter-value').each(function () {
+    var $this = $(this),
+        countTo = $this.attr('data-count');
+    $({
+      countNum: $this.text()
+    }).animate({
+      countNum: countTo
+    }, {
+      duration: 1000,
+      easing: 'swing',
+      step: function step() {
+        $this.text(Math.floor(this.countNum));
+      },
+      complete: function complete() {
+        $this.text(this.countNum + "   QR Created Until Now !"); //alert('finished');
+      }
     });
-    a = 1;
-  }
-}); // ************************fields validation
+  });
+  a = 1;
+} // });
+// ************************uploader
+// $(document).ready(function () {
+//
+//     $('input[type="file"]').ezdz();
+//
+//     console.log(document.location.hostname);
+//
+// });
+// ************************fields validation
+
 
 (function (exports) {
   function valOrFunction(val, ctx, args) {
@@ -154,15 +168,7 @@ $(window).scroll(function () {
   }
 
   exports.InvalidInputHelper = InvalidInputHelper;
-})(window); // InvalidInputHelper(document.getElementById("email"), {
-//     defaultText: "لطفا آدرس ایمیل را صحیح وارد کنید!",
-//
-//     emptyText: "آدرس ایمیل را وارد کنید!",
-//
-//     invalidText: function (input) {
-//         return ' ایمیل' + input.value + '" نامعتبر است';
-//     }
-// });
+})(window);
 
 /***/ }),
 
@@ -173,7 +179,7 @@ $(window).scroll(function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\_laravelProjects\adsense\resources\js\home.js */"./resources/js/home.js");
+module.exports = __webpack_require__(/*! D:\_laravelProjects\qr\resources\js\home.js */"./resources/js/home.js");
 
 
 /***/ })

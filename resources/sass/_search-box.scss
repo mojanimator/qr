@@ -1,16 +1,44 @@
 $background: white;
 
+@media (min-width: 576px) {
+  .search-container {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .search-container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .search-container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .search-container {
+    max-width: 1140px;
+  }
+}
+
 .search-container {
   background: $background;
-
+  //width: 100%;
+  //padding-right: 15px;
+  //padding-left: 15px;
+  //margin-right: auto;
+  //margin-left: auto;
   //width: 100%;
   @include pb_box-shadow(1px, 11px, 68px, -20px, rgba($black, .75));
-  margin: 0rem .1rem .5rem .1rem;
+  //margin: 0rem .1rem .5rem .1rem;
   border-radius: $border-radius;
-  padding: 0.5rem 0.5rem;
+  //padding: 0.5rem 0.5rem;
   //min-height: 18rem;
   //min-width: 11rem;
-  max-width: 100%;
+  //max-width: 100%;
   //font-size: .8rem !important;
   @include media-breakpoint-down(sm) {
     font-size: .5rem !important;

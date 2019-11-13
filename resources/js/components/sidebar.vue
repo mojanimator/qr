@@ -80,7 +80,7 @@
 
                 })
                     .then((response) => {
-                        console.log(response);
+//                        console.log(response);
 //                        this.loading.addClass('hide');
                         if (response.status === 200) {
                             this.latest_posts = response.data;
@@ -123,9 +123,7 @@
 
 
 </script>
-<
-style
-lang = "scss" >
+<style lang="scss">
 
 
-< /style>
+</style>

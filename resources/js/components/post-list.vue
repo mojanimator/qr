@@ -1,6 +1,6 @@
 <template>
 
-    <div class="col-md-8 col-md-offset-2 p-4">
+    <div class=" p-4">
         <div v-for="p,idx in this.posts" class="post-list-item py-3">
             <div class="subtitle small font-weight-bold text-dark-blue ">
                 <a :href="homeLink+'/post/'+getGroup(p.group)+'/'+p.slug">{{p.title && p.title.length > 100 ? shorter(p.title, 100) : p.title}}</a>
@@ -10,8 +10,16 @@
             </div>
             <div class="subtitle small   text-gray d-flex justify-content-start">
                 <span class="mx-3 ">{{humanTime(p.updated_at) }}</span>
-                <span class=" mx-3 ">by: <a class="btn-sm  btn-dark-blue small p-1 "
-                                            :href="homeLink+'/users/'+p.user.username"> {{p.user.username}}</a></span>
+
+                <span class=" mx-3 ">by: <a class="btn-sm  btn-dark-red small  "
+                                            :href="homeLink+'/users/'+p.user.username"> {{p.user.username}}</a>
+                <a class=" small  "
+                   :href="homeLink+'/users/'+p.user.username">
+                    <img class="user-img"
+                         :src="getImage(p.user.img)"
+                         :alt="p.user.username"> </a>
+                </span>
+
                 <span v-if="groupTree&& groupTree.length===1" class=" mx-3">in: <a
                         class=" btn-sm  btn-dark-blue small p-1"
                         :href="homeLink+'/groups/'+getGroup(p.group)+'/page/1'"> {{getGroup(p.group)}}</a></span>
@@ -104,7 +112,13 @@
                     window.location.href = this.homeLink + "/groups/" + this.groupTree[this.groupTree.length - 1] + "/page/" + data.page;
 
                 });
-            }
+            },
+            getImage(img) {
+                if (img)
+                    return '/storage/img/' + img;
+                else
+                    return '/storage/img/user-img.png';
+            },
 
         }
 

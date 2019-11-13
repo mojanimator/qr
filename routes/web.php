@@ -11,25 +11,63 @@
 |
 */
 
+use App\Comment;
 use App\Hooze;
+use App\Report;
 use App\School;
+use App\Setting;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Policies\SchoolPolicy;
 use Illuminate\View\View;
 use Morilog\Jalali\Jalalian;
+use Spatie\Sitemap\SitemapGenerator;
+
+Route::get('sitemap', function (Request $request) {
+    if (User::where('username', $request->username)->exists()) {
+        SitemapGenerator::create('https://qr-image-creator.com')->writeToFile('sitemap.xml');
+        return 'sitemap created !';
+    } else {
+        echo 'sorry !';
+    }
+});/*->middleware('auth')*/
+
 
 Route::get('/', function () {
+    Setting::where('key', 'visits')->increment('value', 1);
     return view('layouts.home');
 })->name('/');
-Route::get('/school/create', function () {
-    return view('school.create');
-})->name('school.create');
+Route::get('/contact', function () {
+    return view('layouts.contact');
+})->name('contact');
+Route::post('/comment', function (Request $request) {
+    $request->validate([
+        'email' => 'required|email',
+        'body' => 'required|max:255',
+//            'for' => 'sometimes|string|in:dropdown',
+    ]);
+    Comment::create([
+        'email' => $request->email,
+        'body' => $request->body,
+        'ip_address' => $request->ip(),
+        'user_agent' => $request->header('user-agent'),
+
+    ]);
+    return back()->with('comment.success', 'Thank You !');
+
+})->name('comment');
+Route::post('/qrcreated', function (Request $request) {
+
+    Setting::where('key', 'created_qr')->increment('value', 1);
+    return null;
+
+})->name('qr.created');
 
 
 Auth::routes();
@@ -38,66 +76,40 @@ Auth::routes();
 Route::get('/verifyemail/{token}/{from}', 'Auth\RegisterController@verify')->name('verification.mail');
 Route::get('/resendemail/{token}', 'Auth\RegisterController@resend')->name('resend.mail');
 
-Route::get('/home', 'HomeController@index')->name('home');
 
-
-Route::get('/init', function () {
-    // Call and Artisan command from within your application.
-    Artisan::call('migrate:fresh');
-    Artisan::call('db:seed');
-    echo 'با موفقیت انجام شد!';
+Route::get('/init', function (Request $request) {
+    if (User::where('username', $request->username)->exists()) {
+        // Call and Artisan command from within your application.
+        Artisan::call('migrate:fresh');
+        Artisan::call('db:seed');
+        echo 'successful !';
+    } else {
+        echo 'sorry !';
+    }
 });
-
-Route::get('register/confirm/{token}', 'Auth\RegisterController@confirmEmail');
-
-Route::get('/panel/{username}/reports/', 'ReportController@view')->name('report.view')->middleware('can:viewAny,App\Report');
-Route::post('/panel/{username}/reports/search', 'ReportController@search')->name('report.search')->middleware('can:viewAny,App\Report');
-
-
-Route::get('/panel/{username}/users/', 'UserController@view')->name('user.view')->middleware('can:viewAny,App\User');
-Route::post('/panel/{username}/users/create', 'UserController@create')->name('user.register')->middleware('can:createAny,App\User');
-Route::post('/panel/{username}/users/edit', 'UserController@update')->name('user.edit')->middleware('can:editAny,App\User');
-Route::post('/panel/{username}/users', 'UserController@search')->name('user.search');
-Route::post('/panel/{username}/users/delete', 'UserController@destroy')->name('user.delete')->middleware('can:deleteAny,App\User');
-
-Route::post('/panel/{username}/schools/search', 'SchoolController@search')->name('school.search')->middleware('can:viewAny,App\School');
-Route::post('/panel/{username}/schools/dropdown', 'SchoolController@dropdown')->name('school.dropdown')->middleware('can:viewAny,App\School');
-Route::post('/panel/{username}/schools/create', 'SchoolController@create')->name('schools.create')->middleware('can:createAny,App\School');
-Route::get('/panel/{username}/schools', 'SchoolController@view')->name('school.view')->middleware('can:viewAny,App\School');
-Route::post('/panel/{username}/delete', 'SchoolController@destroy')
-    ->name('school.destroy')->middleware('can:delete,App\School');
-Route::any('/panel/{username}', 'UserController@showPanel')
-    ->name('user.panel')->middleware('auth');
-Route::post('/panel/{username}/edit', 'SchoolController@update')
-    ->name('school.edit')->middleware('can:edit,App\School');
-
-
-Route::get('/panel/{username}/hoozes', 'HoozeController@view')
-    ->name('hooze.view')->middleware('can:viewAny,App\Hooze');
-Route::post('/panel/{username}/hoozes', 'HoozeController@search')
-    ->name('hooze.search');
-Route::post('/panel/{username}/hoozes/delete/h={id}', 'HoozeController@destroy')
-    ->name('hooze.destroy')->middleware('can:delete,App\Hooze,id');
-Route::post('/panel/{username}/hoozes/edit/h={id}', 'HoozeController@update')
-    ->name('hooze.edit')->middleware('can:edit,App\Hooze,id');
-Route::post('/panel/{username}/hoozes/create', 'HoozeController@create')
-    ->name('hooze.create')->middleware('can:create,App\Hooze');
 
 
 Route::group(array('before' => 'auth'), function () {
 
-    Route::get('admin/shutdown', function () {
-        touch(storage_path() . '/framework/down');
+    Route::get('admin/shutdown', function (Request $request) {
+        if (User::where('username', $request->username)->exists()) {
+            touch(storage_path() . '/framework/down');
+        } else {
+            echo 'sorry !';
+        }
     });
+
 });
 
-Route::get('admin/wakeup', function () {
-    @unlink(storage_path() . '/framework/down');
+Route::get('admin/wakeup', function (Request $request) {
+    if (User::where('username', $request->username)->exists()) {
+        @unlink(storage_path() . '/framework/down');
+    } else {
+        echo 'sorry !';
+    }
 });
 
-Route::get('groups/{group}/page/{page}', 'PostController@showGroupPosts')->name('post.group');
-Route::get('groups/', 'PostController@showGroups')->name('post.groups');
-Route::get('users/{username}', 'UserController@show')->name('user.show');
-Route::get('post/{group}/{slug}', 'PostController@showPost')->name('post.show')->where('slug', '[\w\d\-\_]+');
-Route::post('posts/latest', 'PostController@showLatestPosts')->name('post.latest');
 
+//Route::prefix('panel/{username}')->middleware('auth')->group(function () {
+//
+//});

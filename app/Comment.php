@@ -19,20 +19,16 @@ class Comment extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-
+    public $timestamps = false;
     protected $fillable = [
-        'id', 'user_id', 'post_id', 'root_id', 'body', 'likes', 'dislikes', 'is_published', 'created_at', 'updated_at',
-
+        'id', 'email', 'body', 'ip_address', 'user_agent', 'created_at',
     ];
     protected $table = 'comments';
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+//    public function user()
+//    {
+//        return $this->belongsTo(User::class);
+//    }
 
-    public function replies()
-    {
-        return $this->hasMany(Comment::class, 'root_id');
-    }
+
 }

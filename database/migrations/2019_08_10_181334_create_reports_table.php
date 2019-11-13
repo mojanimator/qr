@@ -16,7 +16,9 @@ class CreateReportsTable extends Migration
         Schema::create('reports', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name_family', 50);
-            $table->string('action_target', 60); // [login,create,remove,edit,]_[user,post,comment]
+            $table->ipAddress('ip_address')->nullable();
+            $table->string('user_agent')->nullable();
+            $table->string('action_target', 60)->default('c$q');// [c$q(create qr),v(site visit times)]
 //            $table->integer('target_id')->unsigned()->nullable();
             $table->timestamp('created_at');
 

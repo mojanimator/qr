@@ -19,25 +19,25 @@
             {{ Session::get('flash-warning') }}
 
 
-            <div>برای ارسال مجدد <a id="retry" href="{{Route('resend.mail' ,['token'=>Session::get('token')])}}">کلیک
-                    کنید</a>
+            <div>Please <a id="retry" href="{{Route('resend.mail' ,['token'=>Session::get('token')])}}">
+                    Click Here</a> for resend email
             </div>
         </div>
     @endif
     <div class="loading-page hide "></div>
-    <div class="container mt-4">
+    <div class="container mt-4 ">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class=" text-white card-header bg-gradient-blue rounded p-4"> ورود</div>
+                    <div class=" text-white card-header bg-gradient-blue rounded p-4"> {{__('Login')}}</div>
 
-                    <div class="card-body">
+                    <div class="card-body ">
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
 
-                            <div class="form-group row">
+                            <div class="form-group row  ">
                                 <label for="email"
-                                       class="col-md-4 col-form-label text-md-right">نام کاربری یا ایمیل</label>
+                                       class="col-md-4 col-form-label text-md-center">{{__('Username Or Email')}}</label>
 
                                 <div class="col-md-6">
                                     <input id="login" type="text"
@@ -59,11 +59,11 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
+                            <div class="form-group row ">
                                 <label for="password"
-                                       class="col-md-4 col-form-label text-md-right">{{ __('گذرواژه') }}</label>
+                                       class="col-md-4 col-form-label text-md-center">{{ __('Password') }}</label>
 
-                                <div class="col-md-6">
+                                <div class="col-md-6 ">
                                     <input id="password" type="password"
                                            class="form-control @error('password') is-invalid @enderror" name="password"
                                            autocomplete="current-password">
@@ -83,7 +83,7 @@
                                                id="remember" {{ old('remember') ? 'checked' : '' }}>
 
                                         <label class="form-check-label" for="remember">
-                                            {{ 'به خاطر بسپار' }}
+                                            {{ 'Remember Me' }}
                                         </label>
                                     </div>
                                 </div>
@@ -92,12 +92,12 @@
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">
                                     <button type="submit" class="btn  btn-primary col-md-9   ">
-                                        {{ 'ورود'}}
+                                        {{ __('Login') }}
                                     </button>
 
                                     @if (Route::has('password.request'))
                                         <a class="btn btn-link" href="{{ route('password.request') }}">
-                                            {{ 'گذرواژه را فراموش کرده ام' }}
+                                            {{ __('Forgot My Password') }}
                                         </a>
                                     @endif
                                 </div>

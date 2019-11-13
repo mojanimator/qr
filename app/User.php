@@ -66,10 +66,10 @@ class User extends Authenticatable implements Auditable, CanResetPassword
         $this->notify(new MyResetPassword($token));
     }
 
-    public function posts()
-    {
-        return $this->hasMany(Post::class);
-    }
+//    public function posts()
+//    {
+//        return $this->hasMany(Post::class);
+//    }
 
     public function findForPassport($username)
     {

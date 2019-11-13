@@ -1,6 +1,7 @@
 'use strict';
 
 window._ = require('lodash');
+require('bootstrap');
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -12,7 +13,7 @@ try {
   window.$ = window.jQuery = require('jquery');
   window.Popper = require('popper.js');
 
-  require('rtl-bootstrap');
+  // require('rtl-bootstrap');
 } catch (e) {}
 
 /**

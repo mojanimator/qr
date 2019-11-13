@@ -16,9 +16,9 @@ $icon-font-path: '../fonts/';
 @import "glyphicons";
 @import "~ol/ol.css";
 @import "~ol-layerswitcher/src/ol-layerswitcher.css";
-@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+//@import '~@fortawesome/fontawesome-free/scss/fontawesome';
 @import "~lity/dist/lity.css";
-//@import "~@fortawesome/fontawesome-free/css/all";
+@import "~@fortawesome/fontawesome-free/css/all";
 //my styles
 @import 'navbar';
 @import 'footer';
@@ -30,19 +30,61 @@ $icon-font-path: '../fonts/';
 @import 'dropdown';
 @import 'panel';
 @import 'register';
-@import 'sidebar';
-@import 'post';
+//@import 'sidebar';
+//@import 'post';
 @import 'my-sass';
-
+@import "~cropperjs/dist/cropper.css";
+//@import "~tinymce/skins/ui/oxide/skin.min.css";
+//@import "~tinymce/skins/ui/oxide/content.css";
+//@import "~tinymce/skins/content/default/content.css";
+//@font-face {
+//  font-family: Nunito;
+//  //src: url('../fonts/Farsi-Digits/Tanha-FD.eot');
+//  //src: url('../fonts/Farsi-Digits/Tanha-FD.eot?#iefix') format('Tanha-FD-opentype'),
+//  //url('../fonts/Farsi-Digits/Tanha-FD.woff') format('woff'),
+//  src: url('../fonts/Nunito/Nunito-SemiBold.ttf') format('truetype');
+//  font-weight: normal;
+//  font-style: normal;
+//}
 @font-face {
-  //font-family: Tanha;
+  font-family: Roboto;
   //src: url('../fonts/Farsi-Digits/Tanha-FD.eot');
   //src: url('../fonts/Farsi-Digits/Tanha-FD.eot?#iefix') format('Tanha-FD-opentype'),
   //url('../fonts/Farsi-Digits/Tanha-FD.woff') format('woff'),
-  //url('../fonts/Farsi-Digits/Tanha-FD.ttf') format('truetype');
-  //font-weight: normal;
-  //font-style: normal;
+  src: url('../fonts/Roboto/Roboto-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
+
+@font-face {
+  font-family: RobotoLight;
+  //src: url('../fonts/Farsi-Digits/Tanha-FD.eot');
+  //src: url('../fonts/Farsi-Digits/Tanha-FD.eot?#iefix') format('Tanha-FD-opentype'),
+  //url('../fonts/Farsi-Digits/Tanha-FD.woff') format('woff'),
+  src: url('../fonts/Roboto/Roboto-Light.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: RobotoBold;
+  //src: url('../fonts/Farsi-Digits/Tanha-FD.eot');
+  //src: url('../fonts/Farsi-Digits/Tanha-FD.eot?#iefix') format('Tanha-FD-opentype'),
+  //url('../fonts/Farsi-Digits/Tanha-FD.woff') format('woff'),
+  src: url('../fonts/Roboto/Roboto-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+//@font-face {
+//font-family: Tanha;
+//src: url('../fonts/Farsi-Digits/Tanha-FD.eot');
+//src: url('../fonts/Farsi-Digits/Tanha-FD.eot?#iefix') format('Tanha-FD-opentype'),
+//url('../fonts/Farsi-Digits/Tanha-FD.woff') format('woff'),
+//url('../fonts/Farsi-Digits/Tanha-FD.ttf') format('truetype');
+//font-weight: normal;
+//font-style: normal;
+//}
 
 //iframe {
 //  width: 100% !important;
@@ -50,14 +92,24 @@ $icon-font-path: '../fonts/';
 //}
 
 html, body {
+  color: #646464;
+  font-family: Roboto, Tangerine, serif;
+  letter-spacing: 1px;
+  font-size: 1rem;
+  //text-shadow: 0 1px 0 #ffffff;
+  padding: 0;
   height: 100%;
   margin: 0;
-  padding-top: 1.4rem;
+  //padding-top: 1.4rem;
+  @include selection {
+    color: white;
+    background: black;
+  }
 }
 
-body {
-  font-family: 'Segoe UI', sans-serif !important;
-}
+//body {
+//  font-family: 'Segoe UI', sans-serif !important;
+//}
 
 button {
   cursor: pointer;

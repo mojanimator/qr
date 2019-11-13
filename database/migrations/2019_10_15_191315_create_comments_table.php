@@ -15,19 +15,12 @@ class CreateCommentsTable extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id')->unsigned();
-            $table->bigInteger('root_id')->unsigned()->nullable();
-            $table->bigInteger('post_id')->unsigned();
+            $table->string('email', 255);
             $table->string('body', 255);
-            $table->integer('likes')->unsigned()->default(0);
-            $table->integer('dislikes')->unsigned()->default(0);
-            $table->boolean('is_published')->default(false);
+            $table->ipAddress('ip_address')->nullable();
+            $table->string('user_agent')->nullable();
+            $table->timestamp('created_at')->useCurrent();
 
-            $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('root_id')->references('id')->on('comments');
-            $table->foreign('post_id')->references('id')->on('posts');
 
         });
     }

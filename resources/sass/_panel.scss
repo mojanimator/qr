@@ -1,6 +1,77 @@
 
 .m-panel {
+  .content {
+    //margin-left: 15rem;
 
+  }
+  #sidebar {
+    z-index: 1000;
+    position: fixed;
+    //left: 15rem;
+    margin-top: -4.5rem;
+    //margin-bottom: -4rem;
+    //top: 0;
+    padding-top: 4.5rem;
+    width: 15rem;
+    height: 100vh;
+    //margin-left: -15rem;
+    overflow-y: auto;
+    background: #37474F;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+  }
+
+  #sidebar header {
+    background-color: #263238;
+    font-size: 20px;
+    line-height: 3rem;
+    text-align: center;
+  }
+
+  #sidebar header a {
+    color: #fff;
+    display: block;
+    text-decoration: none;
+  }
+
+  #sidebar header a:hover {
+    color: #fff;
+    animation-duration: .3s;
+  }
+
+  #sidebar .slider-item {
+    color: #CFD8DC;
+    @include transition(0.3s);
+    width: 100%;
+
+    &:hover {
+      color: #ffffff;
+
+    }
+  }
+
+  #sidebar .nav a {
+    text-decoration: none;
+
+    background: none;
+    border-bottom: 1px solid #455A64;
+    color: #CFD8DC;
+    font-size: 1rem;
+    padding: 2rem 3rem;
+    @include transition(0.3s);
+
+  }
+
+  #sidebar .nav a:hover {
+    background: none;
+    color: #ECEFF1;
+  }
+
+  #sidebar .nav a i {
+    margin-right: 2rem;
+  }
   .user-panel {
     @keyframes slideUp {
       0% {

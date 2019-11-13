@@ -106,3 +106,12 @@
   -o-transition: $time s all ease;
   transition: $time s all ease;
 }
+
+@mixin selection {
+  ::-moz-selection {
+    @content;
+  }
+  ::selection {
+    @content;
+  }
+}

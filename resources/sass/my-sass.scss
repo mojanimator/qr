@@ -1,3 +1,8 @@
+.user-img {
+  border-radius: 2rem;
+  height: 2rem;
+}
+
 .border-all {
   border-top-right-radius: 24px !important;
   border-bottom-right-radius: 24px !important;
@@ -66,6 +71,14 @@
   }
 }
 
+.hoverable-light {
+  transition: .3s all ease;
+  &:hover {
+    color: darken($primary, 10%);
+    cursor: pointer;
+  }
+}
+
 .hoverable-dark {
   transition: .1s all ease;
   color: $dark-blue;
@@ -129,30 +142,6 @@
 }
 
 //****************uploader
-
-#map {
-  max-height: 20rem;
-  //width: 100%;
-  min-height: 20rem;
-  //width: 100%;
-
-  position: relative;
-  //padding: 2rem;
-  margin: 1rem;
-  border-radius: 1rem;
-
-}
-
-#map_card, #map_banner_edit {
-  //min-height: 20rem;
-  //width: 100%;
-}
-
-.map-modal {
-  padding-right: -14px !important;
-  padding-left: -14px !important;
-
-}
 
 .layer-switcher .panel {
   padding: 0 1em 0 0;
@@ -314,3 +303,253 @@ input[type=number] {
     cursor: pointer;
   }
 }
+
+* {
+
+  //outline: 0;
+  //padding: 0;
+  overflow: visible;
+  //font-family:  Tahoma;
+}
+
+html {
+  overflow-y: scroll;
+
+  margin: 5px;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: normal;
+  margin: 0 0 10px 0;
+}
+
+div#wrapper {
+  margin: 25px 25px 25px 25px;
+
+}
+
+div.image-decorator {
+  -moz-border-radius: 5px 5px 5px 5px;
+  -moz-box-shadow: 0 0 6px #c8c8c8;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  -webkit-box-shadow: 0 0 6px #c8c8c8;
+  background-color: #ffffff;
+  border: 1px solid #c8c8c8;
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 0 0 6px #c8c8c8;
+  display: inline-block;
+
+  padding: 5px 5px 5px 5px;
+
+}
+
+canvas#myCanvas {
+  margin-bottom: 100px;
+}
+
+/* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 255, .8) url('../img/loading.gif') 50% 50% no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+  overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal {
+  display: block;
+}
+
+/*************** progress bar *************************************/
+
+#progress-wrp {
+  border: 1px solid #0099CC;
+  padding: 1px;
+  position: relative;
+  border-radius: 3px;
+  margin: 10px;
+  text-align: left;
+  background: #fff;
+  box-shadow: inset 1px 3px 6px rgba(0, 0, 0, 0.12);
+}
+
+#progress-wrp .progress-bar {
+  height: 20px;
+  border-radius: 3px;
+  background-color: #f39ac7;
+  width: 0;
+  box-shadow: inset 1px 1px 10px rgba(0, 0, 0, 0.11);
+}
+
+#progress-wrp .status {
+  top: 3px;
+  left: 50%;
+  position: absolute;
+  display: inline-block;
+  color: #000000;
+}
+
+#progress-wrapper {
+  margin-top: 20px;
+
+}
+
+/*************** progress bar *************************************/
+
+/*************** bootstrap dialog*************************************/
+
+.bootstrap-dialog {
+  /* dialog types */
+  /**
+     * Icon animation
+     * Copied from font-awesome: http://fontawesome.io/
+     **/
+  /** End of icon animation **/
+}
+
+.bootstrap-dialog .modal-header {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.bootstrap-dialog .bootstrap-dialog-title {
+  color: #fff;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.bootstrap-dialog .bootstrap-dialog-message {
+  font-size: 14px;
+}
+
+.bootstrap-dialog .bootstrap-dialog-button-icon {
+  margin-right: 3px;
+}
+
+.bootstrap-dialog .bootstrap-dialog-close-button {
+  font-size: 20px;
+  float: right;
+  opacity: 0.9;
+  filter: alpha(opacity=90);
+}
+
+.bootstrap-dialog .bootstrap-dialog-close-button:hover {
+  cursor: pointer;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+
+.bootstrap-dialog.type-default .modal-header {
+  background-color: #ffffff;
+}
+
+.bootstrap-dialog.type-default .bootstrap-dialog-title {
+  color: #333;
+}
+
+.bootstrap-dialog.type-info .modal-header {
+  background-color: #5bc0de;
+}
+
+.bootstrap-dialog.type-primary .modal-header {
+  background-color: #337ab7;
+}
+
+.bootstrap-dialog.type-success .modal-header {
+  background-color: #5cb85c;
+}
+
+.bootstrap-dialog.type-warning .modal-header {
+  background-color: #f0ad4e;
+}
+
+.bootstrap-dialog.type-danger .modal-header {
+  background-color: #d9534f;
+}
+
+.bootstrap-dialog.size-large .bootstrap-dialog-title {
+  font-size: 24px;
+}
+
+.bootstrap-dialog.size-large .bootstrap-dialog-close-button {
+  font-size: 30px;
+}
+
+.bootstrap-dialog.size-large .bootstrap-dialog-message {
+  font-size: 18px;
+}
+
+.bootstrap-dialog .icon-spin {
+  display: inline-block;
+  -moz-animation: spin 2s infinite linear;
+  -o-animation: spin 2s infinite linear;
+  -webkit-animation: spin 2s infinite linear;
+  animation: spin 2s infinite linear;
+}
+
+.percent48 {
+  width: 48%;
+}
+
+@-moz-keyframes spin {
+  0% {
+    -moz-transform: rotate(0deg);
+  }
+  100% {
+    -moz-transform: rotate(359deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+  }
+}
+
+@-o-keyframes spin {
+  0% {
+    -o-transform: rotate(0deg);
+  }
+  100% {
+    -o-transform: rotate(359deg);
+  }
+}
+
+@-ms-keyframes spin {
+  0% {
+    -ms-transform: rotate(0deg);
+  }
+  100% {
+    -ms-transform: rotate(359deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}
+
+/*************** bootstrap dialog*************************************/

@@ -24,7 +24,8 @@
                         <i class="fas fa-spinner fa-pulse"></i>
                     </div>
                 </div>
-                <div v-if="newable" class="add-btn input-group-addon  " @click=" getData('ADD_SCHOOL')">
+                <div v-if="newable" class="add-btn input-group-addon  "
+                     @click=" selectData(sData,-1);sData=''">
 
                     <i class="fas fa-plus-square    text-success  "></i>
 
@@ -33,24 +34,23 @@
             </div>
 
             <ul class="list-group mt-2  hide" ref="listItems" id="select-data">
-                <li v-for="h in   this.filteredData" class="list-group-item  hooze-items"
-                    :id="'h'+h['id']" :ref="'h'+h['id']" :key="h['id']"
-                    @mousedown.prevent="sData='';selectData(h,h['id'])">
-                    {{h['name']}}
+                <li v-for="h,idx in   this.filteredData" class="list-group-item  hooze-items"
+                    :id="'h'+idx" :ref="'h'+idx" :key="idx"
+                    @mousedown.prevent="sData='';selectData(h,idx)">
+                    {{h}}
                 </li>
 
 
             </ul>
         </div>
-        <!--selected schools-->
         <div class="selected-items col-md-6 col-sm-6">
             <ul class="  mt-2   " id="list-selected">
                 <li v-for="s,idx in   selected" class="   selected-item  "
-                    :id="'s'+s['id']" :ref="'s'+s['id']" :key="s['id']">
-                    {{s['name']}}
+                    :id="'s'+idx" :ref="'s'+idx" :key="'s'+idx">
+                    {{s}}
 
                     <i class=" glyphicon glyphicon-remove text-white  clear-btn p-1"
-                       @click=" unselect(s.id) "
+                       @click=" unselect(s) "
                     ></i>
 
                 </li>
@@ -63,11 +63,10 @@
 </template>
 
 <script>
-    import swal from 'sweetalert2/dist/sweetalert2.js';
 
     let selectedBefore = false;
     export default {
-        props: ['dataLink', 'for', 'multi', 'hooze_namayandegi_id', 'selectedBefore', 'newable'],
+        props: ['dataLink', 'for', 'multi', 'selectedBefore', 'newable'],
         data() {
             return {
                 data_dropdown: null,
@@ -88,14 +87,10 @@
 
         mounted() {
 
-            if (this.for === 'school') {
-                this.placeholder = 'مدارس';
+            if (this.for === 'tags') {
+                this.placeholder = 'tags';
 //            this.setAxiosCsrf();
-                this.getData("GET_SCHOOL");
-            } else if (this.for === 'hooze') {
-                this.placeholder = 'حوزه ها';
-//            this.setAxiosCsrf();
-                this.getData("GET_HOOZE");
+                this.getData("tags");
             }
 
 //            this.activeData[0] = true;
@@ -116,14 +111,14 @@
         },
         created() {
             //hoozeRequest->hoozeResponse->selectorResponse
-            this.$root.$on('hoozeResponse', params => {
-                params.zamime = this.selected;
-                this.$root.$emit('selectorResponse', params);
-            });
+//            this.$root.$on('hoozeResponse', params => {
+//                params.zamime = this.selected;
+//                this.$root.$emit('selectorResponse', params);
+//            });
         }
         ,
         beforeDestroy() {
-            this.$root.$off('hoozeResponse');
+//            this.$root.$off('hoozeResponse');
         }
         ,
         updated() {
@@ -134,7 +129,7 @@
         methods: {
             unselect(id) {
                 for (let i in this.selected)
-                    if (this.selected[i].id === id) {
+                    if (this.selected[i] === id) {
                         this.selected.splice(i, 1);
 
                     }
@@ -143,114 +138,39 @@
             setEvents() {
 
 
-                this.$root.$on('search', (params) => {
-                    this.params['data'] = [];
-                    if (params !== undefined)
-                        this.params['page'] = params['page'];
-
-                    if ((this.multi && !this.activeData[0]) || !this.multi)
-                        for (let i in this.activeData)
-                            if (this.activeData[i])
-                                this.params['data'].push(i);
-
-//                    console.log(this.params);
-                    this.$root.$emit('dropdownResponse', this.params);
-                });
+//                this.$root.$on('search', (params) => {
+//                    this.params['data'] = [];
+//                    if (params !== undefined)
+//                        this.params['page'] = params['page'];
+//
+//                    if ((this.multi && !this.activeData[0]) || !this.multi)
+//                        for (let i in this.activeData)
+//                            if (this.activeData[i])
+//                                this.params['data'].push(i);
+//
+////                    console.log(this.params);
+//                    this.$root.$emit('dropdownResponse', this.params);
+//                });
 
                 //hoozeRequest->hoozeResponse->selectorResponse
-                this.$root.$on('hoozeResponse', params => {
-
-                    params.zamime = this.selected;
-                    this.$root.$emit('selectorResponse', params);
-                });
+//                this.$root.$on('hoozeResponse', params => {
+//
+//                    params.zamime = this.selected;
+//                    this.$root.$emit('selectorResponse', params);
+//                });
             }
             ,
 
             getData(type) {
                 this.loading = true;
-                let params = {};
 
-                if (type === "ADD_SCHOOL") {
-                    params = {
-                        hooze_namayandegi_id: this.hooze_namayandegi_id,
-                        command: 'add',
-                        name: this.sData,
-                    }
-                } else if (type === "GET_SCHOOL") {
-                    params = {
-                        hooze_namayandegi_id: this.hooze_namayandegi_id,
-                        command: 'get'
-                    }
-                } else if (type === "GET_HOOZE") {
-                    params = {
-                        hooze_namayandegi_id: this.hooze_namayandegi_id,
-                        command: 'get',
-                        'for': 'dropdown',
-                    };
-
+                if (type === "tags") {
+                    this.selected = this.selectedBefore;
+                    this.data = this.$parent.tags;
                 }
+                this.loading = false;
 
-                axios.post(this.dataLink, params)
-                    .then((response) => {
-//                        console.log(response);
-
-                        if (response.data.message)
-                            this.showDialog({
-                                type: response.data.type,
-                                message: response.data.message,
-                                title: ''
-                            });
-                        if (response.data.type === 'success')
-                            this.sData = '';
-
-                        if (this.for === 'school')
-                            this.data = response.data.data;
-                        if (this.for === 'hooze')
-                            this.data = response.data;
-
-                        this.filteredData = this.data;
-//                        console.log(Array.isArray(this.selectedBefore));
-                        if (!selectedBefore && this.selectedBefore && !Array.isArray(this.selectedBefore) && (this.selectedBefore.startsWith('d') || this.selectedBefore.startsWith('a'))) {
-                            selectedBefore = this.selectedBefore;
-                            selectedBefore = selectedBefore.split('$').splice(1);
-//                            console.log(selectedBefore);
-                            for (let i in  selectedBefore)
-                                for (let d in this.data) {
-//                                    console.log(selectedBefore[i] + ' , ' + this.data[d].id);
-                                    if (selectedBefore[i] == this.data[d].id) {
-//                                        console.log(selectedBefore[i] + ' , ' + this.data[d].id);
-                                        this.selected.push(
-                                            {
-                                                'id': this.data[d].id,
-                                                'name': this.data[d].name
-                                            });
-                                        break;
-                                    }
-                                }
-                        } else if (!selectedBefore && this.selectedBefore && Array.isArray(this.selectedBefore)) { //for edit user
-                            selectedBefore = this.selectedBefore;
-                            for (let i in  selectedBefore)
-                                for (let d in this.data) {
-//                                    console.log(selectedBefore[i] + ' , ' + this.data[d].id);
-                                    if (selectedBefore[i] == this.data[d].id) {
-                                        this.selected.push(
-                                            {
-                                                'id': this.data[d].id,
-                                                'name': this.data[d].name
-                                            });
-                                        break;
-                                    }
-                                }
-                        }
-//                        console.log(this.selected);
-                        this.loading = false;
-                    }).catch((error) => {
-                    this.loading = false;
-                    console.log(' error:');
-                    console.log(error);
-                });
-            }
-            ,
+            },
 
 
             openDropdown(el) {
@@ -262,9 +182,7 @@
             }
             ,
             closeDropdown(el) {
-
                 this.data_dropdown.addClass('hide');
-
             }
             ,
 
@@ -278,10 +196,9 @@
                 else if (hId === 'key') {
 
                     this.filteredData = this.data.filter(entry => {
-                        return entry['name'].includes(this.sData);
+                        return entry.includes(this.sData);
                     });
-                    if (this.multi && this.filteredData[0]['name'].includes('همه'))
-                        this.filteredData.shift(); //remove first item (همه نمایندگی ها)
+
                     if (this.sData === '' || this.sData === ' ')
                         this.filteredData = this.data;
                     if (this.filteredData.length === 0)
@@ -291,20 +208,16 @@
 
                     let find = false;
                     for (let i in this.selected)
-                        if (this.selected[i].name === h.name) {
+                        if (this.selected[i] === h) {
 //                            console.log(this.selected[i].name + ',' + h.name);
                             find = true;
                             break;
                         }
 
-                    if (!find) {
+                    if (!find && h !== '') {
                         this.selected.push(h);
 //                        console.log(this.selected);
                     }
-                }
-                if (this.for === 'hooze' && this.selected.length > 0) {
-                    this.placeholder = 'حوزه ها';
-                    this.$parent.hoozes_all = false;
                 }
             }
             ,

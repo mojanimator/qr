@@ -1,35 +1,47 @@
 'use strict';
 
 var a = 0;
-$(window).scroll(function () {
-
-    var oTop = $('#counter').offset().top - window.innerHeight;
-    if (a === 0 && $(window).scrollTop() > oTop) {
-        $('.counter-value').each(function () {
-            var $this = $(this),
-                countTo = $this.attr('data-count');
-            $({
-                countNum: $this.text()
-            }).animate({
-                countNum: countTo
-            }, {
-
-                duration: 2000,
-                easing: 'swing',
-                step: function step() {
-                    $this.text(Math.floor(this.countNum));
-                },
-                complete: function complete() {
-                    $this.text(this.countNum);
-                    //alert('finished');
-                }
-
-            });
-        });
-        a = 1;
-    }
+$('.banner-anchor').click(function () {
+    $('html,body').animate({ scrollTop: $("#" + 'uploader').offset().top - 20 }, 'slow');
 });
+// $(window).scroll(function () {
 
+var oTop = $('#counter').offset().top - window.innerHeight;
+if (a === 0 && $(window).scrollTop() > oTop) {
+    $('.counter-value').each(function () {
+        var $this = $(this),
+            countTo = $this.attr('data-count');
+        $({
+            countNum: $this.text()
+        }).animate({
+            countNum: countTo
+        }, {
+
+            duration: 1000,
+            easing: 'swing',
+            step: function step() {
+                $this.text(Math.floor(this.countNum));
+            },
+            complete: function complete() {
+                $this.text(this.countNum + "   QR Created Until Now !");
+                //alert('finished');
+            }
+
+        });
+    });
+    a = 1;
+}
+
+// });
+
+// ************************uploader
+// $(document).ready(function () {
+//
+//     $('input[type="file"]').ezdz();
+//
+//     console.log(document.location.hostname);
+//
+// });
 // ************************fields validation
 
 (function (exports) {
@@ -67,14 +79,4 @@ $(window).scroll(function () {
 
     exports.InvalidInputHelper = InvalidInputHelper;
 })(window);
-
-// InvalidInputHelper(document.getElementById("email"), {
-//     defaultText: "لطفا آدرس ایمیل را صحیح وارد کنید!",
-//
-//     emptyText: "آدرس ایمیل را وارد کنید!",
-//
-//     invalidText: function (input) {
-//         return ' ایمیل' + input.value + '" نامعتبر است';
-//     }
-// });
 //# sourceMappingURL=home.js.map

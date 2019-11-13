@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Post;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -15,133 +16,43 @@ class UserPolicy
      * @param  \App\User $user
      * @return mixed
      */
-    public function viewAny(User $user, $for = '')
+    public function createPost(User $user, $for = '')
     {
-        $permissions = $user->role()->first()->permissions;
-        if (count($permissions) > 0 && ($permissions[0] == 'all' || in_array('vu', $permissions)))
+        $role = $user->role;
+        if ($role == 'Admin' || $role == 'Writer')
             return true;
         else {
             if ($for == 'can') //is in blade , only return true false
                 return false;
 
-            return abort(403, 'متاسفانه اجازه مشاهده کاربران را ندارید');
+            return abort(403, 'Sorry! You Can\'t Create Post');
         }
     }
 
-    public function createAny(User $user, $for = '')
+    public function editUsers(User $user, $for = '')
     {
-        $permissions = $user->role()->first()->permissions;
-        if (count($permissions) > 0 && ($permissions[0] == 'all' || in_array('cu', $permissions)))
+        $role = $user->role;
+        if ($role == 'Admin')
             return true;
         else {
             if ($for == 'can') //is in blade , only return true false
                 return false;
 
-            return abort(403, 'متاسفانه اجازه ساخت کاربر را ندارید');
+            return abort(403, 'Sorry! You Can\'t Edit Users');
         }
     }
 
-    public function deleteAny(User $user, $for = '')
+    public function editPost(User $user, $user_id_post = null, $for = '')
     {
-        $permissions = $user->role()->first()->permissions;
-        if (count($permissions) > 0 && ($permissions[0] == 'all' || in_array('du', $permissions)))
+        $role = $user->role;
+        if (($user_id_post == $user->id && $role == 'Writer') || $role == 'Admin')
             return true;
         else {
             if ($for == 'can') //is in blade , only return true false
                 return false;
 
-            return abort(403, 'متاسفانه اجازه حذف کاربران را ندارید');
+            return abort(403, 'Sorry! You Can\'t Edit Post');
+
         }
-    }
-
-    public function editAny(User $user, $for = '')
-    {
-        $permissions = $user->role()->first()->permissions;
-        if (count($permissions) > 0 && ($permissions[0] == 'all' || in_array('eu', $permissions)))
-            return true;
-        else {
-            if ($for == 'can') //is in blade , only return true false
-                return false;
-
-            return abort(403, 'متاسفانه اجازه ویرایش کاربران را ندارید');
-        }
-    }
-
-    public function create(User $user)
-    {
-        if (in_array('cu', $user->role()->first()->permissions))
-            return true;
-        else return false;
-
-    }
-
-    /**
-     * Determine whether the user can view the model.
-     *
-     * @param  \App\User $user
-     * @param  \App\User $model
-     * @return mixed
-     */
-    public function view(User $user, User $model)
-    {
-        if (in_array('vu', $user->role()->first()->permissions))
-            return true;
-        else return false;
-    }
-
-
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param  \App\User $user
-     * @param  \App\User $model
-     * @return mixed
-     */
-    public function edit(User $user, User $model)
-    {
-        if (in_array('eu', $user->role()->first()->permissions))
-            return true;
-        else return false;
-    }
-
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param  \App\User $user
-     * @param  \App\User $model
-     * @return mixed
-     */
-    public function delete(User $user, User $model)
-    {
-        if (in_array('ru', $user->role()->first()->permissions))
-            return true;
-        else return false;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\User $user
-     * @param  \App\User $model
-     * @return mixed
-     */
-    public function restore(User $user, User $model)
-    {
-//        $model->restore();
-        if (in_array('cu', $user->role()->first()->permissions))
-            return true;
-        else return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\User $user
-     * @param  \App\User $model
-     * @return mixed
-     */
-    public function forceDelete(User $user, User $model)
-    {
-        //
     }
 }

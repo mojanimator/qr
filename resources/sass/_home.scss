@@ -96,16 +96,18 @@
 }
 
 .welcome-area {
-  //background-image: url(../../public/img/welcome-bg.png);
+  //background-image: url(../../public/img/wallpaper.png);
   //height: 900px;
   width: 100%;
-  height: 30rem;
+  height: 20rem;
   padding: 0;
-
-  position: relative;
-  z-index: 1;
+  //overflow: hidden;
+  //opacity: .4;
+  //background-color: white;
+  position: relative; //for parallax
+  z-index: 5;
   background-position: bottom center;
-  background-size: cover;
+  //background-size: cover;
   @include media-breakpoint-down(md) {
     max-height: 550px;
   }
@@ -117,21 +119,30 @@
   }
 
   .banner-anchor {
-    height: 6rem;
+    height: 3rem;
     width: 6rem;
     border-radius: 10rem;
+    border-top-left-radius: 2px !important;
+    border-top-right-radius: 2px !important;
     position: absolute;
+    background-color: rgba($dark-blue, .8);
+
     //top: 27rem;
     left: 50%;
-
-    -webkit-transform: translate(-3rem, -4rem);
+    -webkit-transform: translate(-3rem, 0rem);
+    svg {
+      -webkit-transform: translate(0rem, -3rem);
+    }
   }
+
 }
 
-.wellcome-heading > p {
+.welcome-heading > p {
   color: #fff;
-  position: absolute;
-  top: 25rem;
+  background-color: rgba($dark-blue, .5);
+
+  //position: absolute;
+  top: 5rem;
   @include media-breakpoint-down(xl) {
     //top: -500px;
     top: 25rem;
@@ -157,53 +168,92 @@
 }
 
 //
-.wellcome-heading > h2 {
-  font-size: 100px;
-  position: absolute;
+.welcome-heading > h2 {
+  //font-size: 100px;
+  //position: absolute;
+  background-color: rgba($dark-blue, .5);
+
   top: 5rem;
+  //text-decoration: Highlight $dark-blue;
+  //background-color: $dark-blue;
   //top: -500px;
   //bottom: 500px;
   //font-weight: 900;
   //left: -12px;
-  z-index: -1;
+  z-index: 1;
   color: #fff;
-  opacity: .09;
+  opacity: 1;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
   @include media-breakpoint-down(xl) {
     //top: -500px;
-    font-size: 150px;
+    //font-size: 150px;
 
   }
   @include media-breakpoint-down(md) {
     //top: -400px;
-    font-size: 100px;
+    //font-size: 100px;
 
   }
   @include media-breakpoint-down(sm) {
     //top: -400px;
-    font-size: 80px;
+    //font-size: 80px;
 
   }
   @include media-breakpoint-down(xs) {
     //top: -200px;
-    font-size: 50px;
+    font-size: 1.5rem;
 
   }
 }
 
-.wellcome-area img {
-  //font-size: 332px;
-  width: 100%;
-  //height: 100%;
+.wallpaper-container {
+
+  object-fit: fill !important; //contain fill
+  position: absolute;
   overflow: hidden;
+  //margin-top: -1rem;
+  //width: 100% !important;
+  opacity: .3;
+  //background-size: cover;
+  //height: auto;
+  //background-size: contain;
+  //height: 100%;
+
+}
+
+.wellcome-area img {
+  left: 0;
+  right: 0;
+  bottom: 0;
   position: relative;
+  //width: inherit;
+  //height: 100%;
+  background-repeat: repeat-x;
+  //background-attachment: fixed;
+  //background-position: center;
+  //object-fit: cover !important;
+  //width: 100% !important;
+  //height: 100%;
+  //background-repeat: repeat-x;
+  //font-size: 332px;
+  //flex-shrink: 0;
+  //background-size: cover !important;
+  //min-width: 100%;
+  //min-height: 100%;
+  //width: 100%;
+
+  //height: 100%;
+  //overflow: hidden;
+  //position: relative;
+  //bottom: 0;
   //top: -5;
+  //overflow-y: hidden;
   //font-weight: 900;
   margin-top: 0;
   //left: 0;
   z-index: -1;
-  //color: #fff;
-  opacity: .5;
+  color: #fff;
+  opacity: 1;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
 
   @include media-breakpoint-down(xl) {
@@ -226,7 +276,7 @@
 
 //
 .welcome-heading {
-  margin-bottom: 100px;
+  //margin-bottom: 100px;
 }
 
 .single-feature {
