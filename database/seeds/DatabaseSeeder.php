@@ -7,6 +7,7 @@ use App\Setting;
 use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,35 +27,41 @@ class DatabaseSeeder extends Seeder
         User::truncate();
         Setting::truncate();
 
+        Group::truncate();
+
 
 //        factory(Post::class, 20)->create();
 //        factory(Comment::class, 40)->create();
 //
 
         DB::table('users')->insert([
-            ['id' => 1, 'username' => 'mojtaba', 'email' => 'moj2raj2@gmail.com', 'phone_number' => null,
-                'first_name' => 'mojtaba', 'last_name' => 'rajabi', 'password' => '$2y$10$ES608U3ByfwiJlLmoJSYvuScaf2depjcMSk0PBNmCTCMMGX3J6EDW',
-                'verified' => '1', 'role' => 'Admin', 'about' => "I'm freelance programmer and designer",
-                'img' => "mojtaba.jpg", 'interests' => "['laravel', 'flutter', 'vue', 'football']",
-                'likes' => 0, 'dislikes' => 0, 'posts' => 0,
+            ['id' => 1, 'username' => 'mojtaba', 'email' => 'moj2raj2@gmail.com',
+                'password' => Hash::make('123123'),
+                'verified' => '1', 'role' => 'Admin', 'img' => "mojtaba.jpg",
+
                 'token' => bin2hex(openssl_random_pseudo_bytes(30))],
-            ['id' => 2, 'username' => 'samanamiri', 'email' => 'saman@gmail.com', 'phone_number' => null,
-                'first_name' => 'saman', 'last_name' => 'amiri', 'password' => '$2y$10$ES608U3ByfwiJlLmoJSYvuScaf2depjcMSk0PBNmCTCMMGX3J6EDW',
-                'verified' => '1', 'role' => 'User', 'about' => "I'm energy engineer",
-                'img' => "samanamiri.jpg", 'interests' => "['solar', 'cinema', 'football']",
-                'likes' => 0, 'dislikes' => 0, 'posts' => 0,
-                'token' => bin2hex(openssl_random_pseudo_bytes(30))],
-            ['id' => 3, 'username' => 'fakeuser', 'email' => 'fakeuser@gmail.com', 'phone_number' => null,
-                'first_name' => 'fake', 'last_name' => 'user', 'password' => '$2y$10$ES608U3ByfwiJlLmoJSYvuScaf2depjcMSk0PBNmCTCMMGX3J6EDW',
-                'verified' => '1', 'role' => 'User', 'about' => "I'm fake user",
-                'img' => "fakeuser.jpg", 'interests' => "['fakes', 'hacking', 'basketball', 'c++']",
-                'likes' => 0, 'dislikes' => 0, 'posts' => 0,
-                'token' => bin2hex(openssl_random_pseudo_bytes(30))],
+
         ]);
 
 
         DB::table('settings')->insert([
-            ['id' => 1, 'key' => 'created_qr', 'value' => 0], ['id' => 2, 'key' => 'visits', 'value' => 0],]);
+            ['id' => 1, 'key' => 'fashion_images', 'value' => 0], ['id' => 2, 'key' => 'fashion_visits', 'value' => 0],]);
+
+        DB::table('groups')->insert([
+            ['name' => 'women',], ['name' => 'men',], ['name' => 'child',], ['name' => 'home',],]);
+
+        DB::table('users')->insert([
+            ['id' => 1, 'name' => 'questions', 'app_id' => 1, 'value' => 0],
+            ['id' => 2, 'name' => 'trues', 'app_id' => 1, 'value' => 0],
+            ['id' => 3, 'name' => 'questions', 'app_id' => 2, 'value' => 0],
+            ['id' => 4, 'name' => 'trues', 'app_id' => 2, 'value' => 0],
+            ['id' => 5, 'name' => 'questions', 'app_id' => 3, 'value' => 0],
+            ['id' => 6, 'name' => 'trues', 'app_id' => 3, 'value' => 0],
+            ['id' => 7, 'name' => 'questions', 'app_id' => 4, 'value' => 0],
+            ['id' => 8, 'name' => 'trues', 'app_id' => 4, 'value' => 0],
+
+
+        ]);
 
     }
 }

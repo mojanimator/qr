@@ -21,7 +21,7 @@ class Setting extends Model implements Auditable
 
     public $timestamps = false;
     protected $fillable = [
-        'id', 'key', 'value',
+        'key', 'value',
     ];
     protected $table = 'settings';
 

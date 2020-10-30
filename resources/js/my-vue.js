@@ -1,5 +1,11 @@
 // import reportsForm from './components/reports-form.vue'
-import imageCropper from './components/image-cropper.vue'
+import quizUploader from './components/quiz-uploader.vue'
+import imageUploader from './components/image-uploader.vue'
+import wallpaperCards from './components/wallpaper-cards.vue'
+import quizzes from './components/quizzes.vue'
+import quizEditor from './components/quiz-editor.vue'
+import refs from './components/refs.vue'
+import refEditor from './components/ref-editor.vue'
 
 
 Vue.config.devtools = false;
@@ -10,7 +16,13 @@ const app = new Vue({
     mode: 'production',
 
     components: {
-        imageCropper
+        imageUploader,
+        quizUploader,
+        wallpaperCards,
+        quizzes,
+        quizEditor,
+        refs,
+        refEditor,
 
     }
 });

@@ -10,7 +10,7 @@
 .m-card {
 
   .m-card-body {
-    flex: 1 1 auto;
+    //flex: 1 1 auto;
   }
   .header-left {
     //margin-top: -1rem;
@@ -22,7 +22,7 @@
     }
   }
 
-  cursor: pointer;
+  //cursor: pointer;
   @include pb_box-shadow(1px, 0px, 10px, 1px, rgba($black, .4));
   border-radius: $border-radius;
   overflow: hidden;
@@ -33,39 +33,45 @@
   .m-card-header {
 
     .icon-container {
-      color: white;
-      position: relative;
-      z-index: 3;
+      color: #fff;
+      //position: relative;
+      //z-index: 3;
       top: 1rem;
       right: 1rem;
       //margin-top: 1rem;
 
     }
     span {
-      position: relative;
+      width: 100%;
       top: 1rem;
       left: 1rem;
-      color: white;
+      color: #fff;
       display: inline-block;
-      z-index: 3;
+      //z-index: 3;
       //float: left !important;
 
     }
     img {
-      &.school-img {
-        position: relative;
-        z-index: 1;
+      &.wallpaper-img {
+        //position: relative;
+        //z-index: 1;
         width: 100%;
-        margin-top: -2.5rem;
+        //max-height: 2rem;
+        //margin-top: -2.5rem;
         //padding: .5rem;
         //@include pb_box-shadow(1px, 1px, 10px, 1px, rgba($black, .2));
         border-radius: 0.2rem;
         //@include transition(0.1s);
         &:hover {
-          //transform: scale(1.01);
-          //@include transition(0.1s);
+          cursor: pointer;
+          transform: scale(1.01);
+          @include transition(0.1s);
 
         }
+        //&.loading {
+        //  background-image: url("../img/loading.gif");
+        //  width: 100%;
+        //}
       }
       &.back-header-img {
         position: relative;

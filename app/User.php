@@ -16,13 +16,15 @@ use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
 use Laravel\Passport\HasApiTokens;
 
-class User extends Authenticatable implements Auditable, CanResetPassword
+class User extends Authenticatable implements/* Auditable,*/
+    CanResetPassword
 {
 
     use \Illuminate\Auth\Passwords\CanResetPassword;
     use Notifiable;
-    use \OwenIt\Auditing\Auditable;
-    use SoftDeletes;
+
+//    use \OwenIt\Auditing\Auditable;
+//    use SoftDeletes;
     use HasApiTokens;
     /**
      * The attributes that are mass assignable.
@@ -32,8 +34,9 @@ class User extends Authenticatable implements Auditable, CanResetPassword
 
     protected $table = 'users';
     protected $fillable = [
-        'username', 'first_name', 'last_name', 'email', 'password', 'img', 'verified',
-        'token', 'phone_number', 'role', 'about', 'interests', 'posts', 'likes', 'dislikes', 'expires_at', 'deleted_at',
+        'username', 'password', 'img', 'verified', 'questions', 'trues',
+        'token', 'role', 'expires_at', 'deleted_at', 'updated_at', 'score'
+        , 'telegram_username', 'telegram_id', 'app_id',
     ];
 
     /**
@@ -73,7 +76,8 @@ class User extends Authenticatable implements Auditable, CanResetPassword
 
     public function findForPassport($username)
     {
-        $fieldType = filter_var($username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $fieldType = /*filter_var($username, FILTER_VALIDATE_EMAIL) ? 'email' : */
+            'username';
 //        dd(User::where($fieldType, $username)->first());
         return
             User::where($fieldType, $username)->first();

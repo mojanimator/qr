@@ -1,15 +1,15 @@
 <template>
 
-    <div class="dropdowns  w-100">
+    <div class="   w-100">
 
 
-        <!--                             dropdown hooze               -->
-        <div id="hDropdown" class="dropdown-content ">
+        <!--                             dropdown data               -->
+        <div :id="'hDropdown'+refId" class="dropdown-content ">
             <div class="input-group   center-block ">
                 <div class="input-group-prepend   btn-group-vertical p-1">
                     <i class="fa fa-search text-primary  "></i>
                 </div>
-                <input type="text" :placeholder="placeholder" v-model="sData" id="dataInput"
+                <input type="text" :placeholder="placeholder" v-model="sData" :id="'input_qr_text_'+refId"
                        class="my-1 py-1 pr-1 form-control border"
                        @focus="openDropdown('h')"
                        @click="openDropdown('h')"
@@ -22,10 +22,10 @@
                 </div>
             </div>
 
-            <ul class="list-group mt-2  hide" ref="listItems" :id="'list-data-'+listID">
-                <li v-for="h  in   this.filteredData" class="list-group-item  hooze-items"
-                    :id="'h'+listID+h['id']" :ref="'h'+listID+h['id']" :key="h['id']"
-                    :class="{'active':hooze==h['name']}"
+            <ul class="list-group mb-5  hide" ref="listItems" :id="'list-data-docs-'+refId ">
+                <li v-for="h  in   this.filteredData" class="list-group-item  data-items"
+                    :id="refId+h['id']" :ref="refId+h['id']" :key="h['id']"
+                    :class="{'active':data==h['name']}"
                     @mousedown.prevent="sData='';selectData(h,h['id'])">
                     {{h['name']}}
                 </li>
@@ -39,13 +39,14 @@
     let selectedBefore = false;
     let selected = '';
     export default {
-        props: ['dataLink', 'for', 'multi', 'hooze', 'listID', 'beforeSelected'],
+        props: ['dataLink', 'for', 'multi', 'beforeSelected', 'refId', 'placeholder'],
         data() {
             return {
-                sData: this.hooze ? this.hooze : '',
+                sData: this.data ? this.data : '',
+
                 data_dropdown: null,
                 province_input: null,
-                placeholder: '',
+
                 filteredData: [],
                 data: [],
                 selected: [],
@@ -60,26 +61,13 @@
 
 
         mounted() {
-//            console.log(this.beforeSelected);
-            this.data_dropdown = $('#list-data-' + this.listID);
+//            console.log('drop');
+            this.data_dropdown = $('#list-data-docs-' + this.refId);
             this.data_input = $('#dataInput');
 
-            if (this.multi && this.for === 'hooze') {
-                this.placeholder = 'حوزه نمایندگی';
-                this.offset = 0;
-            }
 
-            else if (this.for === 'hooze') {
-                this.placeholder = 'حوزه نمایندگی';
-//                this.offset = 0;
-            }
-            else if (this.for === 'school')
-                this.placeholder = 'مدارس';
-//            this.setAxiosCsrf();
             this.getData();
-//            this.activeData[0] = true;
-            this.setEvents();
-//************* hooze parameters
+//************* data parameters
 
             this.data_input.on('keydown', (e) => {
                 if (e.keyCode === 8) {
@@ -92,69 +80,27 @@
                 }
             });
         },
+        updated() {
+//            this.getData();
+            if (!this.data) {
+                this.getData();
+                console.log(this.data);
+            }
+
+//            console.log(this.filteredData);
+        },
         created() {
 
         },
-        beforeDestroy() {
-            this.$root.$off('hoozeRequest');
-        },
         methods: {
 
-            setEvents() {
-                //hoozeRequest->hoozeResponse->selectorResponse
-                this.$root.$on('hoozeRequest', params => {
-
-                    params.hooze = this.selected[0] ? this.selected[0].id : "";
-
-
-                    if (params.vaziat === 'd' || params.vaziat === 'a') //school selector is not available
-                        this.$root.$emit('hoozeResponse', params);
-                    else
-                        this.$root.$emit('selectorResponse', params);
-
-                });
-
-                this.$root.$on('search', (params) => {
-                    this.params['data'] = [];
-                    if (params !== undefined) {
-                        this.params['page'] = params['page'];
-                        this.params['orderBy'] = params['orderBy'];
-                        this.params['direction'] = params['direction'];
-                    }
-
-//                    if ((this.multi && !this.activeData[0]) || !this.multi)
-                    for (let i in this.selected)
-                        this.params['data'].push(this.selected[i].id);
-                    this.params['hooze'] = this.params['data'];
-//                    console.log(this.params['h']);
-                    this.$root.$emit('dropdownResponse', this.params);
-                });
-            },
 
             getData() {
-                axios.post(this.dataLink, {
-                    'for': 'dropdown',
-                })
+                axios.post(this.dataLink, {})
                     .then((response) => {
 //                        console.log(response);
                         this.data = response.data;
-//                        if (this.multi && this.for === 'hooze') //multi is for  search , not create
-//                            this.data.unshift({'name': 'همه نمایندگی ها', 'id': 0});
                         this.filteredData = this.data;
-//                        console.log(selectedBefore);
-                        if (this.listID === 'edit')
-                            for (let i = 0; i < this.data.length; i++)
-                                this.activeData[i + 1] = this.data[i].name === this.hooze
-                        if (this.beforeSelected) {
-                            for (let i = 0; i < this.data.length; i++)
-                                if (this.data[i].id === this.beforeSelected) {
-                                    this.sData = this.data[i].name;
-                                    this.selected.push({id: this.data[i].id, name: this.sData})
-                                }
-
-                        }
-//                        selected = this.selected;
-//                        console.log(this.activeData);
                     }).catch((error) => {
                     console.log(' error:');
                     console.log(error);
@@ -163,6 +109,7 @@
             openDropdown(el) {
                 if (el === 'h') {
                     this.filteredData = this.data;
+//                    console.log(this.data);
                     this.data_dropdown.removeClass('hide');
 
                 }
@@ -173,30 +120,6 @@
 
                     this.filteredData = this.data;
                     let i = 0;
-//                    let selected = [];
-//                    this.activeData[0] = false; //dont count in find
-//                    if (this.multi && this.activeData[0] === true) {
-////                        console.log('h');
-//                        this.sData = 'همه نمایندگی ها ';
-//                        this.params['h'] = [];//no filter on types
-//                    } else {
-//                        console.log(this.activeData);
-//                    this.activeData.find((t, index) => {
-//                        if (t) {
-//
-//                            i++;
-//                            selected.push(this.data[index + this.offset]);
-//                        }
-//
-//                    });
-
-//                    if (selected.length === 0)
-//                        this.params['h'] = [];//no filter on types
-//                    else
-//                        this.params['h'] = selected;
-//                            this.params['t'] = selected.slice(0, -1) + ')';
-
-//                    console.log(selected);
                     if (i < 4) {
                         this.sData = '';
                         for (let i in this.selected) {
@@ -206,23 +129,14 @@
 //                            console.log(this.sData);
 
                     }
-                    else if (i > 0)
-                        this.sData = i + ' انتخاب ';
-//                        else
-//                            this.sData = '';
-//                    }
-//                    this.selected = selected;
                     this.data_dropdown.addClass('hide');
                 }
             },
 
             selectData(h, hId) {
-
-//                console.log(hId);
-                let all = $('#h0.hooze-items');
                 if (hId === 'clr') {
 //                    all.removeClass('active');
-                    $('.hooze-items').removeClass('active');
+                    $('.data-items').removeClass('active');
 //                    for (let i in this.activeData) {
 //                        this.activeData[i] = false;
 //                    }
@@ -243,14 +157,15 @@
                 else {
 
                     this.selected = [];
-                    let item = $('#h' + this.listID + hId);
+                    let item = $('#' + this.refId + hId);
                     if (!this.multi) {
-                        $('.hooze-items').removeClass('active');
-                        $("#dataInput").blur();
+                        $('.data-items').removeClass('active');
+                        $('#input_qr_text_' + this.refId).blur();
                     }
                     item.toggleClass('active');
+//                    console.log(this.data.length);
                     for (let i = 0; i < this.data.length; i++)
-                        if ($(this.$refs['h' + this.listID + this.data[i].id]).hasClass('active'))
+                        if ($(this.$refs[this.refId + this.data[i].id]).hasClass('active'))
                             this.selected.push(this.data[i]);
                     if (!this.multi) {
 //                        $("#dataInput").blur();
@@ -258,67 +173,9 @@
                     }
 
                 }
-//                console.log(this.selected);
-//                        this.activeData[i] = ($('#h' + i).hasClass('active'));
-//                        this.activeData[i] = ($(this.$refs['h' + this.listID + i]).hasClass('active'));
-//                    if (!this.multi) {
-//                        this.activeData[0] = false;
-//                        if (item.hasClass('active')) {
-//                            $('.hooze-items').removeClass('active');
-//                            item.addClass('active');
-//                        }
-//
-//                        for (let i = 0; i < this.data.length; i++)
-//                            this.activeData[i + 1] = ($(this.$refs['h' + this.listID + this.data[i].id]).hasClass('active'));
-////                        console.log(this.activeData);
-//                        this.closeDropdown('h');
-//                    }
-//                    else {
-
-//                        if (hId === 0)
-//                            if (all.hasClass('active')) {
-//                                $('.hooze-items').addClass('active');
-//                                this.activeData[0] = true;
-//                            }
-//                            else {
-//                                $('.hooze-items').removeClass('active');
-//                                this.activeData[0] = false;
-//                                this.sData = '';
-//                            }
-//                        else {
-//                            // one item deselected => remove active class from همه
-//                            if (!item.hasClass('active')) {
-//                                all.removeClass('active');
-//                                this.activeData[0] = false;
-//                            }
-//                        }
-
-//                    this.activeData[0] = false;//only for undefined error!
-//                        for (let i = 0; i < this.data.length; i++)
-//                        this.activeData[i] = ($('#h' + i).hasClass('active'));
-//                            this.activeData[i] = ($(this.$refs['h' + this.listID + i]).hasClass('active'));
-//                        console.log(this.$refs['h' + i]);
-//                        console.log(this.activeData);
-//                            }
-//            }
-
-
-//                this.filteredData = this.data.filter(entry => {
-//                    return entry['name'].includes(this.sData);
-//                });
-//                if (this.filteredData.length === 0)
-//                    this.filteredData = this.data;
-
-//                for (let i = 1; i < this.data.length; i++)
-//                    if ($('#h' + i).hasClass('active'))
-//                        console.log($('#h' + i)[0]);
+                this.$root.$emit('dropdown_click', {'group_id': this.selected.length > 0 ? this.selected[0].id : 1});
             },
 
-            setAxiosCsrf() {
-                window.axios.defaults.headers.common['X-CSRF-TOKEN'] =
-                    $('meta[name="csrf-token"]').prop('content');
-
-            }
         }
 
     }

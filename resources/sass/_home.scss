@@ -71,7 +71,7 @@
 
 //
 .welcome-bottons-container .m-btn {
-  background-color: #fb397d;
+  //background-color: $blue;
   color: #fff;
 
   //margin-top: -500px;
@@ -81,7 +81,7 @@
   width: 50%;
   line-height: 35px;
   text-align: center;
-  border-radius: $border-radius;
+  //border-radius: $border-radius;
   //margin-left: 10px;
   position: relative;
   &:hover {
@@ -125,7 +125,7 @@
     border-top-left-radius: 2px !important;
     border-top-right-radius: 2px !important;
     position: absolute;
-    background-color: rgba($dark-blue, .8);
+    background-color: rgba($blue, .8);
 
     //top: 27rem;
     left: 50%;

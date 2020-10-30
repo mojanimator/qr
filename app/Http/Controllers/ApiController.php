@@ -31,37 +31,50 @@ class ApiController extends Controller
     }
 
 
+    function getUser(Request $request)
+    {
+
+        if ($request->for == 'me')
+            return auth()->user()->only(['username', 'telegram_id', 'role', 'img', 'responded', 'trues', 'app_id', 'score']);
+        if ($request->for == 'score')
+            return ['score' => auth()->user()->score];
+
+
+    }
+
     public function login(Request $request)
     {
 
-        $http = new \GuzzleHttp\Client(['base_uri' => 'http://localhost:81/_laravelProjects/ashayer/public/',
+
+        $http = new
+        \GuzzleHttp\Client([/*'base_uri' => 'http://localhost:81/_laravelProjects/magnetgram/public/',*/
         ]);
 
         try {
-            $response = $http->post(/*route('passport.token'*/
-                'oauth/token'
+            $response = $http->post(route('passport.token')
+                // 'oauth/token'
                 /* 'http://localhost:81/_laravelProjects/ashayer/public/oauth/token'*/, [
 
-                'headers' => ['cache-control' => 'no-cache',
-                    'Content-Type' => 'application/x-www-form-urlencoded'
-                ],
-                'form_params' => [
-                    'grant_type' => 'password',
-                    'client_id' => config('services.passport.client_id'),
-                    'client_secret' => config('services.passport.client_secret'),
-                    'username' => $request->username,
-                    'password' => $request->password,
-                ]
-            ]);
+                    'headers' => ['cache-control' => 'no-cache',
+                        'Content-Type' => 'application/x-www-form-urlencoded'
+                    ],
+                    'form_params' => [
+                        'grant_type' => 'password',
+                        'client_id' => config('services.passport.client_id'),
+                        'client_secret' => config('services.passport.client_secret'),
+                        'password' => $request->password,
+                        'username' => $request->login,
+                    ]
+                ]);
 
             return $response->getBody();
         } catch (\Guzzlehttp\Exception\BadResponseException $e) {
             if ($e->getCode() == 400) {
-                return response()->json(' لطفا نام کاربری و گذرواژه را وارد کنید', $e->getCode());
+                return response()->json(['res' => 'LOGIN_FAIL', 'status' => $e->getCode()]);
             } else if ($e->getCode() == 401) {
-                return response()->json('  نام کاربری یا گذرواژه نادرست است', $e->getCode());
+                return response()->json(['res' => 'LOGIN_FAIL', 'status' => $e->getCode()]);
             }
-            return response()->json(' خطای سرور', $e->getCode());
+            return response()->json(['res' => 'SERVER_ERROR', 'status' => $e->getCode()]);
 
         }
     }
@@ -84,21 +97,23 @@ class ApiController extends Controller
         return json_decode((string)$response->getBody(), true); //return new token and refresh token
     }
 
-    public function getUser()
-    {
-        $user = Auth::user();
-        return response()->json(['success' => $user], $this->successStatus);
-    }
+    // public function getUser()
+    // {
+    //     $user = Auth::user();
+    //     return response()->json(['success' => $user], $this->successStatus);
+    // }
 
     public function logout()
     {
         if (!auth()->user())
-            return response()->json('کاربر وجود ندارد', 400);
+            return response()->json('NOT_EXISTS', 400);
 
         auth()->user()->tokens->each(function ($token, $key) {
             $token->delete();
         });
 //        auth()->guard()->logout();
-        return response()->json('با موفقیت خارج شدید', 200);
+        return response()->json(['message' => 'SUCCESS_LOGOUT', 'status' => 200]);
     }
+
+
 }

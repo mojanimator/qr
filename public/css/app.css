@@ -95,29 +95,30 @@
 	width: 100%;
 	height: 100%;
 }
-var map = {
-	"./gif": "./node_modules/awesomeqr/gif.js"
-};
-
-
-function webpackContext(req) {
-	var id = webpackContextResolve(req);
-	return __webpack_require__(id);
+/*!
+ * jQuery UI Accordion 1.12.1
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ *
+ * http://api.jqueryui.com/accordion/#theming
+ */
+.ui-accordion .ui-accordion-header {
+	display: block;
+	cursor: pointer;
+	position: relative;
+	margin: 2px 0 0 0;
+	padding: .5em .5em .5em .7em;
+	font-size: 100%;
 }
-function webpackContextResolve(req) {
-	if(!__webpack_require__.o(map, req)) {
-		var e = new Error("Cannot find module '" + req + "'");
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
-	}
-	return map[req];
+.ui-accordion .ui-accordion-content {
+	padding: 1em 2.2em;
+	border-top: 0;
+	overflow: auto;
 }
-webpackContext.keys = function webpackContextKeys() {
-	return Object.keys(map);
-};
-webpackContext.resolve = webpackContextResolve;
-module.exports = webpackContext;
-webpackContext.id = "./node_modules/awesomeqr sync recursive ^.*\\/gif$";/*!
+/*!
  * jQuery UI Autocomplete 1.12.1
  * http://jqueryui.com
  *
@@ -858,27 +859,79 @@ button.ui-button::-moz-focus-inner {
 	touch-action: none;
 }
 /*!
- * jQuery UI Accordion 1.12.1
+ * jQuery UI Slider 1.12.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
  *
- * http://api.jqueryui.com/accordion/#theming
+ * http://api.jqueryui.com/slider/#theming
  */
-.ui-accordion .ui-accordion-header {
-	display: block;
-	cursor: pointer;
+.ui-slider {
 	position: relative;
-	margin: 2px 0 0 0;
-	padding: .5em .5em .5em .7em;
-	font-size: 100%;
+	text-align: left;
 }
-.ui-accordion .ui-accordion-content {
-	padding: 1em 2.2em;
-	border-top: 0;
-	overflow: auto;
+.ui-slider .ui-slider-handle {
+	position: absolute;
+	z-index: 2;
+	width: 1.2em;
+	height: 1.2em;
+	cursor: default;
+	touch-action: none;
+}
+.ui-slider .ui-slider-range {
+	position: absolute;
+	z-index: 1;
+	font-size: .7em;
+	display: block;
+	border: 0;
+	background-position: 0 0;
+}
+
+/* support: IE8 - See #6727 */
+.ui-slider.ui-state-disabled .ui-slider-handle,
+.ui-slider.ui-state-disabled .ui-slider-range {
+	-webkit-filter: inherit;
+	        filter: inherit;
+}
+
+.ui-slider-horizontal {
+	height: .8em;
+}
+.ui-slider-horizontal .ui-slider-handle {
+	top: -.3em;
+	margin-left: -.6em;
+}
+.ui-slider-horizontal .ui-slider-range {
+	top: 0;
+	height: 100%;
+}
+.ui-slider-horizontal .ui-slider-range-min {
+	left: 0;
+}
+.ui-slider-horizontal .ui-slider-range-max {
+	right: 0;
+}
+
+.ui-slider-vertical {
+	width: .8em;
+	height: 100px;
+}
+.ui-slider-vertical .ui-slider-handle {
+	left: -.3em;
+	margin-left: 0;
+	margin-bottom: -.6em;
+}
+.ui-slider-vertical .ui-slider-range {
+	left: 0;
+	width: 100%;
+}
+.ui-slider-vertical .ui-slider-range-min {
+	bottom: 0;
+}
+.ui-slider-vertical .ui-slider-range-max {
+	top: 0;
 }
 /*!
  * jQuery UI Spinner 1.12.1
@@ -23281,6 +23334,7 @@ readers do not read off random characters that represent icons */
 
 #navbar {
   transition: top 0.3s;
+  background: #373737;
 }
 
 .navbar-dark .navbar-nav .nav-link {
@@ -33183,7 +33237,6 @@ footer .nav-list li a:before {
 }
 
 .welcome-bottons-container .m-btn {
-  background-color: #fb397d;
   color: #fff;
   display: inline-block;
   border: none;
@@ -33191,7 +33244,6 @@ footer .nav-list li a:before {
   width: 50%;
   line-height: 35px;
   text-align: center;
-  border-radius: 24px 24px 24px 1px;
   position: relative;
 }
 
@@ -33235,7 +33287,7 @@ footer .nav-list li a:before {
   border-top-left-radius: 2px !important;
   border-top-right-radius: 2px !important;
   position: absolute;
-  background-color: rgba(1, 84, 116, 0.8);
+  background-color: rgba(52, 144, 220, 0.8);
   left: 50%;
   -webkit-transform: translate(-3rem, 0rem);
 }
@@ -33451,7 +33503,6 @@ footer .nav-list li a:before {
 }
 
 .m-card {
-  cursor: pointer;
   box-shadow: 1px 0px 10px 1px rgba(0, 0, 0, 0.4);
   border-radius: 24px 24px 24px 1px;
   overflow: hidden;
@@ -33460,10 +33511,6 @@ footer .nav-list li a:before {
   -webkit-animation-duration: .3s;
           animation-duration: .3s;
   transition: 0.3s;
-}
-
-.m-card .m-card-body {
-  flex: 1 1 auto;
 }
 
 @media (max-width: 767.98px) {
@@ -33485,28 +33532,35 @@ footer .nav-list li a:before {
 }
 
 .m-card .m-card-header .icon-container {
-  color: white;
-  position: relative;
-  z-index: 3;
+  color: #fff;
   top: 1rem;
   right: 1rem;
 }
 
 .m-card .m-card-header span {
-  position: relative;
+  width: 100%;
   top: 1rem;
   left: 1rem;
-  color: white;
+  color: #fff;
   display: inline-block;
-  z-index: 3;
 }
 
-.m-card .m-card-header img.school-img {
-  position: relative;
-  z-index: 1;
+.m-card .m-card-header img.wallpaper-img {
   width: 100%;
-  margin-top: -2.5rem;
   border-radius: 0.2rem;
+}
+
+.m-card .m-card-header img.wallpaper-img:hover {
+  cursor: pointer;
+  -webkit-transform: scale(1.01);
+          transform: scale(1.01);
+  transition: 0.1s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .m-card .m-card-header img.wallpaper-img:hover {
+    transition: none;
+  }
 }
 
 .m-card .m-card-header img.back-header-img {
@@ -34191,6 +34245,16 @@ footer .nav-list li a:before {
   transition: 1s all ease;
 }
 
+.outline {
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  width: 100%;
+  border: dashed #3490dc;
+  border-radius: 24px 24px 24px 1px;
+  min-height: 8rem;
+}
+
 .uploader-container {
   display: flex;
   justify-content: center;
@@ -34205,11 +34269,6 @@ footer .nav-list li a:before {
 .uploader-container.hover {
   color: #8bc0eb;
   cursor: pointer;
-}
-
-.uploader-container #uploader-message,
-.uploader-container h6 {
-  font-size: x-small;
 }
 
 .close-btn {
@@ -34250,7 +34309,7 @@ footer .nav-list li a:before {
   height: 8rem;
   overflow: hidden;
   background-repeat: no-repeat;
-  z-index: 10;
+  z-index: 2;
 }
 
 .m-background {
@@ -34664,10 +34723,18 @@ body.loading .modal {
   font-style: normal;
 }
 
+@font-face {
+  font-family: Tanha;
+  src: url(/fonts/Tanha-FD.eot?7b270528e85e3b665053b7357c4a1562);
+  src: url(/fonts/Tanha-FD.eot?7b270528e85e3b665053b7357c4a1562) format("Tanha-FD-opentype"), url(/fonts/Tanha-FD.woff?1b02b02bb5d68fab8711ee3899880cf4) format("woff"), url(/fonts/Tanha-FD.ttf?9ad0e360811b1421368c3fd22b36f865) format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 html,
 body {
   color: #646464;
-  font-family: Roboto, Tangerine, serif;
+  font-family: Tanha, Roboto, Tangerine, serif;
   letter-spacing: 1px;
   font-size: 1rem;
   padding: 0;
@@ -34705,78 +34772,3 @@ button {
   margin-top: 5rem;
 }
 
-/*!
- * jQuery UI Slider 1.12.1
- * http://jqueryui.com
- *
- * Copyright jQuery Foundation and other contributors
- * Released under the MIT license.
- * http://jquery.org/license
- *
- * http://api.jqueryui.com/slider/#theming
- */
-.ui-slider {
-	position: relative;
-	text-align: left;
-}
-.ui-slider .ui-slider-handle {
-	position: absolute;
-	z-index: 2;
-	width: 1.2em;
-	height: 1.2em;
-	cursor: default;
-	touch-action: none;
-}
-.ui-slider .ui-slider-range {
-	position: absolute;
-	z-index: 1;
-	font-size: .7em;
-	display: block;
-	border: 0;
-	background-position: 0 0;
-}
-
-/* support: IE8 - See #6727 */
-.ui-slider.ui-state-disabled .ui-slider-handle,
-.ui-slider.ui-state-disabled .ui-slider-range {
-	-webkit-filter: inherit;
-	        filter: inherit;
-}
-
-.ui-slider-horizontal {
-	height: .8em;
-}
-.ui-slider-horizontal .ui-slider-handle {
-	top: -.3em;
-	margin-left: -.6em;
-}
-.ui-slider-horizontal .ui-slider-range {
-	top: 0;
-	height: 100%;
-}
-.ui-slider-horizontal .ui-slider-range-min {
-	left: 0;
-}
-.ui-slider-horizontal .ui-slider-range-max {
-	right: 0;
-}
-
-.ui-slider-vertical {
-	width: .8em;
-	height: 100px;
-}
-.ui-slider-vertical .ui-slider-handle {
-	left: -.3em;
-	margin-left: 0;
-	margin-bottom: -.6em;
-}
-.ui-slider-vertical .ui-slider-range {
-	left: 0;
-	width: 100%;
-}
-.ui-slider-vertical .ui-slider-range-min {
-	bottom: 0;
-}
-.ui-slider-vertical .ui-slider-range-max {
-	top: 0;
-}

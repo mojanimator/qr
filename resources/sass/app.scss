@@ -34,6 +34,8 @@ $icon-font-path: '../fonts/';
 //@import 'post';
 @import 'my-sass';
 @import "~cropperjs/dist/cropper.css";
+//@import '~rtl-bootstrap/scss/bootstrap';
+
 //@import "~tinymce/skins/ui/oxide/skin.min.css";
 //@import "~tinymce/skins/ui/oxide/content.css";
 //@import "~tinymce/skins/content/default/content.css";
@@ -76,6 +78,16 @@ $icon-font-path: '../fonts/';
   font-style: normal;
 }
 
+@font-face {
+  font-family: Tanha;
+  src: url('../fonts/Farsi-Digits/Tanha-FD.eot');
+  src: url('../fonts/Farsi-Digits/Tanha-FD.eot?#iefix') format('Tanha-FD-opentype'),
+  url('../fonts/Farsi-Digits/Tanha-FD.woff') format('woff'),
+  url('../fonts/Farsi-Digits/Tanha-FD.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 //@font-face {
 //font-family: Tanha;
 //src: url('../fonts/Farsi-Digits/Tanha-FD.eot');
@@ -93,7 +105,7 @@ $icon-font-path: '../fonts/';
 
 html, body {
   color: #646464;
-  font-family: Roboto, Tangerine, serif;
+  font-family: Tanha, Roboto, Tangerine, serif;
   letter-spacing: 1px;
   font-size: 1rem;
   //text-shadow: 0 1px 0 #ffffff;

@@ -28,15 +28,15 @@ require('dropzone');
 // let tinymce = require('tinymce/tinymce');
 // require('tinymce/themes/silver');
 
-require('@fortawesome/fontawesome-free/js/all');
+// require('@fortawesome/fontawesome-free/js/all');
 require('./my-vue');
 window.swal = require('sweetalert2');
 require('lity');
 
 
 // window.AwesomeQRCode = require('./awesomeqr/awesome-qr');
-require('./canvas2image');
-require('./ie10-viewport-bug-workaround');
+// require('./canvas2image');
+// require('./ie10-viewport-bug-workaround');
 // require('./jquery.ezdz');
 // require('./jquery.imagecrop.min');
 window.Cropper = require('cropperjs');

@@ -203,7 +203,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   /*! no static exports found */
   /***/function _(module, exports, __webpack_require__) {
 
-    module.exports = __webpack_require__( /*! D:\_laravelProjects\qr\resources\js\home.js */"./resources/js/home.js");
+    module.exports = __webpack_require__( /*! D:\_laravelProjects\wallpaper\resources\js\home.js */"./resources/js/home.js");
 
     /***/
   }

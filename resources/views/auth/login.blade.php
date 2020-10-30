@@ -1,29 +1,6 @@
 @extends('layout')
 
 @section('content')
-    @if(Session::has('flash-error'))
-        <div class="alert alert-danger alert-dismissible mt-4">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            {{ Session::get('flash-error') }}
-        </div>
-    @endif
-    @if(Session::has('flash-success'))
-        <div class="alert alert-success alert-dismissible mt-4">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            {{ Session::get('flash-success') }}
-        </div>
-    @endif
-    @if(Session::has('flash-warning'))
-        <div class="alert alert-warning alert-dismissible mt-4">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            {{ Session::get('flash-warning') }}
-
-
-            <div>Please <a id="retry" href="{{Route('resend.mail' ,['token'=>Session::get('token')])}}">
-                    Click Here</a> for resend email
-            </div>
-        </div>
-    @endif
     <div class="loading-page hide "></div>
     <div class="container mt-4 ">
         <div class="row justify-content-center">

@@ -11,6 +11,7 @@ use App\Report;
 use App\Saabet;
 use App\School;
 use Carbon\Carbon;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

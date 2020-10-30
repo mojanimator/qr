@@ -9,21 +9,13 @@
 
 
     <!-- ***** Wellcome Area Start ***** -->
-    <section class="welcome-area clearfix bg-dark-blue  " id="home">
+    <section class="welcome-area clearfix bg-dark " id="home">
         <div class="container-fluid h-100  ">
             <div class="row  align-items-center h-100  ">
-                <div class="wallpaper-container  p-0  w-100 h-100">
-                    <img id="cover-image" src="/img/wallpaper.png" alt="" class=" w-100 h-100 ">
-                </div>
+
                 <div class="col-12 col-md front-heading   mt-5   ">
                     <div class="welcome-heading " id="counter">
-                        <h2 class="text-white mt-5  text-center  mx-0">Create Your QR Image Freely !</h2>
 
-                        <p
-                                class="text-white mt-5 text-center counter-value d-flex flex-column  justify-content-center align-items-center"
-                                data-count="{{\App\Setting::where('key','created_qr')->pluck('value')->first()+3421}}">0
-                            <span class="mx-0 ">QR Until Now  </span>
-                        </p>
 
                     </div>
 
@@ -33,12 +25,12 @@
                         {{--<input type="email" class="form-control email" placeholder="name@company.com">--}}
 
                         @if(auth()->user())
-                            <div class="  text-center col-md-4 col-sm-4 col-6">
+                            <div class="  text-center col-md-6 col-sm-6 col-6   bg-dark-blue">
                                 <a class="nav-link p-1 m-btn w-100"
-                                   href="{{route('user.panel',['username' =>auth()->user()->username])}}">My Panel
+                                   href="{{route('quiz.view')}}">Quiz
                                 </a>
                             </div>
-                            <div class="   text-center col-md-4 col-sm-4 col-6 ">
+                            <div class="   text-center col-md-6 col-sm-6 col-6 bg-danger">
                                 <form id="logout-btn" action="{{ route('logout') }}" method="POST"
                                       style="display: none;">
                                     {{ csrf_field() }}
@@ -50,6 +42,12 @@
                                 </a>
 
                             </div>
+                            <div class=" col-12   bg-flame-start">
+                                <a class="nav-link p-1 m-btn w-100"
+                                   href="{{route('ref.view')}}">References
+                                </a>
+                            </div>
+
                     @endif
 
                     <!-- Form End -->
@@ -62,21 +60,31 @@
             <i
                     class="fa fa-2x fa-arrow-circle-down mt-5 "></i>
         </div>
+
+        <div v-show="loading" class="loading-page center-block  "></div>
         <!-- Welcome thumb -->
         {{--<div class="welcome-thumb wow fadeInDown" data-wow-delay="0.5s">--}}
         {{--<img src="img/welcome-img.png" alt="">--}}
         {{--</div>--}}
     </section>
     <!-- ***** Wellcome Area End ***** -->
+    @if(auth()->user())
+        <section class=" clearfix    my-5">
+            <image-uploader doc-create-link="{{route('doc.create')}}" doc-groups-link="{{route('doc.groups')}}"
+                            doc-search-link="{{route('doc.search')}}">
 
-    <section class=" clearfix    my-5">
-        <image-cropper qr-created-link="{{route('comment')}}" site-name="{{route('/')}}"></image-cropper>
-
-    </section>
+            </image-uploader>
 
 
+            <wallpaper-cards doc-delete-link="{{route('doc.delete')}}" home-link="{{route('/')/*.'wallpapers'*/}}"
+                             doc-search-link="{{route('doc.search')}}" doc-groups-link="{{route('doc.groups')}}">
+
+            </wallpaper-cards>
+
+        </section>
+    @endif
 
 @endsection
 @section('scripts')
-    <script src="js/home.js"></script>
+    {{--<script src="js/home.js"></script>--}}
 @endsection

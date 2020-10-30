@@ -11,7 +11,7 @@ try {
     window.$ = window.jQuery = require('jquery');
     window.Popper = require('popper.js');
 
-    // require('rtl-bootstrap');
+    require('rtl-bootstrap');
 } catch (e) {
 }
 

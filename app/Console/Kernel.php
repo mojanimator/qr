@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\DailyReport;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,7 +14,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        DailyReport::class,
     ];
 
     protected function scheduleTimezone()
@@ -31,6 +32,11 @@ class Kernel extends ConsoleKernel
     {
 //        $schedule->command('sitemap:generate')
 //            ->hourly();
+
+        $schedule->command('send:report')
+            ->twiceDaily(8, 20);
+        $schedule->command('update:status')
+            ->dailyAt('00');
     }
 
     /**
