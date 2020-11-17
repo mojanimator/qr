@@ -36,7 +36,7 @@ class User extends Authenticatable implements/* Auditable,*/
     protected $fillable = [
         'username', 'password', 'img', 'verified', 'questions', 'trues',
         'token', 'role', 'expires_at', 'deleted_at', 'updated_at', 'score'
-        , 'telegram_username', 'telegram_id', 'app_id',
+        , 'telegram_username', 'telegram_id', 'app_id', 'phones'
     ];
 
     /**

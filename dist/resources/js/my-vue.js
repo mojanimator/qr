@@ -28,10 +28,14 @@ var _refEditor = require('./components/ref-editor.vue');
 
 var _refEditor2 = _interopRequireDefault(_refEditor);
 
+var _refUploader = require('./components/ref-uploader.vue');
+
+var _refUploader2 = _interopRequireDefault(_refUploader);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-Vue.config.devtools = false; // import reportsForm from './components/reports-form.vue'
-
+// import reportsForm from './components/reports-form.vue'
+Vue.config.devtools = false;
 Vue.config.debug = false;
 Vue.config.silent = true;
 var app = new Vue({
@@ -44,6 +48,7 @@ var app = new Vue({
         wallpaperCards: _wallpaperCards2.default,
         quizzes: _quizzes2.default,
         quizEditor: _quizEditor2.default,
+        refUploader: _refUploader2.default,
         refs: _refs2.default,
         refEditor: _refEditor2.default
 

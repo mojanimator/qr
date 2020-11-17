@@ -69,6 +69,7 @@
                   delete-link="{{route('ref.delete')}}"
                   types-link="{{route('ref.types')}}"
                   apps-link="{{route('ref.apps')}}"
+                  groups-link="{{route('ref.groups')}}"
                   can-create="{{auth()->user()->role=='Admin'??1}}"
                   can-delete="{{auth()->user()->role=='Admin'??1}}"
                   can-edit="{{auth()->user()->role=='Admin'??1}}"

@@ -68,12 +68,49 @@
     <!-- ***** Wellcome Area End ***** -->
     @if(auth()->user())
         <section class=" clearfix    my-5">
-            <quiz-uploader create-link="{{route('quiz.create')}}"
-                           types-link="{{route('quiz.types')}}"
-                           apps-link="{{route('quiz.apps')}}"
-                           search-link="{{route('doc.search')}}">
 
-            </quiz-uploader>
+            <div class="welcome-bottons-container row  col-12 d-flex  ">
+                <!-- Form Start -->
+
+                {{--<input type="email" class="form-control email" placeholder="name@company.com">--}}
+
+                @if(auth()->user())
+
+
+                    <div class="   text-center   col-12 my-2">
+
+                        {{--@if(session()->get('token'))--}}
+                        {{--<div class="alert-success">توکن با موفقیت دریافت شد!</div>--}}
+                        {{--<div class="alert-success">{{json_encode($token)}}</div>--}}
+                        {{--@else--}}
+                        {{--<a class="nav-link p-1 m-btn  w-100"--}}
+
+                        {{--href="{{$url}}">--}}
+                        {{--<i class="fab fa-btn  fa-instagram"></i> ورود اینستاگرام--}}
+                        {{--</a>--}}
+                        {{--@endif--}}
+
+
+                        <a class="nav-link p-1 btn-indigo btn-block col-12 "
+
+                           target="_blank"
+                           href="http://falcon.proxyrotator.com:51337/?apiKey=Bjcg4PKZ7W3RCHbEGtVxXzem6MpFsASN">
+                            <i class="fa fa-btn  fa-ghost"></i>دریافت پراکسی
+                        </a>
+                    </div>
+
+            @endif
+
+            <!-- Form End -->
+            </div>
+
+            <ref-uploader create-link="{{route('ref.create')}}"
+                          types-link="{{route('ref.types')}}"
+                          groups-link="{{route('ref.groups')}}"
+                          apps-link="{{route('ref.apps')}}"
+                          search-link="{{route('ref.search')}}">
+
+            </ref-uploader>
 
 
         </section>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Info;
 use App\Quiz;
+use App\User;
 use Carbon\Carbon;
 use Helper;
 use Illuminate\Http\Request;
@@ -159,6 +160,14 @@ class QuizController extends Controller
             foreach (Helper::$logs as $log)
                 Helper::sendMessage($log, " ادمین $username" . " یک سوال اضافه کرد " . PHP_EOL .
                     $q, null, null, null);
+
+            if ($app_id == 1 || $app_id == 2)
+                foreach (User::whereIn('app_id', [1, 2])->pluck('telegram_id') as $id)
+                    Helper::sendMessage($id, \Lang::get($app_id, \Lang::NEW_QUIZ) . "\n$q", null, null, null);
+            else
+                foreach (User::where('app_id', $app_id)->pluck('telegram_id') as $id)
+                    Helper::sendMessage($id, \Lang::get($app_id, \Lang::NEW_QUIZ) . "\n$q", null, null, null);
+
 
         });
 

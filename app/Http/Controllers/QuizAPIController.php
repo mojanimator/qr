@@ -100,7 +100,7 @@ class QuizAPIController extends Controller
 
 
         $paginate = $request->paginate ?? 12;
-//        $app_ids = explode('$', $request->app_id); //TODO:for future
+        $app_id = $request->app_id;
         $page = $request->page ?? 1;
         $sortBy = $request->sortBy ?? 'id';
         $direction = $request->direction ?? 'DESC';
@@ -121,7 +121,11 @@ class QuizAPIController extends Controller
             );
         if (auth()->user())
             $query = $query->whereIntegerNotInRaw('id', Response::where('user_id', auth()->user()->id)->pluck('quiz_id'));
-        /*->whereIn('app_id', $app_ids) for future*/
+        if ($app_id == 1 || $app_id == 2)
+            $query = $query->whereIn('app_id', [1, 2]);
+        else
+            $query = $query->whereNotIn('app_id', [1, 2]);
+
         $query = $query->select('id', 'score', 'type_id', 'is_predict', 'responded', 'trues', 'expires_at')
             ->orderBy($sortBy, $direction)
             ->paginate($paginate, ['*'], 'page', $page);
@@ -140,22 +144,36 @@ class QuizAPIController extends Controller
         return null;
     }
 
+    public function getRecords(Request $request)
+    {
+//        if ($request->app_id == 1 || $request->app_id == 2)
+        return User::/*whereIn('app_id', [1, 2])->*/
+        orderBy('score', 'DESC')->take(10)->select(['username', 'app_id', 'score'])->get();
+
+
+    }
+
     public function getResponse(Request $request)
     {
         $this->user = auth()->user();
         $username = $this->user->telegram_username;
-        foreach (Helper::$logs as $log)
-            Helper::sendMessage($log, "کاربر $username به یک سوال جواب داد ", null, null, null);
+
 
         $quiz = Quiz::find($request->id);
 
         if ($quiz && $quiz->is_predict) {
             Response::where('id', $request->response_id)->update(['response' => $request->response]);
+            foreach (Helper::$logs as $log)
+                Helper::sendMessage($log, "کاربر $username به یک پیش بینی جواب داد ", null, null, null);
+
+
             return ['res' => 'P', 'score' => $this->user->score];
 
         } else if ($quiz && !$quiz->is_predict) {
             $is_true = false;
+            $icon = "❌";
             if ($quiz->response == $request->response) {
+                $icon = "✅";
                 $quiz->trues = $quiz->trues + 1;
                 $this->user->trues = $this->user->trues + 1;
                 $is_true = true;
@@ -173,6 +191,11 @@ class QuizAPIController extends Controller
 
             $quiz->save();
             $this->user->save();
+
+            foreach (Helper::$logs as $log)
+                Helper::sendMessage($log, "کاربر $username به یک سوال جواب داد " . "$icon", null, null, null);
+
+
             return ['res' => $is_true, 'score' => $this->user->score, 'responded' => $this->user->responded, 'trues' => $this->user->trues,];
         }
 

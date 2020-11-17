@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Doc;
+use App\User;
 use Helper;
 use App\Group;
 use App\Hooze;
@@ -115,7 +116,7 @@ class DocController extends Controller
                 $app = 'fashion_images';
             else if ($request->group_id == 5 || $request->group_id == 7) //is for esteghlal app
                 $app = 'esteghlal_images';
-            else if ($request->group_id == 6 || $request->group_id = 8) //is for perspolis wallpapers app
+            else if ($request->group_id == 6 || $request->group_id == 8) //is for perspolis wallpapers app
                 $app = 'perspolis_images';
             else if ($request->group_id == 9) //is for roman wallpapers app
                 $app = 'romanbelize_images';
@@ -170,6 +171,12 @@ class DocController extends Controller
 
             Setting::where('key', $app)->decrement('value', 1);
 
+            $name = Group::where('id', $request->group_id)->first()->name;
+            $username = auth()->user()->telegram_username;
+            foreach (Helper::$logs as $log)
+                Helper::sendMessage($log, " کاربر " . " $username " . " یک بکگراند $name حذف کرد ", null, null, null);
+
+
 //            return 200;
         });
         return $this->search($request);
@@ -214,9 +221,10 @@ class DocController extends Controller
             $imageSave = imagejpeg($photo, $filenameToStore, 100);
             imagedestroy($photo);
             File::delete(public_path() . DIRECTORY_SEPARATOR . $filenameToStore);
+            $thumb = public_path('storage') . DIRECTORY_SEPARATOR . $request->group_id . DIRECTORY_SEPARATOR . 'thumb-' . $filenameToStore;
 
             createThumbnail(public_path('storage') . DIRECTORY_SEPARATOR . $request->group_id . DIRECTORY_SEPARATOR . $filenameToStore,
-                public_path('storage') . DIRECTORY_SEPARATOR . $request->group_id . DIRECTORY_SEPARATOR . 'thumb-' . $filenameToStore);
+                $thumb);
             $app = 'fashion_';
             if ($request->group_id >= 1 && $request->group_id <= 4) //is for fashion wallpapers app
                 $app = 'fashion_';
@@ -277,13 +285,34 @@ class DocController extends Controller
             Group::where('id', $request->group_id)->increment('num', 1);
             Setting::where('key', $app . 'images')->increment('value', 1);
 
+            $thumb = asset('storage/' . $request->group_id . "/thumb-$filenameToStore");
+            $name = Group::where('id', $request->group_id)->first()->name;
+            $username = auth()->user()->telegram_username;
+            foreach (Helper::$logs as $log)
+                Helper::sendMessage($log, " کاربر " . " $username " . " یک بکگراند $name اضافه کرد " . "\n$thumb", null, null, null);
+
+            $app_id = null;
+            switch ($request->group_id) {
+                case  5 || 7:
+                    $app_id = 1;
+                    break;
+                case  6 || 8:
+                    $app_id = 2;
+                    break;
+                case  31:
+                    $app_id = 3;
+                    break;
+                case  32:
+                    $app_id = 4;
+                    break;
+
+            }
+            if ($app_id)
+                foreach (User::where('app_id', $app_id)->pluck('telegram_id') as $id)
+                    Helper::sendMessage($id, \Lang::get($app_id, \Lang::NEW_IMAGE) . "\n$thumb", null, null, null);
+
+
         });
-
-        $name = Group::where('id', $request->group_id)->first()->name;
-
-        $username = auth()->user()->telegram_username;
-        foreach (Helper::$logs as $log)
-            Helper::sendMessage($log, "$username" . " یک بکگراند $name اضافه کرد ", null, null, null);
 
 
         return 200;

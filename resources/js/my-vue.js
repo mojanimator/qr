@@ -6,6 +6,7 @@ import quizzes from './components/quizzes.vue'
 import quizEditor from './components/quiz-editor.vue'
 import refs from './components/refs.vue'
 import refEditor from './components/ref-editor.vue'
+import refUploader from './components/ref-uploader.vue'
 
 
 Vue.config.devtools = false;
@@ -21,6 +22,7 @@ const app = new Vue({
         wallpaperCards,
         quizzes,
         quizEditor,
+        refUploader,
         refs,
         refEditor,
 

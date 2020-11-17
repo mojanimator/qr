@@ -6,8 +6,9 @@
                 <pagination class="    "></pagination>
             </div>
             <div class="col-6">
-                <dropdown :placeholder="'select group'" :refId="'doc2'"
-                          :data-link="docGroupsLink" :multi="false" class="  mb-1 " ref="dropdown2"
+                <dropdown :placeholder="'select group'" :refId="'docc'"
+                          :data-link="docGroupsLink" :multi="false"
+                          class="  mb-1 " ref="dropdownDocs2"
                           :beforeSelected="false">
                 </dropdown>
             </div>
@@ -234,8 +235,11 @@
             }
             ,
             getWallpapers() {
-//                console.log(this.docSearchLink);
+//                console.log(this.$refs.dropdownDocs2.selected);
 //                link = this.docSearchLink
+                if (this.$refs.dropdownDocs2.selected.length > 0)
+                    this.params.group_id = this.$refs.dropdownDocs2.selected[0].id;
+
                 axios.get(this.docSearchLink, {params: this.params})
                     .then((response) => {
                         if (response.status === 200) {

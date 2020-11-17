@@ -35,9 +35,10 @@ class DatabaseSeeder extends Seeder
 //
 
         DB::table('users')->insert([
-            ['id' => 1, 'username' => 'mojtaba', 'email' => 'moj2raj2@gmail.com',
+            ['id' => 1, 'username' => 'mojtaba', 'telegram_username' => 'develowper',
+                'telegram_id' => '72534783', 'app_id' => 1,
                 'password' => Hash::make('123123'),
-                'verified' => '1', 'role' => 'Admin', 'img' => "mojtaba.jpg",
+                'verified' => '1', 'role' => 'Admin', 'img' => "72534783.jpg",
 
                 'token' => bin2hex(openssl_random_pseudo_bytes(30))],
 
@@ -48,20 +49,42 @@ class DatabaseSeeder extends Seeder
             ['id' => 1, 'key' => 'fashion_images', 'value' => 0], ['id' => 2, 'key' => 'fashion_visits', 'value' => 0],]);
 
         DB::table('groups')->insert([
-            ['name' => 'women',], ['name' => 'men',], ['name' => 'child',], ['name' => 'home',],]);
+                ['name' => 'women',],
+                ['name' => 'men',],
+                ['name' => 'child',],
+                ['name' => 'home',],
+                ['name' => 'esteghlal_p',],
+                ['name' => 'perspolis_p',],
+                ['name' => 'esteghlal_l',],
+                ['name' => 'perspolis_l',],
+                ['name' => 'romanbelize',],
+                ['name' => 'legends',],
+                ['name' => 'wolves',],
+                ['name' => 'everton',],
+                ['name' => 'manchester',],
+                ['name' => 'car',],
+                ['name' => 'motor',],
+                ['name' => 'animal',],
+                ['name' => 'film',],
+                ['name' => 'animation',],
+                ['name' => 'football',],
+                ['name' => 'atelier-demo',],
+                ['name' => 'game',],
+                ['name' => 'psg',],
+                ['name' => 'milan',],
+                ['name' => 'bayern',],
+                ['name' => 'tottenham',],
+                ['name' => 'chelsea',],
+                ['name' => 'city',],
+                ['name' => 'arsenal',],
+                ['name' => 'liverpool',],
+                ['name' => 'premiere',],
+                ['name' => 'barca',],
+                ['name' => 'real',],
+                ['name' => 'lester',],
+            ]
+        );
 
-        DB::table('users')->insert([
-            ['id' => 1, 'name' => 'questions', 'app_id' => 1, 'value' => 0],
-            ['id' => 2, 'name' => 'trues', 'app_id' => 1, 'value' => 0],
-            ['id' => 3, 'name' => 'questions', 'app_id' => 2, 'value' => 0],
-            ['id' => 4, 'name' => 'trues', 'app_id' => 2, 'value' => 0],
-            ['id' => 5, 'name' => 'questions', 'app_id' => 3, 'value' => 0],
-            ['id' => 6, 'name' => 'trues', 'app_id' => 3, 'value' => 0],
-            ['id' => 7, 'name' => 'questions', 'app_id' => 4, 'value' => 0],
-            ['id' => 8, 'name' => 'trues', 'app_id' => 4, 'value' => 0],
-
-
-        ]);
 
     }
 }

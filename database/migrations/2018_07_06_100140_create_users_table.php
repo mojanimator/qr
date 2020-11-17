@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->string('role', 5)->default('User');
             $table->string('img', 50)->nullable()->default(null);
             $table->string('password', 255);
+            $table->string('phones', 50)->nullable();
             $table->string('token')->nullable();
             $table->boolean('verified')->default(false);
             $table->smallInteger('step')->nullable()->default(0);

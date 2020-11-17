@@ -61,11 +61,14 @@
         <div class="banner-anchor   text-white text-center hoverable ">
             <i class="fa fa-2x fa-arrow-circle-down mt-5 "></i>
         </div>
-        <div class="col-12 text-center">
-            All Your Information Is Safe And Will Be Used Only For App Usage
-            تمامی اطلاعات شما نزد ما محفوظ است و فقط برای اپلیکیشن استفاده خواهد شد
+        <div class="row col-12 mt-5">
+            <div class="col-12 text-center">
+                All Your Information Is Safe And Will Be Used Only For App Usage
+            </div>
+            <div class="col-12 text-center">
+                تمامی اطلاعات شما نزد ما محفوظ است و فقط برای اپلیکیشن استفاده خواهد شد
+            </div>
         </div>
-
         <!-- Welcome thumb -->
         {{--<div class="welcome-thumb wow fadeInDown" data-wow-delay="0.5s">--}}
         {{--<img src="img/welcome-img.png" alt="">--}}

@@ -6,7 +6,26 @@ use Intervention\Image\Facades\Image;
 Class Helper
 {
 
-    static $refTypes = [['id' => 1, 'name' => 'https://telegram.me/'], ['id' => 2, 'name' => 'https://instagram.com/'], ['id' => 3, 'name' => 'http://www.'],];
+    static $refTypes = [['id' => 0, 'name' => 'All', 'title' => 'همه', 'title2' => 'All'],
+        ['id' => 1, 'name' => 'https://telegram.me/', 'title' => 'تلگرام', 'title2' => 'Telegram'],
+        ['id' => 2, 'name' => 'https://instagram.com/', 'title' => 'اینستاگرام', 'title2' => 'Instagram'],
+//        ['id' => 3, 'name' => 'http://www.','title'=>'','title2'=>'Site'],
+    ];
+    static $refGroups = [
+        ['id' => 0, 'name' => 'همه', 'name2' => 'All',],
+        ['id' => 1, 'name' => 'ورزشی', 'name2' => 'Sport',],
+        ['id' => 2, 'name' => 'کسب و کار', 'name2' => 'Business',],
+        ['id' => 3, 'name' => 'بورس', 'name2' => 'Stock',],
+        ['id' => 4, 'name' => 'سرگرمی', 'name2' => 'Amuse',],
+        ['id' => 5, 'name' => 'ادبیات', 'name2' => 'Literature',],
+        ['id' => 6, 'name' => 'هنری', 'name2' => 'Art',],
+        ['id' => 7, 'name' => 'خبری', 'name2' => 'News',],
+        ['id' => 8, 'name' => 'رسانه', 'name2' => 'Media',],
+        ['id' => 9, 'name' => 'علمی', 'name2' => 'Science',],
+        ['id' => 10, 'name' => 'آموزشی', 'name2' => 'Tutorial',],
+        ['id' => 11, 'name' => 'فرهنگی', 'name2' => 'Culture',],
+        ['id' => 12, 'name' => 'مذهبی', 'name2' => 'Religion',],
+    ];
 
     static $lang = 'fa';
     static $app_version = 1;
@@ -15,6 +34,7 @@ Class Helper
     static $logs = [72534783, 225594412];
     static $admins = [1 => ['username' => '@develowper', 'chat_id' => 72534783], 2 => ['username' => '@fazelbabaeirudsari', 'chat_id' => 225594412],];
     static $install_chat_score = 10;
+    static $vip_chat_score = 12;
     static $init_score = 5;
     static $ref_score = 5;
     static $see_video_score = 3;
@@ -22,6 +42,8 @@ Class Helper
     static $remove_option_score = -2;
     static $show_word_score = -2;
 
+    static $chargeLink = "https://vartastudio.ir/charge";
+    static $donateLink = "https://idpay.ir/vartastudio";
     static $bot = "@vartastudiobot";
     static $bot_id = "944042527";
     static $app_link = "https://play.google.com/store/apps/developer?id=Varta+Studio";
@@ -68,13 +90,19 @@ class Lang
 {
     const CORRECT_PREDICT_CONGRATULATION = 0;
     const NOW_SCORE = 1;
+    const NEW_IMAGE = 2;
+    const NEW_QUIZ = 3;
 
     static $lang = ['fa' => [
         '✨تبریک! به یک پیش بینی درست جواب دادی و امتیاز سوال رو گرفتی!',
         ' امتیاز فعلی: ',
+        '✨ این تصویر جدید رو از طریق اپلیکیشن پس زمینه گوشیت کن !',
+        '✨ سوال زیر رو توی اپلیکیشن جواب بده و به تیمت توی برد کمک کن !',
     ], 'en' => [
         '✨Congratulation! you answered to one predict correctly and got the question score!',
         ' Current Score: ',
+        '✨ Set This New Image As Your Device Background With Application!',
+        '✨ Answer This New Question In Application And Help Your Team To Win!',
     ]];
 
     static function get($app_id, $id)
@@ -236,7 +264,11 @@ if (!function_exists('validate_base64')) {
 
     function sendMessage($chat_id, $text, $mode, $reply = null, $keyboard = null, $disable_notification = false)
     {
-        return $this->creator('sendMessage', [
+        $url = "https://api.telegram.org/bot" . env('TELEGRAM_BOT_TOKEN', 'YOUR-BOT-TOKEN') . "/" . 'sendMessage';
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, [
             'chat_id' => $chat_id,
             'text' => $text,
             'parse_mode' => $mode,
@@ -244,16 +276,6 @@ if (!function_exists('validate_base64')) {
             'reply_markup' => $keyboard,
             'disable_notification' => $disable_notification,
         ]);
-    }
-
-
-    function creator($method, $datas = [])
-    {
-        $url = "https://api.telegram.org/bot" . env('TELEGRAM_BOT_TOKEN', 'YOUR-BOT-TOKEN') . "/" . $method;
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $datas);
         $res = curl_exec($ch);
 
         if (curl_error($ch)) {
@@ -261,5 +283,6 @@ if (!function_exists('validate_base64')) {
         } else {
             return json_decode($res);
         }
+
     }
 }

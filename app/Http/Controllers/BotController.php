@@ -163,6 +163,7 @@ class BotController extends Controller
                 [['text' => "📌 دریافت بنر دعوت 📌"]],
                 [['text' => 'امتیاز من💰']],
                 [['text' => $this->user ? "ویرایش اطلاعات✏" : "ثبت نام✅"]],
+                [['text' => "🙏🙏🙏🙏 حمایت از ما 🙏🙏🙏🙏"]],
                 [['text' => 'درباره ربات🤖']],
             ], 'resize_keyboard' => true]);
             $cancel_button = json_encode(['keyboard' => [
@@ -210,7 +211,13 @@ class BotController extends Controller
 //                $this->sendMessage($chat_id, "■ برای استفاده از ربات و همچنین حمایت از ما ابتدا وارد کانال\n● $this->channel\n■ شده سپس به ربات برگشته و /start را بزنید.", null, $message_id, json_encode(['KeyboardRemove' => [], 'remove_keyboard' => true]));
 //
 //            }
-            elseif ($text == 'منوی اصلی⬅') {
+            elseif ($text == "🙏🙏🙏🙏 حمایت از ما 🙏🙏🙏🙏") {
+                $buy_button = json_encode(['inline_keyboard' => [
+                    [['text' => "⬅ کلیک کنید ", 'url' => Helper::$donateLink]],
+                ], 'resize_keyboard' => true]);
+                $this->sendMessage($chat_id, "🙏 حمایت از ما و رایگان ماندن برنامه برای همه 🙏", 'MarkDown', null, $buy_button);
+
+            } elseif ($text == 'منوی اصلی⬅') {
                 $this->sendMessage($chat_id, "منوی اصلی", 'MarkDown', $message_id, $button);
 
             } elseif ($text == 'امتیاز من💰') {
@@ -821,9 +828,8 @@ class BotController extends Controller
                 [['text' => "🎴 ساخت دکمه شیشه ای 🎴"]],
                 [['text' => "📌 دریافت بنر دعوت 📌"]],
                 [['text' => 'امتیاز من💰']],
-
-
                 [['text' => $this->user ? "ویرایش اطلاعات✏" : "ثبت نام✅"]],
+                [['text' => "🙏🙏🙏🙏 حمایت از ما 🙏🙏🙏🙏", 'url' => Helper::$donateLink]],
                 [['text' => 'درباره ربات🤖']],
             ], 'resize_keyboard' => true]);
 
@@ -1289,7 +1295,7 @@ class BotController extends Controller
         $audio = $message->audio; #duration,mime_type,title,performer,file_id,file_unique_id,file_size,thumb[file_id,file_unique_id,file_size,width,height]
         $voice = $message->voice; #duration,mime_type,file_id,file_unique_id,file_size
         $video_note = $message->video_note; #duration,length,file_id,file_unique_id,file_size,thumb[file_id,file_unique_id,file_size,width,height]
-        $caption = $message->caption;
+        $caption = $message->caption . "\n $this->bot";
 
 
         $buttons = [[['text' => "👈 $name 👉", 'url' => $link]]];
@@ -1300,7 +1306,7 @@ class BotController extends Controller
         if ($text)
             $this->creator('SendMessage', [
                 'chat_id' => $chat_id,
-                'text' => $text /*. "\n $this->bot"*/,
+                'text' => $text . "\n $this->bot",
                 'parse_mode' => 'Markdown',
                 'reply_to_message_id' => null,
                 'reply_markup' => $keyboard

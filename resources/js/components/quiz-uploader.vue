@@ -5,6 +5,7 @@
         <div class="modal-header d-flex justify-content-end col-12">
             <div class="alert-blue border-all     text-dark-blue mt-2 w-100 px-3 py-1 mb-0">
                 <p class="text-right font-weight-bold">ساخت سوال جدید</p>
+
             </div>
         </div>
 
@@ -348,7 +349,7 @@
 
             },
             createQuiz() {
-                console.log('createQuiz');
+//                console.log('createQuiz');
                 this.loading = true;
                 this.creating = true;
 //                let imageObj = document.getElementById("img");

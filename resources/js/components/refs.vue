@@ -3,20 +3,22 @@
     <div class=" card   col-12 ">
         <div class=" row  ">
 
-            <div v-if="selectedQuiz" class="modal fade" id="viewModal" tabindex="-1" role="dialog"
+            <div v-if="selected" class="modal fade" id="viewModal" tabindex="-1" role="dialog"
                  aria-labelledby="viewModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">
-                                {{selectedQuiz.name}}</h5>
+                                {{selected.title}}</h5>
                             <button type="button" class="close" data-dismiss="modal"
                                     aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div v-html="viewQuiz(selectedQuiz)" class="modal-body">
-
+                        <div class="modal-body">
+                            <img class="w-100 thumb-container" :src="'storage/refs/'+selected.id+'.jpg'"/>
+                            <!--<a :href="selected.type_id+selected.username" class=" m-1"><i-->
+                            <!--class="hoverable-dark fas fa-2x  fa-link text-blue   "></i></a>-->
 
                         </div>
                         <div class="modal-footer">
@@ -37,7 +39,7 @@
                         </div>
                         <input type="text" placeholder="سوال  " v-model="sName" id="name-input"
                                class="my-1 py-1 pr-1 form-control border" aria-label="signalName"
-                               @keyup="getQuizzes()"
+                               @keyup="getRefs()"
                         >
                         <div class=" input-group-append  btn-group-vertical   ">
                             <i class=" glyphicon glyphicon-remove text-danger  clear-btn p-1"
@@ -61,52 +63,48 @@
                             <thead class="bg-gradient-blue text-center text-white  ">
                             <tr class=" ">
                                 <th scope="col" class="hov-pointer align-middle"
-                                    @click="orderBy='id';direction=='ASC'?direction='DESC':direction='ASC'; getQuizzes();">
+                                    @click="orderBy='id';direction=='ASC'?direction='DESC':direction='ASC'; getRefs();">
                                 </th>
 
                                 <th scope="col" class="hov-pointer align-middle"
-                                    @click="orderBy='question';direction=='ASC'?direction='DESC':direction='ASC'; getQuizzes();">
-                                    سوال
+                                    @click="orderBy='id';direction=='ASC'?direction='DESC':direction='ASC'; getRefs();">
+                                    تصویر
                                 </th>
                                 <th scope="col" class="hov-pointer align-middle"
-                                    @click="orderBy='response';direction=='ASC'?direction='DESC':direction='ASC'; getQuizzes();">
-                                    جواب
+                                    @click="orderBy='user_id';direction=='ASC'?direction='DESC':direction='ASC'; getRefs();">
+                                    کاربر
                                 </th>
                                 <th scope="col" class="hov-pointer align-middle"
-                                    @click="orderBy='is_predict';direction=='ASC'?direction='DESC':direction='ASC'; getQuizzes();">
-                                    پیش بینی
+                                    @click="orderBy='username';direction=='ASC'?direction='DESC':direction='ASC'; getRefs();">
+                                    نام
                                 </th>
                                 <th scope="col" class="hov-pointer align-middle"
-                                    @click="orderBy='app_id';direction=='ASC'?direction='DESC':direction='ASC'; getQuizzes();">
-                                    اپ
+                                    @click="orderBy='title';direction=='ASC'?direction='DESC':direction='ASC'; getRefs();">
+                                    عنوان
                                 </th>
                                 <th scope="col" class="hov-pointer align-middle"
-                                    @click="orderBy='type_id';direction=='ASC'?direction='DESC':direction='ASC'; getQuizzes();">
-                                    نوع
+                                    @click="orderBy='type_id';direction=='ASC'?direction='DESC':direction='ASC'; getRefs();">
+                                    لینک
                                 </th>
                                 <th scope="col" class="hov-pointer align-middle"
-                                    @click="orderBy='shows_at';direction=='ASC'?direction='DESC':direction='ASC'; getQuizzes();">
-                                    تاریخ نمایش
+                                    @click="orderBy='app_id';direction=='ASC'?direction='DESC':direction='ASC'; getRefs();">
+                                    اپلیکیشن
                                 </th>
                                 <th scope="col" class="hov-pointer align-middle"
-                                    @click="orderBy='expires_at';direction=='ASC'?direction='DESC':direction='ASC'; getQuizzes();">
+                                    @click="orderBy='is_vip';direction=='ASC'?direction='DESC':direction='ASC'; getRefs();">
+                                    پین شده
+                                </th>
+                                <th scope="col" class="hov-pointer align-middle"
+                                    @click="orderBy='group_id';direction=='ASC'?direction='DESC':direction='ASC'; getRefs();">
+                                    گروه
+                                </th>
+                                <th scope="col" class="hov-pointer align-middle"
+                                    @click="orderBy='start_time';direction=='ASC'?direction='DESC':direction='ASC'; getRefs();">
+                                    تاریخ درج
+                                </th>
+                                <th scope="col" class="hov-pointer align-middle"
+                                    @click="orderBy='expire_time';direction=='ASC'?direction='DESC':direction='ASC'; getRefs();">
                                     تاریخ انقضا
-                                </th>
-                                <th scope="col" class="hov-pointer align-middle"
-                                    @click="orderBy='created_at';direction=='ASC'?direction='DESC':direction='ASC'; getQuizzes();">
-                                    تاریخ ساخت
-                                </th>
-                                <th scope="col" class="hov-pointer align-middle"
-                                    @click="orderBy='responses';direction=='ASC'?direction='DESC':direction='ASC'; getQuizzes();">
-                                    تعداد پاسخ
-                                </th>
-                                <th scope="col" class="hov-pointer align-middle"
-                                    @click="orderBy='responses';direction=='ASC'?direction='DESC':direction='ASC'; getQuizzes();">
-                                    درصد پاسخ صحیح
-                                </th>
-                                <th scope="col" class="hov-pointer align-middle"
-                                    @click="orderBy='score';direction=='ASC'?direction='DESC':direction='ASC'; getQuizzes();">
-                                    امتیاز سوال
                                 </th>
 
 
@@ -114,64 +112,67 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="s,idx in quizzes" class=" small  " :id="'row-'+s.id" :key="'row-'+s.id">
+                            <tr v-for="s,idx in refs" class=" small  " :id="'row-'+s.id" :key="'row-'+s.id">
 
                                 <th scope="row" class="text-center align-middle">{{s.id}}</th>
 
-                                <td class="align-middle" v-if="s.question.includes('.jpg')">
-                                    <a :href="'storage/quiz/'+s.question">{{'storage/quiz/' + s.question}}</a>
+                                <td class="align-middle" v-if="s.id ">
+                                    <a :href="'storage/refs/'+s.id + '.jpg'"><img :src="'storage/refs/' + s.id + '.jpg'"
+                                                                                  alt="" height="50"></a>
                                 </td>
-                                <td class="align-middle" v-else="">{{s.question.substring(0, 30) + '...'}}</td>
-
-
-                                <td class="align-middle" v-if="s.response">{{s.response}}</td>
                                 <td v-else="" class="align-middle"><i
                                         class="fas  fa-question-circle text-danger   "></i>
                                 </td>
 
 
-                                <td v-if="s.is_predict" class="align-middle"><i
-                                        class="fas  fa-check-circle text-success   "></i></td>
+                                <td class="align-middle" v-if="s.user">{{s.user.username}}</td>
+                                <td v-else="" class="align-middle"><i
+                                        class="fas  fa-question-circle text-danger   "></i>
+                                </td>
+
+
+                                <td v-if="s.username" class="align-middle">{{s.username}}</td>
                                 <td v-else="" class="align-middle"><i
                                         class="fas  fa-minus-circle text-danger   "></i></td>
 
-                                <td class="align-middle" v-if="s.app_id">{{s.app_id}}</td>
+                                <td class="align-middle" v-if="s.title">{{s.title}}</td>
                                 <td v-else="" class="align-middle"><i
                                         class="fas  fa-question-circle text-danger   "></i>
                                 </td>
 
-                                <td class="align-middle" v-if="s.type_id">{{s.type_id}}</td>
-                                <td v-else="" class="align-middle"><i
-                                        class="fas  fa-question-circle text-danger   "></i>
-                                </td>
 
-                                <td class="align-middle" v-if="s.shows_at">{{s.shows_at}}</td>
-                                <td v-else="" class="align-middle"><i
-                                        class="fas  fa-question-circle text-danger   "></i>
+                                <td v-if="s.type_id==2" class="align-middle">
+                                    <a :href="'https://instagram.com/'+s.username"><i
+                                            class="fab fa-2x  fa-instagram text-pink   "></i></a>
                                 </td>
-
-                                <td class="align-middle" v-if="s.expires_at">{{s.expires_at}}</td>
-                                <td v-else="" class="align-middle"><i
-                                        class="fas  fa-question-circle text-danger   "></i>
-                                </td>
-
-                                <td class="align-middle" v-if="s.created_at">{{s.created_at}}</td>
-                                <td v-else="" class="align-middle"><i
-                                        class="fas  fa-question-circle text-danger   "></i>
-                                </td>
-
-                                <td class="align-middle" v-if="s.responded">{{s.responded }}</td>
-                                <td v-else="" class="align-middle"><i
-                                        class="fas  fa-question-circle text-danger   "></i>
-                                </td>
-
-                                <td class="align-middle" v-if="s.responded>0">{{(s.trues / s.responded).toFixed(2)}}
+                                <td v-else-if="s.type_id==1" class="align-middle">
+                                    <a :href="'https://telegram.me/'+s.username"><i
+                                            class="fab fa-2x  fa-telegram text-blue   "></i></a>
                                 </td>
                                 <td v-else="" class="align-middle"><i
                                         class="fas  fa-question-circle text-danger   "></i>
                                 </td>
 
-                                <td class="align-middle" v-if="s.score">{{s.score}}</td>
+                                <td v-if="s.app_id" class="align-middle">{{s.app_id}}</td>
+                                <td v-else="" class="align-middle"><i
+                                        class="fas  fa-minus-circle text-danger   "></i></td>
+
+                                <td v-if="s.is_vip" class="align-middle"><i
+                                        class="fas fa-2x  fa-check-circle text-success   "></i></td>
+                                <td v-else="" class="align-middle"><i
+                                        class="fas fa-2x  fa-minus-circle text-danger   "></i></td>
+
+                                <td v-if="s.group_id" class="align-middle">{{s.group_id}}</td>
+                                <td v-else="" class="align-middle"><i
+                                        class="fas fa-2x  fa-minus-circle text-danger   "></i></td>
+
+
+                                <td class="align-middle" v-if="s.start_time">{{s.start_time}}</td>
+                                <td v-else="" class="align-middle"><i
+                                        class="fas  fa-question-circle text-danger   "></i>
+                                </td>
+
+                                <td class="align-middle" v-if="s.expire_time">{{s.expire_time}}</td>
                                 <td v-else="" class="align-middle"><i
                                         class="fas  fa-question-circle text-danger   "></i>
                                 </td>
@@ -183,7 +184,7 @@
                                         <div class=" p-1 nav-link text-indigo hoverable" data-toggle="modal"
                                              data-target="#viewModal"
 
-                                             @click="selectedQuiz=s; ">نمایش
+                                             @click="selected=s; ">نمایش
                                             <i class="fa fa-eye" aria-hidden="true"></i>
 
 
@@ -204,7 +205,7 @@
                                             <span class=" btn btn-dark-blue" aria-hidden="true"
                                                   @click="confirmDeletes(idx ) ; ">لغو  </span>
                                             <span class=" btn btn-danger " aria-hidden="true"
-                                                  @click="deleteQuiz(idx,s.id)  ">تایید  </span>
+                                                  @click="deleteRef(idx,s.id)  ">تایید  </span>
                                         </div>
                                         <div v-else="" class="p-1 nav-link text-red  hoverable"
                                              :class="{'ui-state-disabled':canDelete !== '1' }"
@@ -228,6 +229,7 @@
                             v-if="show=='update'"
                             :types-link="typesLink"
                             :apps-link="appsLink"
+                            :groups-link="groupsLink"
                     >
 
                     </ref-editor>
@@ -243,26 +245,27 @@
 <script>
 
     import paginator from './pagination.vue';
-    import quizEditor from './quiz-editor.vue';
+    import refEditor from './ref-editor.vue';
 
 
     let self;
     export default {
 
 
-        props: ['quizzesLink', 'deleteLink', 'editLink', 'canEdit', 'canDelete', 'canCreate', 'getForEditLink', 'typesLink', 'appsLink',],
+        props: ['refsLink', 'deleteLink', 'editLink', 'canEdit', 'canDelete', 'canCreate', 'getForEditLink', 'typesLink', 'appsLink', 'groupsLink',],
 
-        components: {paginator, quizEditor},
+        components: {paginator, refEditor},
         data() {
             return {
                 loading: null,
-                selectedQuiz: null,
+                title: null,
+                selected: null,
                 show: 'search',
                 sName: null,
                 page: 1,
                 orderBy: '',
                 direction: 'ASC',
-                quizzes: [],
+                refs: [],
                 confirmDelete: [],
 //                doc: null,
 
@@ -285,7 +288,7 @@
 //            console.log(this.canEdit);
             self = this;
             this.loading = $('.loading-page');
-            this.getQuizzes();
+            this.getRefs();
             this.setEvents();
 //            this.uploader = $('#uploader');
 //            this.qr_image = $("#qrcode");
@@ -303,12 +306,12 @@
         }
         ,
         methods: {
-            viewQuiz(quiz) {
+            viewRef(quiz) {
                 this.loading.hide();
                 let text = "";
                 if (quiz.question.includes('.jpg'))
                     text +=
-                        `<img class="w-100 thumb-container" src="storage/quiz/${quiz.question}"/>`;
+                        `<img class="w-100 thumb-container" src="storage/refs/${quiz.id}.jpg"/>`;
                 else text +=
                     `<p>${ quiz.question}<p>`;
 
@@ -331,7 +334,7 @@
             },
             confirmDeletes(idx) {
 
-                for (let i = 0; i < this.quizzes.length; i++)
+                for (let i = 0; i < this.refs.length; i++)
                     if (i === idx)
                         this.$set(this.confirmDelete, i, !this.confirmDelete[i]);
 //                        this.confirmDelete[i] = !this.confirmDelete[i];
@@ -342,10 +345,11 @@
 
 //                this.$set(arr, index, newValue)
             },
-            getQuizzes() {
+            getRefs() {
                 this.loading.removeClass('hide');
-                axios.post(this.quizzesLink, {
+                axios.post(this.refsLink, {
                     page: this.page,
+
                     direction: this.direction,
                     sortBy: this.orderBy,
                     name: this.sName,
@@ -353,10 +357,14 @@
                     .then((response) => {
                         this.loading.addClass('hide');
                         if (response.status === 200) {
-//
-                            this.quizzes = response.data.data;
+//                            console.log(response);
+                            this.refs = response.data.data;
+
+//                            this.show = 'update';
+//                            this.selectedId = response.data.data[0].id;
+
                             this.confirmDelete = [];
-                            for (let i = 0; i < this.quizzes.length; i++)
+                            for (let i = 0; i < this.refs.length; i++)
                                 this.confirmDelete.push(false);
 
                             this.paginator =
@@ -390,14 +398,14 @@
 ////                    console.log(error.response);
                 });
             },
-            deleteQuiz(idx, signal_id) {
+            deleteRef(idx, signal_id) {
 
                 axios.delete(this.deleteLink, {params: {id: signal_id}})
                     .then((response) => {
 //                        console.log(response);
                         if (response.status === 200) {
 
-                            this.$delete(this.quizzes, idx);
+                            this.$delete(this.refs, idx);
                             this.$delete(this.confirmDelete, idx);
                             this.$root.$emit('paginationChange', this.paginator);
 //                            window.location.replace(this.quizzesViewLink)
@@ -408,7 +416,7 @@
                         alert('فقط مالک  می تواند آن را پاک کند!');
                     }
                     else
-                        alert('ناموفق!');
+                        alert(error + 'ناموفق!');
 //                    this.errors += '<br>'; // maybe is not empty from javascript validate
 //                    if (error.response && error.response.status === 422)
 //                        for (let idx in error.response.data.errors)
@@ -424,7 +432,7 @@
             setEvents() {
                 this.$root.$on('paginate_click', data => {
                     this.page = data['page'];
-                    this.getQuizzes();
+                    this.getRefs();
                 });
                 this.$root.$on('search', (params) => {
 
@@ -432,7 +440,7 @@
                         this.page = params['page'];
                         this.direction = null;
                         this.orderBy = null;
-                        this.getQuizzes();
+                        this.getRefs();
                     }
 
 //

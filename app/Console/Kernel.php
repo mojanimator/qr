@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
+//    protected $middleware = [\Illuminate\Session\Middleware\StartSession::class];
     protected $commands = [
         DailyReport::class,
     ];
