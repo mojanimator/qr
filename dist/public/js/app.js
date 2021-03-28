@@ -935,7 +935,8 @@ cropper.crop();//                canvas = cropper.getCroppedCanvas();
 //                this.qr_image.value = canvas;
 $('html,body').animate({scrollTop:$("#"+'qrcode').offset().top},'slow');//                console.log(cropper.getCroppedCanvas());
 this.addToWallpapers();},initCropper:function initCropper(){$('img#qrcode').css({visibility:'hidden'});//                $preview.attr('src', $(image).attr('src'));
-if(cropper)cropper.destroy();cropper=new Cropper(image,{autoCropArea:1,viewMode:3,//                    autoCrop: true,
+if(cropper)cropper.destroy();cropper=new Cropper(image,{autoCropArea:1,//                    viewMode: 3,
+//                    autoCrop: true,
 //                    aspectRatio: 3 / 4,
 crop:function crop(event){//                        console.log(cropper.getCropBoxData().width);
 $("#image-crop-outline").css({visibility:'visible'//                            left: cropper.getCropBoxData().left + 30,
@@ -1191,7 +1192,8 @@ cropper.crop();//                canvas = cropper.getCroppedCanvas();
 //                this.qr_image.value = canvas;
 $('html,body').animate({scrollTop:$("#"+'qrcode').offset().top},'slow');//                console.log(cropper.getCroppedCanvas());
 this.addToWallpapers();},initCropper:function initCropper(){$('img#qrcode').css({visibility:'hidden'});//                $preview.attr('src', $(image).attr('src'));
-if(cropper)cropper.destroy();cropper=new Cropper(image,{viewMode:3,autoCropArea:1,//                    left: 0,
+if(cropper)cropper.destroy();cropper=new Cropper(image,{//                    viewMode: 3,
+autoCropArea:1,//                    left: 0,
 //                    top: 0,
 //                    width: '100%',
 //                    height: 100,

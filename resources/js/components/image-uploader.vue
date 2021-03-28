@@ -279,7 +279,7 @@
                     cropper.destroy();
                 cropper = new Cropper(image, {
                     autoCropArea: 1,
-                    viewMode: 3,
+//                    viewMode: 3,
 //                    autoCrop: true,
 //                    aspectRatio: 3 / 4,
                     crop(event) {

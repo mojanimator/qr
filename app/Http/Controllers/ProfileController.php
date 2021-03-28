@@ -152,12 +152,12 @@ class ProfileController extends Controller
             if ($app_id == 1) {
                 $also .= '🔷🔷کانال ارتش استقلال:🔷🔷' . PHP_EOL . '@esteghlalwallpapers' . PHP_EOL;
                 $also .= '🔷🔷دانلود اپلیکیشن ارتش استقلال:🔷🔷' . PHP_EOL . '@vartastudiobot' . PHP_EOL;
-                $also .= ($request->link == 'vartastudio' ? '#طراحی_اختصاصی' : '') . " " . '#استقلال' . " " . '#پروفایل' . PHP_EOL;
+                $also .= ($request->link == 'vartastudio' ? '#طراحی_اختصاصی' : "#$request->link") . " " . '#استقلال' . " " . '#پروفایل' . PHP_EOL;
             }
             if ($app_id == 2) {
                 $also .= '🔴🔴کانال ارتش پرسپولیس:🔴🔴' . PHP_EOL . '@perspoliswallpapers' . PHP_EOL;
                 $also .= '🔴🔴دانلود اپلیکیشن ارتش پرسپولیس:🔴🔴' . PHP_EOL . '@vartastudiobot' . PHP_EOL;
-                $also .= ($request->link == 'vartastudio' ? '#طراحی_اختصاصی' : '') . " " . '#پرسپولیس' . " " . '#پروفایل' . PHP_EOL;
+                $also .= ($request->link == 'vartastudio' ? '#طراحی_اختصاصی' : "#$request->link") . " " . '#پرسپولیس' . " " . '#پروفایل' . PHP_EOL;
             }
 
             if (DB::table('queue')->where('file', null)->count() == 0) {

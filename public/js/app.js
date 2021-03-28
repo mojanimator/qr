@@ -2761,7 +2761,7 @@ var $outline, $input_qr_text, $btn_create_qr;
       if (cropper) cropper.destroy();
       cropper = new Cropper(image, {
         autoCropArea: 1,
-        viewMode: 3,
+        //                    viewMode: 3,
         //                    autoCrop: true,
         //                    aspectRatio: 3 / 4,
         crop: function crop(event) {
@@ -3378,7 +3378,7 @@ var $outline, $input_qr_text, $btn_create_qr;
 
       if (cropper) cropper.destroy();
       cropper = new Cropper(image, {
-        viewMode: 3,
+        //                    viewMode: 3,
         autoCropArea: 1,
         //                    left: 0,
         //                    top: 0,

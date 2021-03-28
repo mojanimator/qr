@@ -50,15 +50,18 @@ Route::get('/checkUpdate', function (Request $request) {
 })->name('doc.checkUpdate');
 
 Route::get('/getsettings', function (Request $request) {
+
     return [
         'event' => App\Event::where('app_id', $request->app_id)->where('start_time', '>', Carbon\Carbon::now())->orderBy('start_time', 'ASC')->first(),
+
         'version' => DB::table('versions')->where('name', $request->name)->first()->build,
         'bazarhide' => false, 'mykethide' => false, 'googlehide' => false, 'hide' => false,
         'top_donator' => DB::table('donators')->where('app_id', $request->app_id)->where('done', true)->orderByDesc('amount')->first(),
-        'last_messages' => DB::table('donators')->where('done', true)->where('app_id', $request->app_id)->inRandomOrder()->/*orderByDesc('created_at')->*/
+        'last_messages' => DB::table('donators')->where('app_id', $request->app_id)->where('done', true)->inRandomOrder()->/*orderBy('created_at')->*/
         pluck('desc')->take(10),
-        'thumbs' => DB::table('docs')->where('group_id', $request->group_id)->inRandomOrder()->pluck('path')->take(10),
-        'adv_provider' => 'notapsell',
+        // 'thumbs' => DB::table('docs')->where('group_id', $request->group_id)->inRandomOrder()->pluck('path')->take(10),
+
+        'adv_provider' => ($request->app_id == 1 || $request->app_id == 2) ? 'tapsell' : 'notapsell',
         'native_adv_provider' => 'notapsell',
         'see_video_score' => Helper::$see_video_score,
         'show_word_score' => Helper::$show_word_score,

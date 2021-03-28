@@ -278,7 +278,7 @@
                 if (cropper)
                     cropper.destroy();
                 cropper = new Cropper(image, {
-                    viewMode: 3,
+//                    viewMode: 3,
                     autoCropArea: 1,
 //                    left: 0,
 //                    top: 0,
