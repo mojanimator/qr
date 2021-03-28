@@ -1,16 +1,21 @@
 <template>
 
     <div class="row col-12  mx-1  gallery">
-        <div class="row col-12 mt-1">
-            <div class="col-6">
+        <div class="row col-12 mt-1 align-items-baseline">
+            <div class="col-5">
                 <pagination class="    "></pagination>
             </div>
-            <div class="col-6">
+            <div class="col-5">
                 <dropdown :placeholder="'select group'" :refId="'docc'"
                           :data-link="docGroupsLink" :multi="false"
                           class="  mb-1 " ref="dropdownDocs2"
                           :beforeSelected="false">
                 </dropdown>
+            </div>
+            <div class="col-2">
+                <label for="vip-check">⭐</label>
+                <input type="checkbox" id="vip-check" v-model="is_vip"
+                       @change="params.is_vip=is_vip; getWallpapers(params)">
             </div>
         </div>
         <div v-for="w,idx in wallpapers" class="col-12 col-sm-6 col-md-4 col-lg-3 p-1">
@@ -63,7 +68,13 @@
                     </a>
 
                     <div class="card-divider"></div>
+                    <div class="codes d-flex justify-content-center pt-1">
+                        <p class=" border  badge-pill   small d-inline-block "
+                        >
+                            <span v-show="w.star !=null "> {{w.star}}</span> ⭐
+                        </p>
 
+                    </div>
                 </div>
                 <div class="m-card-footer  bg-transparent      ">
                     <img class="mb-auto  back-footer-img" :src="homeLink+'/img/card-footer.png'" alt="">
@@ -85,7 +96,7 @@
 
     export default {
 
-        props: ['docDeleteLink', 'docSearchLink', 'docGroupsLink', 'homeLink'],
+        props: ['docDeleteLink', 'docSearchLink', 'docGroupsLink', 'homeLink', 'for'],
         components:
             {
                 pagination: pagination,
@@ -95,7 +106,8 @@
         ,
         data() {
             return {
-                params: {'group_id': 1, 'page': 1},
+                is_vip: false,
+                params: {'group_id': 1, 'page': 1, 'is_vip': this.is_vip},
                 orderBy: '',
                 direction: 'ASC',
                 wallpapers: [],
@@ -123,6 +135,7 @@
         ,
 
         updated() {
+
 //            if (!this.updated) {
 //                this.setEvents();
 //            console.log('update');
@@ -227,11 +240,11 @@
 
 
             getImage(group_id, path, thumb) {
-
+//                console.log('/storage/' + this.for + ( this.for !== "" ? "/" : "" ) + group_id + '/' + 'thumb-' + path);
                 if (thumb)
-                    return '/storage/' + group_id + '/' + 'thumb-' + path;
+                    return '/storage/' + this.for +( this.for !== "" ? "/" : "") + group_id + '/' + 'thumb-' + path;
                 else
-                    return '/storage/' + group_id + '/' + path;
+                    return '/storage/' + this.for +( this.for !== "" ? "/" : "") + group_id + '/' + path;
             }
             ,
             getWallpapers() {
@@ -239,6 +252,12 @@
 //                link = this.docSearchLink
                 if (this.$refs.dropdownDocs2.selected.length > 0)
                     this.params.group_id = this.$refs.dropdownDocs2.selected[0].id;
+
+                if (this.params.is_vip)
+                    this.params.is_vip = 1;
+                else
+                    this.params.is_vip = 0;
+
 
                 axios.get(this.docSearchLink, {params: this.params})
                     .then((response) => {

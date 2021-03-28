@@ -15,13 +15,13 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class Doc extends Model implements Auditable
+class Doc extends Model /*implements Auditable*/
 {
-    use \OwenIt\Auditing\Auditable;
+//    use \OwenIt\Auditing\Auditable;
 
     public $timestamps = false;
     protected $fillable = [
-        'group_id', 'path', 'size', 'link',
+        'group_id', 'path', 'size', 'link', 'star'
     ];
     protected $table = 'docs';
 

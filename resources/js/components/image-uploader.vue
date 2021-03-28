@@ -43,11 +43,12 @@
                 <!--class="form-control mb-1 " style="    min-width: 110px;" @keyup.enter="makeWallpaper( )"></textarea>-->
                 <div class="d-flex justify-content-between my-1 row col-12">
 
-                    <input v-model="link" type="text" class="form-control mt-1 col-md-6">
+                    <input v-model="link" placeholder="reference" type="text" class="form-control mt-1 col-md-5">
                     <dropdown v-show="creating" :placeholder="'select group'" :refId="'doc'"
                               :data-link="docGroupsLink" :multi="false" class="  mb-1 col-md-6" ref="dropdown"
                               :beforeSelected="false">
                     </dropdown>
+                    <input v-model="star" placeholder="⭐" type="number" min="0" class="form-control mt-1 col-md-1">
                 </div>
                 <div class="col-12">
                     <button @click=" makeWallpaper( );  " id="btn-create-qr"
@@ -123,6 +124,7 @@
         components: {dropdown},
         data() {
             return {
+                star: null,
                 doc: null,
                 link: null,
                 cropper: null,
@@ -136,6 +138,7 @@
                 uploader: $('#uploader'),
                 qr_image: $('#qrcode'),
                 autoColor: true,
+                errors: "",
             }
         },
         watch: {
@@ -187,6 +190,7 @@
                     'doc': cropper.getCroppedCanvas().toDataURL('image/jpeg') /*imageObj.src*/,
                     'group_id': this.$refs.dropdown.selected[0].id,
                     'link': this.link,
+                    'star': this.star,
                 })
                     .then((response) => {
 //                        console.log(response);
@@ -199,6 +203,8 @@
                     this.loading = false;
                     console.log(' error:');
                     console.log(error);
+                    this.errors = error;
+                    this.showDialog();
                 });
 
             },
@@ -272,6 +278,8 @@
                 if (cropper)
                     cropper.destroy();
                 cropper = new Cropper(image, {
+                    autoCropArea: 1,
+                    viewMode: 3,
 //                    autoCrop: true,
 //                    aspectRatio: 3 / 4,
                     crop(event) {
@@ -362,7 +370,51 @@
                 }
 
             }
+            , showDialog(type, data) {
+                // 0  ready for save
+                // 1  success  save
+                // else show errors
+                if (type === 0)
+                    swal.fire({
+                        title: 'Delete Image ?',
+                        text: ' ',
+                        type: 'error',
+                        showCancelButton: true,
+                        showCloseButton: true,
+                        cancelButtonText: 'NO',
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: ' Yes',
+                    }).then((result) => {
+                        if (result.value) {
+                            this.deleteWallpaper(data);
+                        }
+                    });
+                else if (type === 1) {
+                    swal.fire({
+                        title: 'توجه',
+                        text: ' با موفقیت حذف شد!',
+                        confirmButtonColor: '#60aa2f',
+                        type: 'success',
+                        confirmButtonText: ' باشه',
+                    }).then((result) => {
+                        if (result.value) {
+//                            location.reload();
+                            this.$root.$emit('search');
+                        }
+                    });
 
+                } else {
+                    swal.fire({
+                        title: 'خطایی رخ داد',
+                        html: ` <p   class="text-danger">` + this.errors + `</p>`,
+//                        text: this.errors,
+                        confirmButtonColor: '#d33',
+                        type: 'error',
+                        confirmButtonText: ' باشه',
+                    });
+                }
+            }
             ,
             checkDocs(file, from) {
 

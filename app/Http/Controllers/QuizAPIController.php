@@ -7,6 +7,7 @@ use App\Quiz;
 use App\Response;
 use App\User;
 use Carbon\Carbon;
+use function foo\func;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +22,7 @@ class QuizAPIController extends Controller
 
     public function __construct()
     {
-        date_default_timezone_set('Asia/Tehran');
+//        date_default_timezone_set('Asia/Tehran');
 //        $this->user = auth()->user();
 //        $this->user_id = $this->user ? $this->user->id : null;
 //        $this->middleware('auth')->except([]);
@@ -70,12 +71,24 @@ class QuizAPIController extends Controller
 
 
         $paginate = $request->paginate ?? 12;
-//        $app_ids = explode('$', $request->app_id); //TODO:for future
+        $app_id = explode('$', $request->app_id);
         $page = $request->page ?? 1;
-        $sortBy = $request->sortBy ?? 'id';
-        $direction = $request->direction ?? 'DESC';
+        $sortBy = $request->sortBy ?? 'expires_at';
+        $direction = $request->direction ?? 'ASC';
         $now = Carbon::now();
         $query = Quiz::query();
+
+        if ($app_id == 1 || $app_id == 2)
+            $query = $query->whereIn('app_id', [1, 2])->where('is_predict', false)->orWhere(function ($query) use ($app_id) {
+                $query->where('is_predict', true)->where('app_id', $app_id);
+            });
+        else if ($app_id == 12)//fortnite
+            $query = $query->where('app_id', 12);
+        else
+            $query = $query->whereNotIn('app_id', [1, 2, 12])->where('is_predict', false)->orWhere(function ($query) use ($app_id) {
+                $query->where('is_predict', true)->where('app_id', $app_id);
+            });
+
 
         $query = $query
             ->where(function ($query) use ($now) {
@@ -88,9 +101,9 @@ class QuizAPIController extends Controller
             }
 
             );
-        /*->whereIn('app_id', $app_ids) for future*/
+
         $query = $query->select('id', 'score', 'type_id', 'is_predict', 'responded', 'trues', 'expires_at')
-            ->orderBy($sortBy, $direction)
+            ->orderBy('is_predict', 'DESC')->orderBy($sortBy, $direction)
             ->paginate($paginate, ['*'], 'page', $page);
         return $query;
     }
@@ -102,11 +115,24 @@ class QuizAPIController extends Controller
         $paginate = $request->paginate ?? 12;
         $app_id = $request->app_id;
         $page = $request->page ?? 1;
-        $sortBy = $request->sortBy ?? 'id';
-        $direction = $request->direction ?? 'DESC';
+        $sortBy = $request->sortBy ?? 'expires_at';
+        $direction = $request->direction ?? 'ASC';
         $now = Carbon::now();
         $query = Quiz::query();
+        $responses = [];
+        if (auth()->user())
+            $responses = Response::where('user_id', auth()->user()->id)->pluck('quiz_id');
 
+        if ($app_id == 1 || $app_id == 2)
+            $query = $query->whereIn('app_id', [1, 2])->where('is_predict', false)->whereIntegerNotInRaw('id', $responses)->orWhere(function ($query) use ($app_id, $responses) {
+                $query->where('is_predict', true)->where('app_id', $app_id)->whereIntegerNotInRaw('id', $responses);
+            });
+        else if ($app_id == 12)//fortnite
+            $query = $query->where('app_id', 12)->whereIntegerNotInRaw('id', $responses);
+        else
+            $query = $query->whereNotIn('app_id', [1, 2, 12])->where('is_predict', false)->whereIntegerNotInRaw('id', $responses)->orWhere(function ($query) use ($app_id, $responses) {
+                $query->where('is_predict', true)->where('app_id', $app_id)->whereIntegerNotInRaw('id', $responses);
+            });
 
         $query = $query
             ->where(function ($query) use ($now) {
@@ -119,16 +145,12 @@ class QuizAPIController extends Controller
             }
 
             );
-        if (auth()->user())
-            $query = $query->whereIntegerNotInRaw('id', Response::where('user_id', auth()->user()->id)->pluck('quiz_id'));
-        if ($app_id == 1 || $app_id == 2)
-            $query = $query->whereIn('app_id', [1, 2]);
-        else
-            $query = $query->whereNotIn('app_id', [1, 2]);
+
 
         $query = $query->select('id', 'score', 'type_id', 'is_predict', 'responded', 'trues', 'expires_at')
-            ->orderBy($sortBy, $direction)
+            ->orderBy('is_predict', 'DESC')->orderBy($sortBy, $direction)
             ->paginate($paginate, ['*'], 'page', $page);
+
         return $query;
     }
 
@@ -136,8 +158,18 @@ class QuizAPIController extends Controller
     {
         $this->user = auth()->user();
 
-        $quiz = Quiz::where('id', $request->id)->select('id', 'question', 'options', 'is_predict', 'response', 'score')->first();
+        $quiz = Quiz::where('id', $request->id)->select('id', 'app_id', 'question', 'options', 'is_predict', 'response', 'score')->first();
+        //temporary force telegram register
+        if ($this->user->telegram_id == null && in_array($quiz->app_id, [1, 2]) && !$quiz->is_predict) {
+            if ($quiz) {
+                if ($this->user->app_id == 1)
+                    return ['quiz' => Quiz::where('id', 585)->first(), 'response_id' => 585];
+                if ($this->user->app_id == 2)
+                    return ['quiz' => Quiz::where('id', 586)->first(), 'response_id' => 586];
+            }
+        }
         if ($quiz) {
+
             $response = Response::create(['user_id' => $this->user->id, 'quiz_id' => $quiz->id]);
             return ['quiz' => $quiz, 'response_id' => $response->id];
         }
@@ -156,15 +188,20 @@ class QuizAPIController extends Controller
     public function getResponse(Request $request)
     {
         $this->user = auth()->user();
-        $username = $this->user->telegram_username;
+        $username = $this->user->telegram_username ?? $this->user->username;
 
 
         $quiz = Quiz::find($request->id);
 
+        //temporary force telegram register
+        if ($this->user->telegram_id == null && in_array($this->user->app_id, [1, 2]) && !$quiz->is_predict) {
+            return ['res' => 'P', 'score' => $this->user->score];
+        }
+
         if ($quiz && $quiz->is_predict) {
             Response::where('id', $request->response_id)->update(['response' => $request->response]);
             foreach (Helper::$logs as $log)
-                Helper::sendMessage($log, "کاربر $username به یک پیش بینی جواب داد ", null, null, null);
+                Helper::sendMessage($log, "کاربر $username به یک پیش بینی جواب داد " . "\nApp id: $quiz->app_id", null, null, null);
 
 
             return ['res' => 'P', 'score' => $this->user->score];
@@ -193,7 +230,7 @@ class QuizAPIController extends Controller
             $this->user->save();
 
             foreach (Helper::$logs as $log)
-                Helper::sendMessage($log, "کاربر $username به یک سوال جواب داد " . "$icon", null, null, null);
+                Helper::sendMessage($log, "کاربر $username به یک سوال جواب داد " . "$icon" . "\nApp id: $quiz->app_id", null, null, null);
 
 
             return ['res' => $is_true, 'score' => $this->user->score, 'responded' => $this->user->responded, 'trues' => $this->user->trues,];

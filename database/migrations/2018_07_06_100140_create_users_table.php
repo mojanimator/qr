@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->integer('responded')->unsigned()->default(0);
             $table->integer('trues')->unsigned()->default(0);
             $table->integer('score')->default(0);
+            $table->integer('rank')->nullable();
             $table->string('role', 5)->default('User');
             $table->string('img', 50)->nullable()->default(null);
             $table->string('password', 255);

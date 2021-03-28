@@ -37,7 +37,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('send:report')
             ->twiceDaily(8, 20);
         $schedule->command('update:status')
-            ->dailyAt('00');
+            ->dailyAt('01:00');
+        $schedule->command('send:messages')
+            ->everyFiveMinutes();
     }
 
     /**

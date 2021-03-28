@@ -32,10 +32,22 @@ var _refUploader = require('./components/ref-uploader.vue');
 
 var _refUploader2 = _interopRequireDefault(_refUploader);
 
+var _events = require('./components/events.vue');
+
+var _events2 = _interopRequireDefault(_events);
+
+var _eventUploader = require('./components/event-uploader.vue');
+
+var _eventUploader2 = _interopRequireDefault(_eventUploader);
+
+var _profileUploader = require('./components/profile-uploader.vue');
+
+var _profileUploader2 = _interopRequireDefault(_profileUploader);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import reportsForm from './components/reports-form.vue'
-Vue.config.devtools = false;
+Vue.config.devtools = false; // import reportsForm from './components/reports-form.vue'
+
 Vue.config.debug = false;
 Vue.config.silent = true;
 var app = new Vue({
@@ -50,7 +62,10 @@ var app = new Vue({
         quizEditor: _quizEditor2.default,
         refUploader: _refUploader2.default,
         refs: _refs2.default,
-        refEditor: _refEditor2.default
+        refEditor: _refEditor2.default,
+        eventUploader: _eventUploader2.default,
+        events: _events2.default,
+        profileUploader: _profileUploader2.default
 
     }
 });

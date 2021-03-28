@@ -20,7 +20,7 @@ class QuizController extends Controller
 
     public function __construct()
     {
-        date_default_timezone_set('Asia/Tehran');
+//        date_default_timezone_set('Asia/Tehran');
 
         $this->middleware('auth')->except([]);
 
@@ -29,6 +29,8 @@ class QuizController extends Controller
 
     public function delete(Request $request)
     {
+        if (auth()->user()->role != 'Admin') return abort(404);
+
         Storage::disk('public')->delete('quiz' . DIRECTORY_SEPARATOR . 'quiz-' . $request->id . '.jpg');
 
         $quiz = Quiz::where('id', $request->id)->first();
@@ -66,6 +68,8 @@ class QuizController extends Controller
 
     public function getForUpdate(Request $request)
     {
+        if (auth()->user()->role != 'Admin') return abort(404);
+
         $quiz = Quiz::find($request->id);
         $quiz->expires_after_hours = round((Carbon::parse($quiz->expires_at)->getTimestamp() - Carbon::now()->getTimestamp()) / 3600);
         $quiz->shows_after_hours = round((Carbon::parse($quiz->shows_at)->getTimestamp() - Carbon::now()->getTimestamp()) / 3600);
@@ -94,6 +98,7 @@ class QuizController extends Controller
      */
     public function create(Request $request)
     {
+        if (auth()->user()->role != 'Admin') return abort(404);
 
 
 //        $request->validate([
@@ -165,8 +170,8 @@ class QuizController extends Controller
                 foreach (User::whereIn('app_id', [1, 2])->pluck('telegram_id') as $id)
                     Helper::sendMessage($id, \Lang::get($app_id, \Lang::NEW_QUIZ) . "\n$q", null, null, null);
             else
-                foreach (User::where('app_id', $app_id)->pluck('telegram_id') as $id)
-                    Helper::sendMessage($id, \Lang::get($app_id, \Lang::NEW_QUIZ) . "\n$q", null, null, null);
+                foreach (User::whereNotIn('app_id', [1, 2])->pluck('telegram_id') as $id)
+                    Helper::sendMessage($id, \Lang::get($app_id, \Lang::NEW_QUIZ) . "\n$q", null, null, null, true, 'en');
 
 
         });
@@ -179,6 +184,8 @@ class QuizController extends Controller
 
     public function update(Request $request)
     {
+        if (auth()->user()->role != 'Admin') return abort(404);
+
         DB::transaction(function () use ($request) {
 
             $id = $request->id;

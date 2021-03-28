@@ -52,6 +52,8 @@ class RefController extends Controller
      */
     public function create(Request $request)
     {
+        if (auth()->user()->role != 'Admin') return abort(404);
+
         $img = $request->img;
         $title = $request->title;
         $vip_score = $request->is_vip ? Helper::$vip_chat_score : 0;
@@ -72,7 +74,8 @@ class RefController extends Controller
             $info = $this->getChatInfo($chat_username);
             if (!$info)
                 return response("NOT_FOUND");
-            auth()->user()->score -= (Helper::$install_chat_score + $vip_score);
+            if (auth()->user()->role != 'Admin')
+                auth()->user()->score -= (Helper::$install_chat_score + $vip_score);
             auth()->user()->save();
 
             $ref = Ref::create([
@@ -116,7 +119,8 @@ class RefController extends Controller
 //                ],
                     ]);
                 $account = $instagram->getAccount($chat_username);
-                auth()->user()->score -= (Helper::$install_chat_score + $vip_score);
+                if (auth()->user()->role != 'Admin')
+                    auth()->user()->score -= (Helper::$install_chat_score + $vip_score);
                 auth()->user()->save();
 
                 $ref = Ref::create([
@@ -140,8 +144,8 @@ class RefController extends Controller
 //                echo $e->getCode();
                 if ($img == null || $title == null)
                     return response($e . "\nNOT_FOUND");
-
-                auth()->user()->score -= (Helper::$install_chat_score + $vip_score);
+                if (auth()->user()->role != 'Admin')
+                    auth()->user()->score -= (Helper::$install_chat_score + $vip_score);
                 auth()->user()->save();
 
                 $ref = Ref::create([
@@ -176,9 +180,44 @@ class RefController extends Controller
 //            echo "Number of followers: {$account->getFollowedByCount()}\n";
 //            echo "Is private: {$account->isPrivate()}\n";
 //            echo "Is verified: {$account->isVerified()}\n";
+        } else if ($request->type_id == 3) { //youtube
+            $client = new \Google_Client();
+//                $google_client->setApplicationName($package_name);
+//                $google_client->setClientId(GOOGLE_CLIENT_ID);
+            $client->setAuthConfig(storage_path() . DIRECTORY_SEPARATOR . Helper::$auth_config_file);
+            $client->setScopes(array('https://www.googleapis.com/auth/youtube'));
+            $youtube = new \Google_Service_YouTube($client);
+
+            $searchParams = ['id' => $request->username, 'maxResults' => 1,];
+            $response = $youtube->channels->listChannels('id,snippet,contentDetails,statistics', $searchParams);
+//            $response = $youtube->videos->listVideos('id,snippet,contentDetails,statistics', $searchParams);
+            if (count($response['items']) > 0) {
+                $item = $response->items[0]->snippet;
+                $title = $item->title;
+                $url = $item->thumbnails->default->url;
+                $channel_id = $response->items[0]->id;
+            } else {
+                return response("NOT_FOUND", 404);
+            }
+
+
+            $ref = Ref::create([
+                'user_id' => auth()->user()->id,
+                'title' => $title,
+                'username' => $channel_id,
+                'app_id' => $request->app_id,
+                'type_id' => $request->type_id,
+                'group_id' => $request->group_id,
+                'is_vip' => $request->is_vip,
+                'expire_time' => $request->expires_after_hours == 0 ? null : Carbon::now()->addHours($request->expires_after_hours),
+
+            ]);
+            $this->createChatImage($url, "$ref->id", 'youtube');
+            $ref->main_color = simple_color_thief(storage_path("app/public/refs/$ref->id.jpg"));
+            $ref->save();
         }
         foreach (Helper::$logs as $log)
-            Helper::sendMessage($log, ' کاربر  ' . '@' . auth()->user()->telegram_username . " یک رفرنس اضافه کرد " . "\n" . Helper::$refTypes[$ref->type_id - 1]['name'] . $ref->username, null, null, null);
+            Helper::sendMessage($log, ' کاربر  ' . auth()->user()->telegram_username . " یک رفرنس اضافه کرد " . "\n" . Helper::$refTypes[$ref->type_id]['name'] . $ref->username . "\n" . "$url", null, null, null);
 
         return response("REGISTER_SUCCESS", 200);
 
@@ -187,6 +226,8 @@ class RefController extends Controller
 
     public function getForUpdate(Request $request)
     {
+        if (auth()->user()->role != 'Admin') return abort(404);
+
         $ref = Ref::find($request->id);
         $ref->expires_after_hours = round((Carbon::parse($ref->expire_time)->getTimestamp() - Carbon::now()->getTimestamp()) / 3600);
         $ref->shows_after_hours = round((Carbon::parse($ref->show_time)->getTimestamp() - Carbon::now()->getTimestamp()) / 3600);
@@ -202,6 +243,8 @@ class RefController extends Controller
     public
     function delete(Request $request)
     {
+        if (auth()->user()->role != 'Admin') return abort(404);
+
         Storage::disk('public')->delete('refs' . DIRECTORY_SEPARATOR . $request->id . '.jpg');
 
         $ref = Ref::where('id', $request->id)->first();
@@ -212,12 +255,13 @@ class RefController extends Controller
 
 
         foreach (Helper::$logs as $log)
-            Helper::sendMessage($log, ' کاربر  ' . auth()->user()->telegram_username . " یک رفرنس پاک کرد " . "\n" . Helper::$refTypes[$ref->type_id - 1]['name'] . $ref->username, null, null, null);
+            Helper::sendMessage($log, ' کاربر  ' . auth()->user()->telegram_username . " یک رفرنس پاک کرد " . "\n\n" . Helper::$refTypes[$ref->type_id - 1]['name'] . $ref->username, null, null, null);
 
     }
 
     public function update(Request $request)
     {
+        if (auth()->user()->role != 'Admin') return abort(404);
 
         $img = $request->img;
         $title = $request->title;
@@ -281,6 +325,8 @@ class RefController extends Controller
     private
     function creator($method, $datas = [])
     {
+        if (auth()->user()->role != 'Admin') return abort(404);
+
         $url = "https://api.telegram.org/bot" . env('TELEGRAM_BOT_TOKEN', 'YOUR-BOT-TOKEN') . "/" . $method;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -331,7 +377,7 @@ class RefController extends Controller
 
             $image = "https://api.telegram.org/file/bot" . env('TELEGRAM_BOT_TOKEN', 'YOUR-BOT-TOKEN') . "/" . $res;
             Storage::put("public/refs/$chat_id.jpg", $client->get($image)->getBody());
-        } else if ($type == 'instagram') {
+        } else if ($type == 'instagram' || $type == 'youtube') {
             if ($photo != null)
                 Storage::put("public/refs/$chat_id.jpg", $client->get($photo)->getBody());
 

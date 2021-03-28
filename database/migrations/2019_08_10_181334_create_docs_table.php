@@ -17,8 +17,10 @@ class CreateDocsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('group_id')->unsigned()->index();
             $table->string('path')->nullable();
+            $table->string('link', 100)->nullable();
             $table->integer('size')->unsigned();
             $table->timestamp('created_at');
+            $table->tinyInteger('star')->nullable()->unsigned()->default(0);
 
             $table->foreign('group_id')->references('id')->on('groups');
 

@@ -42,9 +42,19 @@
                                 </a>
 
                             </div>
-                            <div class=" col-12   bg-flame-start">
+                            <div class=" col-6   bg-flame-start">
                                 <a class="nav-link p-1 m-btn w-100"
                                    href="{{route('ref.view')}}">References
+                                </a>
+                            </div>
+                            <div class=" col-6   bg-cream">
+                                <a class="nav-link p-1 m-btn w-100"
+                                   href="{{route('event.view')}}">Events
+                                </a>
+                            </div>
+                            <div class=" col-6   bg-help">
+                                <a class="nav-link p-1 m-btn w-100"
+                                   href="{{route('profile.view')}}">Profiles
                                 </a>
                             </div>
 
@@ -76,7 +86,8 @@
             </image-uploader>
 
 
-            <wallpaper-cards doc-delete-link="{{route('doc.delete')}}" home-link="{{route('/')/*.'wallpapers'*/}}"
+            <wallpaper-cards for="" doc-delete-link="{{route('doc.delete')}}"
+                             home-link="{{route('/')/*.'wallpapers'*/}}"
                              doc-search-link="{{route('doc.search')}}" doc-groups-link="{{route('doc.groups')}}">
 
             </wallpaper-cards>

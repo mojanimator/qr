@@ -34,9 +34,9 @@ class User extends Authenticatable implements/* Auditable,*/
 
     protected $table = 'users';
     protected $fillable = [
-        'username', 'password', 'img', 'verified', 'questions', 'trues',
+        'id', 'username', 'password', 'img', 'verified', 'questions', 'trues',
         'token', 'role', 'expires_at', 'deleted_at', 'updated_at', 'score'
-        , 'telegram_username', 'telegram_id', 'app_id', 'phones'
+        , 'telegram_username', 'telegram_id', 'app_id', 'phones', 'rank','star'
     ];
 
     /**

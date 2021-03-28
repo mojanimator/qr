@@ -45,22 +45,35 @@ class RefAPIController extends Controller
         if ($name)
             $query = $query->where('title', 'like', $name . '%')->orWhere('username', 'like', $name . '%');
 
-        if ($group_id && $group_id != 0)
-            $query = $query->where('group_id', $group_id);
+        if ($app_id != 1 && $app_id != 2)
+            $query = $query->whereNotIn('app_id', [1, 2]);
+        else
+            $query = $query->whereIn('app_id', [1, 2]);
+
         if ($type_id && $type_id != 0)
             $query = $query->where('type_id', $type_id);
 
         if ($user_id)
             $query = $query->where('user_id', $user_id);
 
-        if ($app_id == 1 || $app_id == 2)
-            $query = $query->whereIn('app_id', [1, 2]);
-        else
-            $query = $query->whereNotIn('app_id', [1, 2]);
+        if ($group_id == 1 && $type_id != 0) {
+            $query = $query->where('app_id', $app_id)->where('group_id', $group_id);
+        } else if ($group_id == 1 && $type_id == 0) {
+            $query = $query->where('app_id', $app_id)->where('group_id', $group_id)->orWhere(function ($query) {
+                $query = $query->where('type_id', 3)->where('group_id', 1)->where('app_id', '!=', 12);
+            });
+        } else if ($group_id == null || $group_id == 0) {
+            $query->where('group_id', '!=', 1)->orWhere(function ($query) use ($app_id, $type_id) {
+                $query = $query->where('app_id', $app_id)->where('group_id', 1)/*->where('type_id', $type_id)*/
+                ;
+            });
+        } else {
+            $query = $query->where('group_id', $group_id);
+        }
 
 
         return $query->with('user:id,username')
-            ->orderBy('is_vip', 'DESC')->orderBy('expire_time', 'DESC')->paginate($paginate, ['*'], 'page', $page);
+            ->orderBy('is_vip', 'DESC')->orderBy('id', 'DESC')->paginate($paginate, ['*'], 'page', $page);
     }
 
     /**
@@ -68,7 +81,8 @@ class RefAPIController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public
+    function create(Request $request)
     {
         $img = $request->img;
         $title = $request->title;
@@ -189,14 +203,15 @@ class RefAPIController extends Controller
 //            echo "Is verified: {$account->isVerified()}\n";
         }
         foreach (Helper::$logs as $log)
-            Helper::sendMessage($log, ' کاربر  ' . '@' . auth()->user()->telegram_username . " یک رفرنس اضافه کرد " . "\n" . Helper::$refTypes[$ref->type_id - 1]['name'] . $ref->username, null, null, null);
+            Helper::sendMessage($log, ' کاربر  ' . auth()->user()->telegram_username . " یک رفرنس اضافه کرد " . "\n" . Helper::$refTypes[$ref->type_id]['name'] . $ref->username, null, null, null);
 
         return response("REGISTER_SUCCESS", 200);
 
 
     }
 
-    public function getForUpdate(Request $request)
+    public
+    function getForUpdate(Request $request)
     {
         $ref = Ref::find($request->id);
         $ref->expires_after_hours = round((Carbon::parse($ref->expire_time)->getTimestamp() - Carbon::now()->getTimestamp()) / 3600);
@@ -227,7 +242,8 @@ class RefAPIController extends Controller
 
     }
 
-    public function update(Request $request)
+    public
+    function update(Request $request)
     {
 
         $img = $request->img;

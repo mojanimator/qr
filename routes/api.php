@@ -2,6 +2,8 @@
 
 use App\Product;
 use App\Setting;
+use App\User;
+use App\Vip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -16,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+//date_default_timezone_set('Asia/Tehran');
 Route::middleware('auth:api')->group(function () {
     Route::get('getuser', 'ApiController@getUser');
     Route::post('logout', 'ApiController@logout');
@@ -25,6 +27,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/quiz/updatescore', 'QuizAPIController@updateScore')->name('quiz.updatescore');
     Route::get('/quiz/search', 'QuizAPIController@search')->name('quiz.search');
 
+    Route::post('edit', 'ApiController@edit');
 });
 Route::get('/ref/search', 'RefAPIController@search')->name('ref.search');
 
@@ -34,7 +37,10 @@ Route::get('/quiz/get', 'QuizAPIController@get')->name('quiz.get');
 Route::get('/quiz/statistics', 'QuizAPIController@getStatistics')->name('quiz.getstatistics');
 //
 Route::post('login', 'ApiController@login');
-//Route::post('register', 'ApiController@register');
+Route::post('register', 'ApiController@register');
+
+
+Route::get('/profile/search', 'ProfileController@search')->name('profile.search');
 
 Route::get('/doc/search', 'DocController@search')->name('doc.search');
 Route::get('/doc/groups', 'DocController@groups')->name('doc.groups');
@@ -44,9 +50,16 @@ Route::get('/checkUpdate', function (Request $request) {
 })->name('doc.checkUpdate');
 
 Route::get('/getsettings', function (Request $request) {
-    return ['version' => DB::table('versions')->where('name', $request->name)->first()->build,
-        'hide' => false, 'mykethide' => false,
+    return [
+        'event' => App\Event::where('app_id', $request->app_id)->where('start_time', '>', Carbon\Carbon::now())->orderBy('start_time', 'ASC')->first(),
+        'version' => DB::table('versions')->where('name', $request->name)->first()->build,
+        'bazarhide' => false, 'mykethide' => false, 'googlehide' => false, 'hide' => false,
+        'top_donator' => DB::table('donators')->where('app_id', $request->app_id)->where('done', true)->orderByDesc('amount')->first(),
+        'last_messages' => DB::table('donators')->where('done', true)->where('app_id', $request->app_id)->inRandomOrder()->/*orderByDesc('created_at')->*/
+        pluck('desc')->take(10),
+        'thumbs' => DB::table('docs')->where('group_id', $request->group_id)->inRandomOrder()->pluck('path')->take(10),
         'adv_provider' => 'notapsell',
+        'native_adv_provider' => 'notapsell',
         'see_video_score' => Helper::$see_video_score,
         'show_word_score' => Helper::$show_word_score,
         'remove_block_score' => Helper::$remove_block_score,
@@ -58,35 +71,37 @@ Route::get('/getsettings', function (Request $request) {
     ];
 })->name('doc.get.settings');
 Route::get('/getadv', function (Request $request) {
+    $langNot = 'en';
     if ($request->app == 'perspolis')
         $like = '%esteghlal%';
     else if ($request->app == 'esteghlal')
         $like = '%perspolis%';
-    else
+    else {
         $like = '';
-    return json_encode(DB::table('advs')->where('name', 'NOT LIKE', $like)->inRandomOrder()->first());
+        $langNot = 'fa';
+    }
+    return json_encode(DB::table('advs')->where(function ($query) use ($langNot) {
+        $query->where('lang', '!=', $langNot)
+            ->orWhereNull('lang');
+    })->where('name', 'NOT LIKE', $like)->where('disabled', '!=', true)->inRandomOrder()->first());
 
 })->name('doc.get.advs');
 
 
 Route::post('/bot/getupdates', 'BotController@getupdates');
 Route::post('/bot/sendmessage', 'BotController@sendmessage');
+Route::post('/bot/getupdates_en', 'BotControllerEn@getupdates');
+Route::post('/bot/sendmessage_en', 'BotControllerEn@sendmessage');
 Route::get('/bot/getme', 'BotController@myInfo');
 
 
-Route::any('/donate', function (Request $request) {
-    $id = auth()->user() ? auth()->user()->id : null;
-    Product::create(['user_id' => $id, 'type' => 'donate', 'info' => $request]);
-    foreach (Helper::$logs as $log)
-        sendMessage($log, '✅ یک دریافتی به حساب شما انجام شد' . "\n" . json_encode($request), null, null, null);
+Route::any('/donate', 'ProductController@donate');
+Route::any('/charge', 'ProductController@charge');
+Route::get('/getinternetproducts', 'ProductController@getInternetProducts');
+Route::post('/buyproduct', 'ProductController@buyProduct');
+Route::get('/gettopdonators', 'ProductController@getTopDonators');
+Route::get('/getiap', 'ProductController@getIAP');
+Route::get('/getappevents', 'ProductController@getAppEvents');
 
-});
-
-Route::any('/charge', function (Request $request) {
-
-    $info = base64_decode(urldecode($request->data));
-    foreach (Helper::$logs as $log)
-        sendMessage($log, '✅ یک شارژ خریداری شد' . "\n" . $info, null, null, null);
-
-    redirect("https://vartastudio.ir/charge/info?data=" . $request->data);
-});
+Route::post('vip/buy', 'VipController@buy');
+Route::get('vip/{address}', 'VipController@get');

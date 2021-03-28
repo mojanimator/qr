@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -21,6 +22,19 @@ class CreateGroupsTable extends Migration
 
 
         });
+        DB::table('groups')->insert([
+            ['name' => 'women'],
+            ['name' => 'men'],
+            ['name' => 'child'],
+            ['name' => 'home'],
+            ['name' => 'esteghlal_p'],
+            ['name' => 'perspolis_p'],
+            ['name' => 'esteghlal_l'],
+            ['name' => 'perspolis_l'],
+
+        ]);
+
+
     }
 
     /**

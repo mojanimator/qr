@@ -13,9 +13,9 @@ class AddLinkToDocsTable extends Migration
      */
     public function up()
     {
-        Schema::table('docs', function (Blueprint $table) {
-            $table->string('link');
-        });
+//        Schema::table('docs', function (Blueprint $table) {
+//            $table->string('link');
+//        });
     }
 
     /**
@@ -25,8 +25,8 @@ class AddLinkToDocsTable extends Migration
      */
     public function down()
     {
-        Schema::table('docs', function (Blueprint $table) {
-            $table->dropColumn('link');
-        });
+//        Schema::table('docs', function (Blueprint $table) {
+//            $table->dropColumn('link');
+//        });
     }
 }

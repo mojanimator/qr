@@ -12,7 +12,9 @@
 */
 
 use App\Comment;
+use App\Event;
 use App\Hooze;
+use App\Quiz;
 use App\Report;
 use App\School;
 use App\Setting;
@@ -22,6 +24,7 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
@@ -43,7 +46,48 @@ use Vantoozz\ProxyScraper\Exceptions\ScraperException;
 
 
 Route::get('test', function (Request $request) {
+//    print_r(str_starts_with('test', 'te'));
+//    return Carbon::createFromFormat('Y$m$d$H$i', '2111$01$01$02$01');
+//    return explode('$', '$asd');
+//    return Quiz::where('is_predict', true)->distinct('app_id')->pluck('app_id');
 
+    foreach (Quiz::where('is_predict', true)->get() as $item) {
+        $item->options = explode('$', $item->options);
+        $item->save();
+    };
+
+    return;
+    Artisan::call('update:status');
+    return;
+    return base64_decode(base64_encode('$'));
+    $id = 1;
+    return Event::where(function ($query) use ($id) {
+        $query->orWhere('app_ids', 'like', "$id$%");
+        $query->orWhere('app_ids', 'like', "%$$id");
+        $query->orWhere('app_ids', 'like', "%$$id$%");
+        $query->orWhere('app_ids', $id);
+    })->where('type', 1)->orderBy('start_time', 'ASC')->get();
+    return count(array_filter([1, 2, 3, 4, 5], function ($e) {
+        return $e > 2;
+    }));
+    return;
+    $packageName = 'com.varta.psg_wallpapers';
+    $pID = 'donate_coin';
+    $purchaseToken = 'aa';
+//                putenv('GOOGLE_APPLICATION_CREDENTIALS=/home/mydir/credentials.json');
+    $client = new \Google_Client();
+//                $client->useApplicationDefaultCredentials();
+    $client->setAuthConfig(storage_path() . DIRECTORY_SEPARATOR . Helper::$auth_config_file);
+    $client->setScopes(array('https://www.googleapis.com/auth/androidpublisher'));
+    $service = new \Google_Service_AndroidPublisher($client);
+    $purchase = $service->purchases_products->get($packageName, $pID, $purchaseToken);
+    $products = $service->inappproducts->listInappproducts($packageName, []);
+    $items = [];
+    foreach ($products as $product) {
+        $items[] = $product->sku;
+    }
+    return json_encode($items);
+    return response(['status' => 'SUCCESS', 'res' => $purchase]);
     //rotation proxy
 
     // use curl to make the request
@@ -184,10 +228,10 @@ Route::post('/doc/groups', 'DocController@groups')->name('doc.groups');
 Route::post('/doc/delete', 'DocController@delete')->name('doc.delete');
 
 
-Route::get('/storage/{doc}', 'DocController@fileStorageServe')
-    ->where(['fileName' => '.*'])->name('storage.gallery.file');
-Route::get('/storage/gallery/{file}', 'DocController@getGalleryImage')
-    ->name('storage.gallery.image');
+//Route::get('/storage/{doc}', 'DocController@fileStorageServe')
+//    ->where(['fileName' => '.*'])->name('storage.gallery.file');
+//Route::get('/storage/gallery/{file}', 'DocController@getGalleryImage')
+//    ->name('storage.gallery.image');
 
 
 // quiz section
@@ -248,6 +292,32 @@ Route::get('/ref/create', 'InstaAPIController@getRequestCodeLink')->name('ref.vi
 Route::get('getinstagramtoken', 'InstaAPIController@getToken')->name('insta.token');
 
 
+//event section
+
+Route::get('/event', function () {
+
+    return view('layouts.events');
+})->name('event.view');
+
+Route::get('/event/create', function () {
+    return view('layouts.event-create');
+})->name('event.view.create');
+
+Route::post('/event/create', 'EventController@create')->name('event.create');
+Route::post('/event/search', 'EventController@search')->name('event.search');
+Route::delete('/event/delete', 'EventController@delete')->name('event.delete');
+Route::post('/event/update', 'EventController@update')->name('event.update');
+Route::post('/event/get/update', 'EventController@getForUpdate')->name('event.get.for.update');
+
+
+Route::get('/profile', function () {
+    return view('layouts.profiles');
+})->name('profile.view');
+Route::post('/profile/create', 'ProfileController@create')->name('profile.create');
+//Route::post('/doc/search', 'DocController@search')->name('doc.search');
+Route::post('/profile/groups', 'ProfileController@groups')->name('profile.groups');
+Route::post('/profile/delete', 'ProfileController@delete')->name('profile.delete');
+
 ////Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register')->middleware('can:register');
 ////Route::post('register', 'Auth\RegisterController@register')->middleware('can:register');
 ////Route::get('/verifyemail/{token}/{from}', 'Auth\RegisterController@verify')->name('verification.mail');
@@ -290,3 +360,8 @@ Route::get('getinstagramtoken', 'InstaAPIController@getToken')->name('insta.toke
 //Route::prefix('panel/{username}')->middleware('auth')->group(function () {
 //
 //});
+Route::any('vip/{type}/{group_id}/{id}', function (Request $request) {
+
+    if ($request->type == 1)
+        return response()->file(storage_path("app/public/$request->group_id/fashion-$request->id"));
+})->middleware(['auth']);
